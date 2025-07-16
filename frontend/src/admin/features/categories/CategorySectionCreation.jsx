@@ -135,7 +135,7 @@ const CategorySectionCreation = ({ data }) => {
         </div>
       )}
       <button
-        className="a-text--button mt-6 border border-neutral-300 text-neutral-600 hover:border-green-800 hover:text-green-800  transition"
+        className="a-text--button mt-6 border border-neutral-500 text-neutral-700 hover:border-green-800 hover:text-green-800  transition"
         onClick={createCategorySection}
       >
         Create Section

@@ -38,7 +38,7 @@ const CategoryManagement = () => {
 
   return (
     <section className="flex gap-6 pb-4">
-      <div className="left w-7/12 space-y-6">
+      <div className="left w-7/12 flex flex-col gap-6">
         {/* title section */}
         <div className="section--category__name a-section--box">
           <div className="flex justify-between items-center">
@@ -128,9 +128,10 @@ const CategoryManagement = () => {
           </div>
         )}
         {/* category sections section */}
-        {categorySections.length > 0 && (
-          <div className="a-section--box">
-            <div className="a-section--title">Category Sections</div>
+
+        <div className="a-section--box">
+          <div className="a-section--title">Category Sections</div>
+          {categorySections.length > 0 ? (
             <div className="space-y-6">
               {categorySections.map((section) => (
                 <div className="p-6 space-y-2 bg-neutral-100 border border-neutral-200 rounded-[1rem]">
@@ -159,8 +160,19 @@ const CategoryManagement = () => {
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="a-text--body">
+              No category sections added so far for this category. Add more
+              category specific sections for product details.
+            </div>
+          )}
+        </div>
+        <button
+          className="submit_button self-end a-text--button text-white bg-neutral-800 hover:bg-black !py-3 transition"
+          onClick={submitCategory}
+        >
+          Create Category
+        </button>
       </div>
       <div className="right relative w-5/12 flex flex-col gap-6 min-h-[100svh]">
         {/* product specification sections */}
@@ -187,12 +199,6 @@ const CategoryManagement = () => {
         <CategorySectionCreation data={utilityObject} />
 
         {/* category create button */}
-        <button
-          className="submit_button a-text--button text-white bg-neutral-800 hover:bg-black !py-3 transition"
-          onClick={submitCategory}
-        >
-          Create Category
-        </button>
       </div>
     </section>
   );
