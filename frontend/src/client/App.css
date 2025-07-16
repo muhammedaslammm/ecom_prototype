@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+html {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+}
+
+.header {
+  @apply flex  items-center gap-12 w-[90%] mx-auto py-[1.2rem];
+}
+.logo--header {
+  @apply text-[#2c6369] font-bold text-[2.4rem] uppercase;
+}
+
+.button {
+  @apply px-8 py-3 text-[1.4rem] rounded-[.3rem] transition;
+}
+
+.box--form {
+  @apply w-full max-w-[50rem] flex flex-col translate-y-[6rem] rounded-[1rem] py-8 px-12;
+}
+
+.input--form {
+  @apply w-full border border-neutral-400 py-4 px-4 text-[1.6rem] rounded-[.5rem];
+}
+.error--input {
+  @apply text-[1.55rem] text-red-800 mt-1 ml-2;
+}
+
+/* admin */

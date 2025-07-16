@@ -1,0 +1,27 @@
+import Sidebar from "./components/Sidebar";
+import { Outlet } from "react-router-dom";
+import { Toaster } from "sonner";
+import AdminSectionTitle from "./components/AdminSectionTitle";
+import AdminBreadCrumps from "./utils/AdminBreadCrumps";
+import "./style.css";
+
+const AdminApp = () => {
+  return (
+    <>
+      <Toaster position="top-center" richColors />
+      <div
+        className="relative flex min-h-screen bg-[#f2f2f2]"
+        style={{ fontFamily: "Inter, sans-serif" }}
+      >
+        <Sidebar /> {/* fixed width*/}
+        <div className="ml-[28rem] mt-8 flex-1 mr-10 a-section--container">
+          <AdminSectionTitle />
+          <AdminBreadCrumps />
+          <Outlet />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default AdminApp;
