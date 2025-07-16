@@ -20,6 +20,8 @@ export async function getCategories(req, res) {
   try {
     const categories = await Category.find();
     switch (filter) {
+      case "all":
+        return res.status(200).json({ success: true, categories });
       case "level":
         const getLevelsCount = (categories, currentLevel = 1, levels = [1]) => {
           const matchingLevel = categories.find(

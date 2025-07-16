@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const useCategories = () => {
+  const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [categoryTitle, setCategoryTitle] = useState("");
   const [levels, setLevels] = useState([]);
@@ -22,6 +23,21 @@ const useCategories = () => {
   });
   const [categorySections, setCategorySections] = useState([]);
   const navigate = useNavigate();
+
+  // fetching all categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch(
+        "http://localhost:4000/api/categories?filter=all",
+        { method: "GET" }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setCategories(data.categories);
+      } else throw new Error(data.message);
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     async function fetchLevels() {
@@ -62,7 +78,7 @@ const useCategories = () => {
     }
     try {
       const response = await fetch(
-        `http://localhost:4000/api/categories2?filter=parent&level=${level}`,
+        `http://localhost:4000/api/categories?filter=parent&level=${level}`,
         { method: "GET" }
       );
       const data = await response.json();
@@ -233,6 +249,7 @@ const useCategories = () => {
   };
 
   return {
+    categories,
     categoryTitle,
     handleCategoryTitle,
     levels,

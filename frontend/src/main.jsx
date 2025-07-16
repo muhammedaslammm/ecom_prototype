@@ -38,7 +38,6 @@ import SignUp from "./client/components/form/SignUp.jsx";
 import SignIn from "./client/components/form/SignIn.jsx";
 import UI from "./admin/pages/UI.jsx";
 import Categories from "./admin/features/categories/Categories.jsx";
-import CategoryMgt from "./admin/features/categories/CategoryMgt.jsx";
 import ProductMgt from "./admin/features/products/ProductMgt.jsx";
 import CategoryManagement from "./admin/features/categories/CategoryMangement.jsx";
 // router is created, which handles various routes.
