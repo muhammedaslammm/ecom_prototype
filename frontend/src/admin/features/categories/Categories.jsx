@@ -48,7 +48,7 @@ const Categories = () => {
                 >
                   <div className="truncate font-medium">{c.title}</div>
                   <div className="text-center">{c.level}</div>
-                  <div className="text-center">
+                  <div className="text-center font-medium">
                     {c.parent?.title ? c.parent.title : "-"}
                   </div>
                   <div className="text-center">

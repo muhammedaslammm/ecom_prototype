@@ -18,7 +18,7 @@ export const getCategoryById = async (req, res) => {
 export async function getCategories(req, res) {
   const { filter } = req.query;
   try {
-    const categories = await Category.find();
+    const categories = await Category.find().populate("parent");
     switch (filter) {
       case "all":
         return res.status(200).json({ success: true, categories });
