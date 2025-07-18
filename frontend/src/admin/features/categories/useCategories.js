@@ -31,9 +31,12 @@ const useCategories = () => {
   // fetching all categories
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await fetch(`${BACKEND_API_URL}/categories?filter=all`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `${BACKEND_API_URL}/api/categories?filter=all`,
+        {
+          method: "GET",
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         setCategories(data.categories);
