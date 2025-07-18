@@ -48,7 +48,7 @@ const useCategories = () => {
   useEffect(() => {
     async function fetchLevels() {
       const response = await fetch(
-        `${BACKEND_API_URL}/categories?filter=level`,
+        `${BACKEND_API_URL}/api/categories?filter=level`,
         {
           method: "GET",
         }
@@ -84,7 +84,7 @@ const useCategories = () => {
     }
     try {
       const response = await fetch(
-        `${BACKEND_API_URL}/categories?filter=parent&level=${level}`,
+        `${BACKEND_API_URL}/api/categories?filter=parent&level=${level}`,
         { method: "GET" }
       );
       const data = await response.json();
@@ -248,7 +248,7 @@ const useCategories = () => {
         errorObject.categoryTitle = "Required atleast 3 character";
       else {
         const response = await fetch(
-          `${BACKEND_API_URL}/categories?filter=title&title=${categoryTitle}`,
+          `${BACKEND_API_URL}/api/categories?filter=title&title=${categoryTitle}`,
           { method: "GET" }
         );
         const data = await response.json();
@@ -278,7 +278,7 @@ const useCategories = () => {
         variants,
         sections: categorySections,
       };
-      const response = await fetch(`${BACKEND_API_URL}/categories`, {
+      const response = await fetch(`${BACKEND_API_URL}/api/categories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
