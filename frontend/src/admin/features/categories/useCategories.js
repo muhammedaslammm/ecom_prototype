@@ -257,7 +257,8 @@ const useCategories = () => {
       }
       if (selectedLevel !== 1 && !selectedParent)
         errorObject.parent = "Select one parent for this level";
-      if (Object.keys(errorObject).length)
+      if (Object.keys(errorObject).length) {
+        toast.error("Enter all required data inorder to create a new category");
         return setErrors((prevErrors) => {
           const newErrors = { ...prevErrors };
           Object.entries(errorObject).forEach(([key, value]) => {
@@ -265,11 +266,12 @@ const useCategories = () => {
           });
           return newErrors;
         });
-
+      }
       const data = {
         title: categoryTitle,
         level: selectedLevel,
         parent: selectedParent,
+        variants,
         sections: categorySections,
       };
       const response = await fetch("http://localhost:4000/api/categories", {
@@ -282,7 +284,7 @@ const useCategories = () => {
       const responseData = await response.json();
       if (response.ok) {
         toast.success("New Category Added");
-        navigate("/admin/category-management");
+        navigate("/admin/categories");
       } else throw new Error(responseData.message);
     } catch (error) {
       console.error("ERROR: ", error.message);

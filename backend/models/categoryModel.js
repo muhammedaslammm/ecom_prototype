@@ -10,6 +10,7 @@ const CategorySchema = new mongoose.Schema(
       default: null,
       ref: "category",
     },
+    variants: [{ label: { type: String }, values: [String] }],
     sections: [
       {
         section_title: { type: String },
