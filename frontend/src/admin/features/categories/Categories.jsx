@@ -2,9 +2,34 @@ import { Link } from "react-router-dom";
 import AdminElseBlock from "../../components/AdminElseBlock";
 import useCategories from "./useCategories";
 import { DotsThreeVertical } from "phosphor-react";
+import { useState, useEffect, useRef } from "react";
 
 const Categories = () => {
   const { categories } = useCategories();
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+  const dropdownRef = useRef(null);
+
+  const handleEdit = (id) => {
+    console.log("Edit", id);
+
+    // Implement edit logic or navigate
+  };
+
+  const handleDelete = (id) => {
+    console.log("Delete", id);
+    // Implement delete confirmation and action
+  };
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenDropdownId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <section className="a-section--container pb-8">
@@ -28,7 +53,7 @@ const Categories = () => {
                 </button>
               </div>
               <Link
-                className="a-text--button !text-[1.2rem] !normal-case text-white bg-neutral-800"
+                className="a-text--button !text-[1.2rem] !normal-case  text-white bg-[#176eb1] hover:bg-black !py-3 transition"
                 to="category-management"
               >
                 Add new category
@@ -54,12 +79,44 @@ const Categories = () => {
                   <div className="text-center font-medium">
                     {c.parent?.title ? c.parent.title : "-"}
                   </div>
-                  <div className="text-center">
-                    <DotsThreeVertical
-                      size={20}
-                      weight="bold"
-                      className="mx-auto cursor-pointer"
-                    />
+
+                  {/* 3-dot button with dropdown */}
+                  <div className="text-center relative" ref={dropdownRef}>
+                    <button
+                      onClick={() =>
+                        setOpenDropdownId(
+                          openDropdownId === c._id ? null : c._id
+                        )
+                      }
+                      className="mx-auto cursor-pointer block"
+                    >
+                      <DotsThreeVertical size={20} weight="bold" />
+                    </button>
+
+                    {openDropdownId === c._id && (
+                      <div className="absolute right-0 mt-2 w-[8rem] bg-white border border-neutral-200 rounded shadow-md z-10">
+                        <ul className="flex flex-col text-[1.2rem] text-left">
+                          <li
+                            onClick={() => handleEdit(c._id)}
+                            className="px-4 py-2 hover:bg-neutral-100 cursor-pointer"
+                          >
+                            Edit
+                          </li>
+                          <li
+                            onClick={() => handleDelete(c._id)}
+                            className="px-4 py-2 hover:bg-neutral-100 cursor-pointer"
+                          >
+                            Delete
+                          </li>
+                          <li
+                            onClick={() => setOpenDropdownId(null)}
+                            className="px-4 py-2 hover:bg-neutral-100 text-blue-600 cursor-pointer"
+                          >
+                            Back
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
