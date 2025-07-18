@@ -6,7 +6,7 @@ import categoryRouter from "./routers/categoryRouter.js";
 
 const app = express();
 const allowedURLs = [
-  "https://ecom-prototype-one.vercel.app/",
+  "https://ecom-prototype-one.vercel.app",
   "http://localhost:5173",
 ];
 
