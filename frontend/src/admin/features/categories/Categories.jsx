@@ -53,7 +53,7 @@ const Categories = () => {
                 </button>
               </div>
               <Link
-                className="a-text--button !text-[1.2rem] !normal-case text-white bg-neutral-800"
+                className="a-text--button !text-[1.2rem] !normal-case  text-white bg-[#176eb1] hover:bg-black !py-3 transition"
                 to="category-management"
               >
                 Add new category
