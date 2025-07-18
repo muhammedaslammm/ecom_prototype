@@ -38,8 +38,8 @@ import SignUp from "./client/components/form/SignUp.jsx";
 import SignIn from "./client/components/form/SignIn.jsx";
 import UI from "./admin/pages/UI.jsx";
 import Categories from "./admin/features/categories/Categories.jsx";
-import ProductMgt from "./admin/features/products/ProductMgt.jsx";
 import CategoryManagement from "./admin/features/categories/CategoryMangement.jsx";
+import ProductManagement from "./admin/features/products/ProductManagement.jsx";
 // router is created, which handles various routes.
 const router = createBrowserRouter([
   // client
@@ -104,21 +104,21 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="dashboard" replace /> },
       { path: "dashboard", element: <AdminDashboard /> },
       {
-        path: "product-management",
+        path: "products",
         children: [
           { index: true, element: <Products /> },
-          { path: "new", element: <ProductMgt /> },
+          { path: "product-management", element: <ProductManagement /> },
         ],
       },
       {
-        path: "category-management",
+        path: "categories",
         children: [
           { index: true, element: <Categories /> },
-          { path: "manage-category", element: <CategoryManagement /> },
+          { path: "category-management", element: <CategoryManagement /> },
         ],
       },
-      { path: "user-management", element: <Users /> },
-      { path: "ui-management", element: <UI /> },
+      { path: "users", element: <Users /> },
+      { path: "ui", element: <UI /> },
     ],
   },
 ]);

@@ -10,6 +10,8 @@ const useCategories = () => {
   const [selectedLevel, setSelectedLevel] = useState(1);
   const [parents, setParents] = useState([]);
   const [selectedParent, setSelectedParent] = useState(null);
+  const [variant, setVariant] = useState({ label: "", values: "" });
+  const [variants, setVariants] = useState([]);
   const [errors, setErrors] = useState({});
 
   const [attribute, setAttribute] = useState({
@@ -101,6 +103,46 @@ const useCategories = () => {
       const { parent, ...rest } = prevErrors;
       return rest;
     });
+  };
+
+  const handleCategoryVariants = (event) => {
+    const { name, value } = event.target;
+    const errorObject = {};
+    setVariant((prevVariant) => {
+      if (name === "label") errorObject.variant_label = "";
+      else errorObject.variant_values = "";
+      return {
+        ...prevVariant,
+        [name]: value,
+      };
+    });
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      ...errorObject,
+    }));
+  };
+
+  const createCategoryVariant = () => {
+    const errorObject = {};
+    const values = variant.values.split(",").filter(Boolean);
+    if (variant.label.trim().length < 3)
+      errorObject.variant_label = "Required atleast 3 characters";
+    if (values.length < 1)
+      errorObject.variant_values = "Required atleast 1 value";
+
+    if (Object.keys(errorObject).length) {
+      return setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        Object.entries(errorObject).forEach(([key, value]) => {
+          newErrors[key] = value;
+        });
+        return newErrors;
+      });
+    }
+
+    const newVariant = { ...variant, values };
+    setVariants((prevVariants) => [...prevVariants, newVariant]);
+    setVariant({ label: "", values: "" });
   };
 
   const handleSectionTitle = (event) => {
@@ -257,6 +299,10 @@ const useCategories = () => {
     handleSelectedLevel,
     parents,
     handleParent,
+    handleCategoryVariants,
+    variant,
+    variants,
+    createCategoryVariant,
     categorySections,
     sectionTitle: section.section_title,
     handleSectionTitle,
