@@ -54,6 +54,13 @@ const sidebarContent = [
     title: "Category Management",
     slug: "manage-category",
   },
+  {
+    id: 8,
+    sub_title: "Product Management",
+    icon_class: "",
+    title: "Product Management",
+    slug: "manage-product",
+  },
 ];
 
 export default sidebarContent;

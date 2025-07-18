@@ -1,6 +1,7 @@
 import useCategories from "./useCategories.js";
 import CategorySectionCreation from "./CategorySectionCreation.jsx";
 import { Warning, BugBeetle } from "phosphor-react";
+import CategoryVariants from "./CategoryVariants.jsx";
 
 const CategoryManagement = () => {
   const {
@@ -11,6 +12,10 @@ const CategoryManagement = () => {
     handleSelectedLevel,
     parents,
     handleParent,
+    variant,
+    variants,
+    handleCategoryVariants,
+    createCategoryVariant,
     categorySections,
     sectionTitle,
     handleSectionTitle,
@@ -32,6 +37,14 @@ const CategoryManagement = () => {
     submitAttribute,
     sectionAttributes,
     createCategorySection,
+  };
+
+  const variantsUtilityObject = {
+    errors,
+    variant,
+    variants,
+    handleCategoryVariants,
+    createCategoryVariant,
   };
 
   const errorCount = Object.keys(errors).length;
@@ -127,8 +140,8 @@ const CategoryManagement = () => {
             </div>
           </div>
         )}
-        {/* category sections section */}
 
+        {/* category sections */}
         <div className="a-section--box">
           <div className="a-section--title">Category Sections</div>
           {categorySections.length > 0 ? (
@@ -167,8 +180,12 @@ const CategoryManagement = () => {
             </div>
           )}
         </div>
+
+        {/* category variants */}
+        <CategoryVariants data={variantsUtilityObject} />
+
         <button
-          className="submit_button self-end a-text--button text-white bg-neutral-800 hover:bg-black !py-3 transition"
+          className="submit_button self-end a-text--button text-white bg-[#176eb1] hover:bg-black !py-3 transition"
           onClick={submitCategory}
         >
           Create Category
@@ -177,9 +194,12 @@ const CategoryManagement = () => {
       <div className="right relative w-5/12 flex flex-col gap-6 min-h-[100svh]">
         {/* product specification sections */}
         <div className="a-section--box flex flex-col">
-          <div className="a-section--title">Product Specifications</div>
+          <div className="a-section--title">
+            Why category specific sections are needed?
+          </div>
           <p className="a-text--body">
-            Adding product specific detialed sections is crucial to deliver more{" "}
+            Adding category specific detialed sections is crucial to deliver
+            more{" "}
             <span className="font-semibold">
               clarity, idea & detailed information
             </span>{" "}

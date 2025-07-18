@@ -14,7 +14,7 @@ const Products = () => {
             section_note={
               "Start adding your products in the application for you customers to access."
             }
-            path={"new"}
+            path={"product-management"}
             button_text={"add product"}
           />
         )}

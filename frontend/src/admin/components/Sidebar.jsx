@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import sidebarContent from "../data/sidebarContent";
+import adminRouteData from "../data/adminRouteData";
 
 const Sidebar = () => {
   const { pathname } = useLocation();
@@ -9,18 +10,18 @@ const Sidebar = () => {
   return (
     <aside className="admin__sidebar fixed top-0 h-screen left-0 w-[25rem] bg-neutral-200 flex flex-col justify-between p-8">
       <ul className="flex flex-col">
-        {sidebarContent.map(
-          (c) =>
-            c.sidebar && (
+        {adminRouteData.map(
+          (data) =>
+            data.sidebar && (
               <Link
                 className={`a-text--sidebar flex items-baseline gap-4 ${
-                  c.slug === currentSlug ? "bg-neutral-100" : ""
+                  data.slug === currentSlug ? "bg-neutral-100" : ""
                 }`}
-                to={`/admin/${c.slug}`}
-                onClick={() => setCurrentSlug(c.slug)}
+                to={data.path}
+                onClick={() => setCurrentSlug(data.slug)}
               >
-                <i className={`${c?.icon_class}`}></i>
-                {c.sub_title}
+                <i className={`${data?.icon_class}`}></i>
+                {data.sidebar_title}
               </Link>
             )
         )}
