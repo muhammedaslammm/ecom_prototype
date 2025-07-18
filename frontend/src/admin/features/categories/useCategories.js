@@ -26,13 +26,14 @@ const useCategories = () => {
   const [categorySections, setCategorySections] = useState([]);
   const navigate = useNavigate();
 
+  const BACKEND_API_URL = import.meta.env.VITE_API_URL;
+
   // fetching all categories
   useEffect(() => {
     const fetchCategories = async () => {
-      const response = await fetch(
-        "http://localhost:4000/api/categories?filter=all",
-        { method: "GET" }
-      );
+      const response = await fetch(`${BACKEND_API_URL}/categories?filter=all`, {
+        method: "GET",
+      });
       const data = await response.json();
       if (response.ok) {
         setCategories(data.categories);
@@ -44,7 +45,7 @@ const useCategories = () => {
   useEffect(() => {
     async function fetchLevels() {
       const response = await fetch(
-        "http://localhost:4000/api/categories?filter=level",
+        `${BACKEND_API_URL}/categories?filter=level`,
         {
           method: "GET",
         }
@@ -80,7 +81,7 @@ const useCategories = () => {
     }
     try {
       const response = await fetch(
-        `http://localhost:4000/api/categories?filter=parent&level=${level}`,
+        `${BACKEND_API_URL}/categories?filter=parent&level=${level}`,
         { method: "GET" }
       );
       const data = await response.json();
@@ -244,7 +245,7 @@ const useCategories = () => {
         errorObject.categoryTitle = "Required atleast 3 character";
       else {
         const response = await fetch(
-          `http://localhost:4000/api/categories?filter=title&title=${categoryTitle}`,
+          `${BACKEND_API_URL}/categories?filter=title&title=${categoryTitle}`,
           { method: "GET" }
         );
         const data = await response.json();
@@ -274,7 +275,7 @@ const useCategories = () => {
         variants,
         sections: categorySections,
       };
-      const response = await fetch("http://localhost:4000/api/categories", {
+      const response = await fetch(`${BACKEND_API_URL}/categories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
