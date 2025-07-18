@@ -11,7 +11,7 @@ const Categories = () => {
 
   const handleEdit = (id) => {
     console.log("Edit", id);
-    
+
     // Implement edit logic or navigate
   };
 
