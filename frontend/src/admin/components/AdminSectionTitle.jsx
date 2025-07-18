@@ -1,10 +1,7 @@
-import getPageTitle from "../utils/getPageTitle";
-
-const AdminSectionTitle = () => {
-  const { title, icon_class } = getPageTitle();
+const AdminSectionTitle = ({ title, icon }) => {
   return (
     <h1 className="a-text--title">
-      <i className={`${icon_class}`}></i>
+      <i className={icon}></i>
       {title}
     </h1>
   );

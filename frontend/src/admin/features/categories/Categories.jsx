@@ -11,22 +11,25 @@ const Categories = () => {
       <div>
         {categories.length ? (
           <div className="a-section--box w-full max-w-full min-h-[100svh] flex flex-col gap-2">
-            <div className="flex flex-row justify-start items-center gap-4">
-              <div className="flex gap-4 w-full max-w-[30rem]">
-                <div className="relative bg-white w-full">
+            <div className="flex flex-row justify-between items-center gap-4">
+              <div className="flex gap-4 w-full max-w-[70rem]">
+                <div className="bg-white w-full">
                   <input
                     type="search"
                     className="bg-neutral-100 w-full py-[.8rem] px-4 text-[1.3rem] font-medium rounded-[.3rem]"
                     placeholder="Search category here ..."
                   />
-                  <button className="absolute right-4 top-[50%] -translate-y-1/2 text-neutral-600 text-[1.4rem]">
+                  {/* <button className="absolute right-4 top-[50%] -translate-y-1/2 text-neutral-600 text-[1.4rem]">
                     <i className="fa-solid fa-magnifying-glass"></i>
-                  </button>
+                  </button> */}
                 </div>
+                <button className="search a-text--button text-black bg-neutral-200">
+                  Search
+                </button>
               </div>
               <Link
-                className="a-text--button !text-[1.2rem] !normal-case bg-neutral-100"
-                to="/admin/category-management/manage-category"
+                className="a-text--button !text-[1.2rem] !normal-case text-white bg-neutral-800"
+                to="category-management"
               >
                 Add new category
               </Link>
@@ -66,7 +69,7 @@ const Categories = () => {
           <AdminElseBlock
             title="Add the first category"
             section_note="Start adding categories to group your products."
-            path="/admin/category-management/manage-category"
+            path="category-management"
             button_text="add category"
           />
         )}
