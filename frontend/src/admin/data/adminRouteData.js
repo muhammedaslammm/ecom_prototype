@@ -19,7 +19,7 @@ export default [
   },
   {
     path: "/admin/categories",
-    sidebar_title: "Cateogires",
+    sidebar_title: "Categories",
     page_title: "Admin Categories",
     icon_class: "fa-solid fa-layer-group",
     sidebar: true,
