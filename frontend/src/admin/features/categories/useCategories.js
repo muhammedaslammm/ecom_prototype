@@ -59,7 +59,7 @@ const useCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(
-        `${BACKEND_API_URL}/api/categories?filter=all`,
+        `${BACKEND_API_URL}/api/categories?filter=all`, // http://localhost:4000
         {
           method: "GET",
         }
