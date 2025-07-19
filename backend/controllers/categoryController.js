@@ -2,9 +2,9 @@ import Category from "../models/categoryModel.js";
 
 // get category by id
 export const getCategoryById = async (req, res) => {
-  const { categoryid } = req.params;
+  const { id } = req.params;
   try {
-    const category = await Category.findOne({ _id: categoryid });
+    const category = await Category.findOne({ _id: id }).populate("parent");
     res.status(200).json({ success: true, category });
   } catch (error) {
     console.error(
@@ -42,8 +42,11 @@ export async function getCategories(req, res) {
         }
         return res.status(200).json({ success: true, parentCategories });
       case "title":
-        const { title } = req.query;
-        const matchingCategory = await Category.findOne({ title });
+        const { title, actual_title } = req.query;
+        let matchingCategory = null;
+        if (title !== actual_title) {
+          matchingCategory = await Category.findOne({ title });
+        }
         res.status(200).json({ success: true, matchingCategory });
       default:
         break;
@@ -57,8 +60,23 @@ export async function createCategory(req, res) {
   try {
     const data = req.body;
     const newCategory = await Category.create(data);
-    res.status(200).json({ message: "request successfull", data: newCategory });
+    res
+      .status(200)
+      .json({ message: "Category successfully created", data: newCategory });
   } catch (error) {
-    res.status(500).json({ message: error.message, error: error.message });
+    res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+export async function updateCategory(req, res) {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    await Category.updateOne({ _id: id }, { ...data });
+    res
+      .status(200)
+      .json({ success: true, message: "Category successfully updated" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 }

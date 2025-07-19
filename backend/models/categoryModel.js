@@ -16,6 +16,7 @@ const CategorySchema = new mongoose.Schema(
         section_title: { type: String },
         attributes: [
           {
+            _id: false,
             label: String,
             field_type: String,
             options: { type: [String], default: null },
