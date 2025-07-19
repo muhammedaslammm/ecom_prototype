@@ -10,7 +10,17 @@ const AdminApp = () => {
   const { page_title, icon_class, breadcrumbs, routes_length } = useRoute();
   return (
     <>
-      <Toaster position="top-center" richColors />
+      <Toaster
+        position="top-center"
+        richColors
+        expand={true}
+        duration={5000}
+        toastOptions={{
+          style: {
+            animationDuration: "800ms",
+          },
+        }}
+      />
       <div
         className="relative flex min-h-screen bg-[#f2f2f2]"
         style={{ fontFamily: "Inter, sans-serif" }}

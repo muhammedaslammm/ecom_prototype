@@ -59,7 +59,7 @@ const useCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(
-        `${BACKEND_API_URL}/api/categories?filter=all`, // http://localhost:4000
+        `${BACKEND_API_URL}/api/categories?filter=all`,
         {
           method: "GET",
         }
@@ -338,6 +338,30 @@ const useCategories = () => {
     }
   };
 
+  const deleteCategory = async (id) => {
+    try {
+      console.log("hey");
+      const response = await fetch(
+        `http://localhost:4000/api/categories/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        if (data.delete) {
+          setCategories((prevCategories) => [
+            ...prevCategories,
+            data.categories,
+          ]);
+          toast.success(data.message);
+        } else toast.error(data.message);
+      } else throw new Error(data.message);
+    } catch (error) {
+      console.log("error:", error.message);
+    }
+  };
+
   return {
     action,
     categories,
@@ -362,6 +386,7 @@ const useCategories = () => {
     sectionAttributes: section.attributes,
     createCategorySection,
     submitCategory,
+    deleteCategory,
     errors,
   };
 };

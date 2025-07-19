@@ -47,7 +47,8 @@ export async function getCategories(req, res) {
         if (title !== actual_title) {
           matchingCategory = await Category.findOne({ title });
         }
-        res.status(200).json({ success: true, matchingCategory });
+        console.log("mathcing category:", matchingCategory);
+        return res.status(200).json({ success: true, matchingCategory });
       default:
         break;
     }
@@ -78,5 +79,33 @@ export async function updateCategory(req, res) {
       .json({ success: true, message: "Category successfully updated" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+export async function deleteCategory(req, res) {
+  try {
+    const { id } = req.params;
+    const childrens = await Category.findOne({
+      parent: id,
+    });
+    if (childrens) {
+      return res.status(200).json({
+        delete: false,
+        success: true,
+        message:
+          "This category cannot be deleted. This category is referenced by other categories",
+      });
+    }
+    await Category.deleteOne({ _id: id });
+    const categories = await Category.find();
+
+    return res.status(200).json({
+      categories,
+      delete: true,
+      success: true,
+      message: "Category successfully deleted",
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 }

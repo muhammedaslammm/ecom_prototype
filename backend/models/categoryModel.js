@@ -24,6 +24,7 @@ const CategorySchema = new mongoose.Schema(
         ],
       },
     ],
+    isDeleted: { type: Boolean },
   },
   { timestamps: true }
 );

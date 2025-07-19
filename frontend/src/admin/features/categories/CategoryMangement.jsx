@@ -188,14 +188,20 @@ const CategoryManagement = () => {
 
         {/* category variants */}
         <CategoryVariants data={variantsUtilityObject} />
-
-        <button
-          name="update"
-          className="submit_button self-end a-text--button text-white bg-[#176eb1] hover:bg-black !py-3 transition"
-          onClick={submitCategory}
-        >
-          {action === "update" ? "Update Category" : "Create Category"}
-        </button>
+        <div className="self-end flex gap-4">
+          {action === "update" && (
+            <div className="a-text--button bg-red-800 hover:bg-black text-white !normal-case transition">
+              Delete this category
+            </div>
+          )}
+          <button
+            name="update"
+            className="submit_button a-text--button text-white bg-[#176eb1] hover:bg-black !py-3 transition !normal-case"
+            onClick={submitCategory}
+          >
+            {action === "update" ? "Update category" : "Create category"}
+          </button>
+        </div>
       </div>
       <div className="right relative w-5/12 flex flex-col gap-6 min-h-[100svh]">
         {/* product specification sections */}

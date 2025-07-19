@@ -1,21 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import AdminElseBlock from "../../components/AdminElseBlock";
-import useCategories from "./useCategories";
 import { DotsThreeVertical } from "phosphor-react";
 import { useState, useEffect, useRef } from "react";
+import useCategories from "./useCategories";
 
 const Categories = () => {
-  const { categories } = useCategories();
+  const { categories, deleteCategory } = useCategories();
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   const handleEdit = (id) => {
     navigate(`category-management?action=update&category_id=${id}`);
-  };
-
-  const handleDelete = (id) => {
-    console.log("Delete", id);
   };
 
   // Close dropdown if clicked outside
@@ -101,7 +97,7 @@ const Categories = () => {
                             Edit
                           </li>
                           <li
-                            onClick={() => handleDelete(c._id)}
+                            onClick={() => deleteCategory(c._id)}
                             className="px-4 py-2 hover:bg-neutral-100 cursor-pointer"
                           >
                             Delete
@@ -124,7 +120,7 @@ const Categories = () => {
           <AdminElseBlock
             title="Add the first category"
             section_note="Start adding categories to group your products."
-            path="category-management"
+            path="category-management?action=create"
             button_text="add category"
           />
         )}
