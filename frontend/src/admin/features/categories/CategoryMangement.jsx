@@ -5,6 +5,8 @@ import CategoryVariants from "./CategoryVariants.jsx";
 
 const CategoryManagement = () => {
   const {
+    action,
+    actualCategoryTitle,
     categoryTitle,
     handleCategoryTitle,
     levels,
@@ -118,25 +120,28 @@ const CategoryManagement = () => {
             </div>
             <div className="flex gap-4 flex-wrap">
               {parents.length > 0 &&
-                parents.map((parent) => (
-                  <div
-                    className="flex items-center gap-2 p-2 bg-neutral-100 rounded-[.3rem]"
-                    key={parent._id}
-                  >
-                    <input
-                      type="radio"
-                      name="parent"
-                      id={parent._id}
-                      onChange={() => handleParent(parent._id)}
-                    />
-                    <label
-                      className="a-text--label font-medium"
-                      htmlFor={parent._id}
-                    >
-                      {parent.title}
-                    </label>
-                  </div>
-                ))}
+                parents.map((parent) => {
+                  if (parent.title !== actualCategoryTitle)
+                    return (
+                      <div
+                        className="flex items-center gap-2 p-2 bg-neutral-100 rounded-[.3rem]"
+                        key={parent._id}
+                      >
+                        <input
+                          type="radio"
+                          name="parent"
+                          id={parent._id}
+                          onChange={() => handleParent(parent._id)}
+                        />
+                        <label
+                          className="a-text--label font-medium"
+                          htmlFor={parent._id}
+                        >
+                          {parent.title}
+                        </label>
+                      </div>
+                    );
+                })}
             </div>
           </div>
         )}
@@ -183,13 +188,20 @@ const CategoryManagement = () => {
 
         {/* category variants */}
         <CategoryVariants data={variantsUtilityObject} />
-
-        <button
-          className="submit_button self-end a-text--button text-white bg-[#176eb1] hover:bg-black !py-3 transition"
-          onClick={submitCategory}
-        >
-          Create Category
-        </button>
+        <div className="self-end flex gap-4">
+          {action === "update" && (
+            <div className="a-text--button bg-red-800 hover:bg-black text-white !normal-case transition">
+              Delete this category
+            </div>
+          )}
+          <button
+            name="update"
+            className="submit_button a-text--button text-white bg-[#176eb1] hover:bg-black !py-3 transition !normal-case"
+            onClick={submitCategory}
+          >
+            {action === "update" ? "Update category" : "Create category"}
+          </button>
+        </div>
       </div>
       <div className="right relative w-5/12 flex flex-col gap-6 min-h-[100svh]">
         {/* product specification sections */}

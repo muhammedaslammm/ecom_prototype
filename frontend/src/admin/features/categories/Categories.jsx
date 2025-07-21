@@ -1,35 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminElseBlock from "../../components/AdminElseBlock";
-import useCategories from "./useCategories";
 import { DotsThreeVertical } from "phosphor-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import useCategories from "./useCategories";
 
 const Categories = () => {
-  const { categories } = useCategories();
+  const { deleteCategory, categories } = useCategories();
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleEdit = (id) => {
-    console.log("Edit", id);
-
-    // Implement edit logic or navigate
-  };
-
-  const handleDelete = (id) => {
-    console.log("Delete", id);
-    // Implement delete confirmation and action
+    navigate(`category-management?action=update&category_id=${id}`);
   };
 
   // Close dropdown if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenDropdownId(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       setOpenDropdownId(null);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
   return (
     <section className="a-section--container pb-8">
@@ -54,7 +48,7 @@ const Categories = () => {
               </div>
               <Link
                 className="a-text--button !text-[1.2rem] !normal-case  text-white bg-[#176eb1] hover:bg-black !py-3 transition"
-                to="category-management"
+                to="category-management?action=create"
               >
                 Add new category
               </Link>
@@ -83,12 +77,12 @@ const Categories = () => {
                   {/* 3-dot button with dropdown */}
                   <div className="text-center relative" ref={dropdownRef}>
                     <button
+                      className="mx-auto cursor-pointer block"
                       onClick={() =>
                         setOpenDropdownId(
                           openDropdownId === c._id ? null : c._id
                         )
                       }
-                      className="mx-auto cursor-pointer block"
                     >
                       <DotsThreeVertical size={20} weight="bold" />
                     </button>
@@ -103,7 +97,7 @@ const Categories = () => {
                             Edit
                           </li>
                           <li
-                            onClick={() => handleDelete(c._id)}
+                            onClick={() => deleteCategory(c._id)}
                             className="px-4 py-2 hover:bg-neutral-100 cursor-pointer"
                           >
                             Delete
@@ -126,7 +120,7 @@ const Categories = () => {
           <AdminElseBlock
             title="Add the first category"
             section_note="Start adding categories to group your products."
-            path="category-management"
+            path="category-management?action=create"
             button_text="add category"
           />
         )}

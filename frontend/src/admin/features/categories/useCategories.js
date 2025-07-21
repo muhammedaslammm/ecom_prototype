@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const useCategories = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+  const [actualCategoryTitle, setActualCategoryTitle] = useState("");
   const [categoryTitle, setCategoryTitle] = useState("");
   const [levels, setLevels] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState(1);
@@ -27,12 +28,38 @@ const useCategories = () => {
   const navigate = useNavigate();
 
   const BACKEND_API_URL = import.meta.env.VITE_API_URL;
+  const [searchParams] = useSearchParams();
+  const action = searchParams.get("action");
+  const category_id = searchParams.get("category_id");
+
+  // fetching matching category info
+  useState(() => {
+    const fetchCategory = async () => {
+      const response = await fetch(
+        `${BACKEND_API_URL}/api/categories/${category_id}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        const { title, level, parent, variants, sections } = data.category;
+        setActualCategoryTitle(title);
+        setCategoryTitle(title);
+        setSelectedLevel(level);
+        setSelectedParent(parent);
+        setVariants(variants);
+        setCategorySections(sections);
+      }
+    };
+    if (action === "update") fetchCategory();
+  }, []);
 
   // fetching all categories
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(
-        `${BACKEND_API_URL}/api/categories?filter=all`, // http://localhost:4000
+        `${BACKEND_API_URL}/api/categories?filter=all`,
         {
           method: "GET",
         }
@@ -241,14 +268,14 @@ const useCategories = () => {
     });
   };
 
-  const submitCategory = async () => {
+  const submitCategory = async (event) => {
     let errorObject = {};
     try {
       if (categoryTitle.trim().length < 3)
         errorObject.categoryTitle = "Required atleast 3 character";
       else {
         const response = await fetch(
-          `${BACKEND_API_URL}/api/categories?filter=title&title=${categoryTitle}`,
+          `${BACKEND_API_URL}/api/categories?filter=title&title=${categoryTitle}&actual_title=${actualCategoryTitle}`,
           { method: "GET" }
         );
         const data = await response.json();
@@ -278,16 +305,31 @@ const useCategories = () => {
         variants,
         sections: categorySections,
       };
-      const response = await fetch(`${BACKEND_API_URL}/api/categories`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      let response;
+      if (action === "create") {
+        response = await fetch(`${BACKEND_API_URL}/api/categories`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+      } else if (action === "update") {
+        response = await fetch(
+          `${BACKEND_API_URL}/api/categories/${category_id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
+      }
+
       const responseData = await response.json();
       if (response.ok) {
-        toast.success("New Category Added");
+        toast.success(responseData.message);
         navigate("/admin/categories");
       } else throw new Error(responseData.message);
     } catch (error) {
@@ -296,8 +338,30 @@ const useCategories = () => {
     }
   };
 
+  const deleteCategory = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/categories/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        if (data.delete) {
+          setCategories(data.categories);
+          toast.success(data.message);
+        } else toast.error(data.message);
+      } else throw new Error(data.message);
+    } catch (error) {
+      console.log("error:", error.message);
+    }
+  };
+
   return {
+    action,
     categories,
+    actualCategoryTitle,
     categoryTitle,
     handleCategoryTitle,
     levels,
@@ -318,6 +382,7 @@ const useCategories = () => {
     sectionAttributes: section.attributes,
     createCategorySection,
     submitCategory,
+    deleteCategory,
     errors,
   };
 };
