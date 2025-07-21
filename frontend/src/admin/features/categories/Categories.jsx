@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import AdminElseBlock from "../../components/AdminElseBlock";
 import { DotsThreeVertical } from "phosphor-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import useCategories from "./useCategories";
 
 const Categories = () => {
-  const { categories, deleteCategory } = useCategories();
+  const { deleteCategory, categories } = useCategories();
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();

@@ -340,7 +340,6 @@ const useCategories = () => {
 
   const deleteCategory = async (id) => {
     try {
-      console.log("hey");
       const response = await fetch(
         `http://localhost:4000/api/categories/${id}`,
         {
@@ -350,10 +349,7 @@ const useCategories = () => {
       const data = await response.json();
       if (response.ok) {
         if (data.delete) {
-          setCategories((prevCategories) => [
-            ...prevCategories,
-            data.categories,
-          ]);
+          setCategories(data.categories);
           toast.success(data.message);
         } else toast.error(data.message);
       } else throw new Error(data.message);
