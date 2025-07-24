@@ -1,4 +1,16 @@
+import { useState } from "react";
+
+import useCategories from "../categories/useCategories";
+import CategoryBox from "./CategoryBox";
+import CategoryItem from "./CategoryItem";
+import useProducts from "./useProducts";
+
 const ProductManagement = () => {
+  const { categories } = useCategories();
+  const { selectedCategory } = useProducts();
+  const [isOpen, setIsOpen] = useState(false);
+  const levelCategories = categories.filter((category) => category.level === 1);
+
   return (
     <section className="flex gap-6 mb-8">
       <div className="w-[60%] a-section--box flex flex-col gap-2">
@@ -24,7 +36,16 @@ const ProductManagement = () => {
           </div>
           <div className="w-full">
             <div className="a-section--title">Category</div>
-            <input type="text" className="a-input" />
+            <div className="relative">
+              <div className="a-input" onClick={() => setIsOpen(!isOpen)}>
+                {selectedCategory}
+              </div>
+              {isOpen && (
+                <div className="absolute top-full w-full left-0 min-w-[200px] z-50">
+                  <CategoryBox categories={levelCategories} level={0} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

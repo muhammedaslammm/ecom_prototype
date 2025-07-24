@@ -35,7 +35,7 @@ const useCategories = () => {
   const category_id = searchParams.get("category_id");
 
   // fetching matching category info
-  useState(() => {
+  useEffect(() => {
     const fetchCategory = async () => {
       const response = await fetch(
         `${BACKEND_API_URL}/api/categories/${category_id}`,
@@ -90,6 +90,12 @@ const useCategories = () => {
     }
     fetchLevels();
   }, []);
+
+  const getChildCategories = (id) => {
+    return categories.filter((category) => {
+      if (category.parent && category.parent._id === id) return category;
+    });
+  };
 
   const handleCategoryTitle = (value) => {
     setCategoryTitle(value);
@@ -383,6 +389,7 @@ const useCategories = () => {
     categories,
     actualCategoryTitle,
     categoryTitle,
+    getChildCategories,
     handleCategoryTitle,
     levels,
     selectedLevel,
