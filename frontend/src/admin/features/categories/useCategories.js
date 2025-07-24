@@ -11,6 +11,8 @@ const useCategories = () => {
   const [selectedLevel, setSelectedLevel] = useState(1);
   const [parents, setParents] = useState([]);
   const [selectedParent, setSelectedParent] = useState(null);
+  const [parentSections, setParentSections] = useState([]);
+  const [parentVariants, setParentVariants] = useState([]);
   const [variant, setVariant] = useState({ label: "", values: "" });
   const [variants, setVariants] = useState([]);
   const [errors, setErrors] = useState({});
@@ -102,6 +104,7 @@ const useCategories = () => {
     setSelectedLevel(level);
     setSelectedParent(null);
     if (level === 1) {
+      setParentSections([]);
       setErrors((prevErrors) => {
         const { parent, ...rest } = prevErrors;
         return rest;
@@ -128,12 +131,28 @@ const useCategories = () => {
   };
 
   const handleParent = (id) => {
-    console.log("parent id:", id);
     setSelectedParent(id);
+    const parent = categories.find((category) => category._id === id);
+    setParentSections(parent.sections);
+    setParentVariants(parent.variants);
     setErrors((prevErrors) => {
       const { parent, ...rest } = prevErrors;
       return rest;
     });
+  };
+
+  const getParentDetails = (event) => {
+    const { name } = event.target;
+    switch (name) {
+      case "sections":
+        setCategorySections(parentSections);
+        break;
+      case "variants":
+        setVariants(parentVariants);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleCategoryVariants = (event) => {
@@ -201,6 +220,7 @@ const useCategories = () => {
       [name]: value,
     }));
   };
+
   const submitAttribute = () => {
     const errorObject = {};
     const options = attribute.options
@@ -369,9 +389,12 @@ const useCategories = () => {
     handleSelectedLevel,
     parents,
     handleParent,
+    parentSections,
+    getParentDetails,
     handleCategoryVariants,
     variant,
     variants,
+    parentVariants,
     createCategoryVariant,
     categorySections,
     sectionTitle: section.section_title,

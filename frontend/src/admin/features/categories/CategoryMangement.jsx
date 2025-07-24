@@ -14,8 +14,11 @@ const CategoryManagement = () => {
     handleSelectedLevel,
     parents,
     handleParent,
+    parentSections,
+    getParentDetails,
     variant,
     variants,
+    parentVariants,
     handleCategoryVariants,
     createCategoryVariant,
     categorySections,
@@ -45,8 +48,10 @@ const CategoryManagement = () => {
     errors,
     variant,
     variants,
+    parentVariants,
     handleCategoryVariants,
     createCategoryVariant,
+    getParentDetails,
   };
 
   const errorCount = Object.keys(errors).length;
@@ -179,9 +184,20 @@ const CategoryManagement = () => {
               ))}
             </div>
           ) : (
-            <div className="a-text--body">
-              No category sections added so far for this category. Add more
-              category specific sections for product details.
+            <div className="a-text--body flex flex-col">
+              <p>
+                No category sections added so far for this category. Add more
+                category specific sections for product details.
+              </p>
+              {parentSections && parentSections.length > 0 && (
+                <button
+                  name="sections"
+                  className="a-text--button self-end !normal-case border border-blue-800 text-blue-800"
+                  onClick={getParentDetails}
+                >
+                  Extract sections from parent
+                </button>
+              )}
             </div>
           )}
         </div>

@@ -3,13 +3,16 @@ const CategoryVariants = ({ data }) => {
     errors,
     variant,
     variants,
+    parentVariants,
     handleCategoryVariants,
     createCategoryVariant,
+    getParentDetails,
   } = data;
   return (
     <div className="a-section--box">
       <div className="space-y-2">
         <div className="a-section--title">Category specific variants</div>
+
         <p className="a-text--body">
           Products might have{" "}
           <span className="font-semibold">different variants</span> based on
@@ -83,6 +86,21 @@ const CategoryVariants = ({ data }) => {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+        {parentVariants.length > 0 && (
+          <div className="a-section--box flex flex-col">
+            <div className="a-section--title max-w-[80%]">
+              No variants are added so far for this category. A product might
+              have different variants based on color, size, weight and so on.
+            </div>
+            <button
+              name="variants"
+              className="a-text--button self-end !normal-case text-neutral-800 bg-neutral-100 hover:bg-neutral-50 transition border border-neutral-200"
+              onClick={getParentDetails}
+            >
+              Extract variants from parent
+            </button>
           </div>
         )}
       </div>
