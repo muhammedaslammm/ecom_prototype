@@ -1,36 +1,16 @@
-// import CategoryItem from "./CategoryItem";
-
-// const CategoryBox = ({ categories, level }) => {
-//   return (
-//     <div className="absolute w-full left-full right-0 p-4 bg-neutral-100 shadow-sm">
-//       {categories.map((category) => (
-//         <button
-//           name="category"
-//           className="block w-full text-start text-[1.4rem] p-[.5rem] cursor-pointer hover:bg-neutral-50"
-//         >
-//           <CategoryItem category={category} level={level} />
-//         </button>
-//       ))}
-//     </div>
-//   );
-// };
-// export default CategoryBox;
 import { useState } from "react";
 import useCategories from "../categories/useCategories";
 
-const CategoryBox = ({ categories, level }) => {
+const CategoryBox = ({ categories }) => {
   const { getChildCategories } = useCategories();
-  const [history, setHistory] = useState([{ level, categories }]);
+  const [history, setHistory] = useState([{ categories }]);
 
   const current = history[history.length - 1];
 
   const handleCategoryClick = (category) => {
     const children = getChildCategories(category._id);
     if (children.length > 0) {
-      setHistory([
-        ...history,
-        { level: category.level + 1, categories: children },
-      ]);
+      setHistory([...history, { categories: children }]);
     } else {
       alert(`Selected: ${category.title}`);
       // You can set the selected category here using a shared state or props
@@ -44,7 +24,7 @@ const CategoryBox = ({ categories, level }) => {
   };
 
   return (
-    <div className="absolute w-full left-0 p-4 bg-neutral-100 shadow-sm min-w-[200px] z-50">
+    <div className="absolute w-full left-0 p-4 bg-neutral-50 shadow-sm min-w-[200px] z-50">
       {history.length > 1 && (
         <div
           onClick={handleBack}
