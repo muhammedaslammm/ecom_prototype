@@ -1,9 +1,10 @@
+import { useState } from "react";
+
 const useProducts = () => {
-  const [productData, setProductData] = useState({
-    product_title: "",
-    product_brand: "",
-    description: "",
-  });
-}; // this is a custom hook. for product based logics
+  const [selectedCategory, setProductCategory] = useState(
+    "Select one category"
+  );
+  return { selectedCategory };
+};
 
 export default useProducts;
