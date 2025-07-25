@@ -1,9 +1,22 @@
 import { useState } from "react";
 
 const useProducts = () => {
-  const [category, setCategory] = useState("Select one category");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categoryDataInputs, setCategoryDataInputs] = useState({
+    variants: [],
+    sections: [],
+  });
 
-  return { category };
+  const handleCategory = (id) => {
+    setSelectedCategory(id);
+  };
+
+  return {
+    selectedCategory,
+    handleCategory,
+    categoryDataInputs,
+    setCategoryDataInputs,
+  };
 };
 
 export default useProducts;
