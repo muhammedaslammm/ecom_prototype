@@ -17,7 +17,7 @@ const Products = () => {
             path={"product-management"}
             button_text={"add product"}
           />
-        )}
+        )}{" "}
       </div>
     </section>
   );
