@@ -33,6 +33,7 @@ const CategoryManagement = () => {
     setNavbar,
     errors,
     submitCategory,
+    deleteCategory,
   } = useCategories();
 
   const utilityObject = {
@@ -220,7 +221,10 @@ const CategoryManagement = () => {
           </div>
           <div className="flex items-center gap-4">
             {action === "update" && (
-              <div className="a-text--button bg-red-800 hover:bg-black text-white !normal-case transition">
+              <div
+                className="a-text--button bg-red-800 hover:bg-black text-white !normal-case transition"
+                onClick={() => deleteCategory()}
+              >
                 Delete this category
               </div>
             )}

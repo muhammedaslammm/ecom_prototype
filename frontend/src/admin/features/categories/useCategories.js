@@ -367,9 +367,10 @@ const useCategories = () => {
   };
 
   const deleteCategory = async (id) => {
+    let deleteid = id || category_id;
     try {
       const response = await fetch(
-        `http://localhost:4000/api/categories/${id}`,
+        `http://localhost:4000/api/categories/${deleteid}`,
         {
           method: "DELETE",
         }
@@ -379,6 +380,7 @@ const useCategories = () => {
         if (data.delete) {
           setCategories(data.categories);
           toast.success(data.message);
+          if (action === "update") navigate("/admin/categories");
         } else toast.error(data.message);
       } else throw new Error(data.message);
     } catch (error) {
