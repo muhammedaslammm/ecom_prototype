@@ -6,7 +6,7 @@ html {
 }
 
 .header {
-  @apply flex  items-center gap-12 w-[90%] mx-auto py-[1.2rem];
+  @apply flex items-center gap-12 w-[90%] mx-auto py-[1.2rem];
 }
 .logo--header {
   @apply text-[#2c6369] font-bold text-[2.4rem] uppercase;
@@ -25,6 +25,10 @@ html {
 }
 .error--input {
   @apply text-[1.55rem] text-red-800 mt-1 ml-2;
+}
+
+.text--body {
+  @apply text-[1.4rem];
 }
 
 /* admin */

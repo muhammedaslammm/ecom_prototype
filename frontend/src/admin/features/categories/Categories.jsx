@@ -14,17 +14,6 @@ const Categories = () => {
     navigate(`category-management?action=update&category_id=${id}`);
   };
 
-  // Close dropdown if clicked outside
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-  //       setOpenDropdownId(null);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => document.removeEventListener("mousedown", handleClickOutside);
-  // }, []);
-
   return (
     <section className="a-section--container pb-8">
       <div>

@@ -154,15 +154,26 @@ const ProductManagement = () => {
               <div className="a-section--title">Product Variants</div>
             </div>
           ) : (
-            <div className="space-y-2">
-              <div className="a-section--title">
-                Variants for this category is not provided for the selected
-                category.
+            <div className="flex items-center justify-center gap-4">
+              <div className="space-y-2">
+                <div className="a-section--title">Number of stock</div>
+                <input
+                  type="number"
+                  name="stock"
+                  id=""
+                  className="a-input"
+                  placeholder="Eg: 12"
+                />
               </div>
-              <p className="a-text--body">
-                Category specific variants are required to add quntities and
-                price for the products
-              </p>
+              <div className="space-y-2">
+                <div className="a-section--title">Price</div>
+                <input
+                  type="number"
+                  placeholder=""
+                  className="a-input"
+                  step={0.01}
+                />
+              </div>
             </div>
           )}
         </div>

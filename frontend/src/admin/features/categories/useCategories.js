@@ -27,9 +27,10 @@ const useCategories = () => {
     attributes: [],
   });
   const [categorySections, setCategorySections] = useState([]);
-  const navigate = useNavigate();
+  const [navbar, setNavbar] = useState(true);
 
-  const BACKEND_API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
+  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL_1;
   const [searchParams] = useSearchParams();
   const action = searchParams.get("action");
   const category_id = searchParams.get("category_id");
@@ -327,6 +328,7 @@ const useCategories = () => {
       const data = {
         title: categoryTitle,
         level: selectedLevel,
+        navbar,
         parent: selectedParent,
         variants,
         sections: categorySections,
@@ -413,6 +415,8 @@ const useCategories = () => {
     createCategorySection,
     submitCategory,
     deleteCategory,
+    navbar,
+    setNavbar,
     errors,
   };
 };
