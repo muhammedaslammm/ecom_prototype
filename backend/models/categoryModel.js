@@ -5,6 +5,7 @@ const CategorySchema = new mongoose.Schema(
     title: { type: String, required: true },
     image: { type: String },
     level: { type: Number, required: true },
+    navbar: { type: Boolean },
     parent: {
       type: mongoose.Schema.Types.ObjectId,
       default: null,

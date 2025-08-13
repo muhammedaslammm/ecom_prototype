@@ -29,6 +29,8 @@ const CategoryManagement = () => {
     submitAttribute,
     sectionAttributes,
     createCategorySection,
+    navbar,
+    setNavbar,
     errors,
     submitCategory,
   } = useCategories();
@@ -204,19 +206,32 @@ const CategoryManagement = () => {
 
         {/* category variants */}
         <CategoryVariants data={variantsUtilityObject} />
-        <div className="self-end flex gap-4">
-          {action === "update" && (
-            <div className="a-text--button bg-red-800 hover:bg-black text-white !normal-case transition">
-              Delete this category
-            </div>
-          )}
-          <button
-            name="update"
-            className="submit_button a-text--button text-white bg-[#176eb1] hover:bg-black !py-3 transition !normal-case"
-            onClick={submitCategory}
-          >
-            {action === "update" ? "Update category" : "Create category"}
-          </button>
+        <div className="a-section--box flex justify-between gap-4">
+          <div className="flex items-center gap-3 a-section--title">
+            <div>Make this category available in menu bar</div>
+            <input
+              type="checkbox"
+              name="navbar"
+              id="navbar"
+              className="w-6 h-6"
+              checked={navbar}
+              onChange={() => setNavbar(!navbar)}
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            {action === "update" && (
+              <div className="a-text--button bg-red-800 hover:bg-black text-white !normal-case transition">
+                Delete this category
+              </div>
+            )}
+            <button
+              name="update"
+              className="submit_button a-text--button text-white bg-[#176eb1] hover:bg-black !py-3 transition !normal-case"
+              onClick={submitCategory}
+            >
+              {action === "update" ? "Update category" : "Create category"}
+            </button>
+          </div>
         </div>
       </div>
       <div className="right relative w-5/12 flex flex-col gap-6 min-h-[100svh]">
