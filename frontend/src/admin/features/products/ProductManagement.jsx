@@ -2,6 +2,8 @@ import { useState } from "react";
 import useCategories from "../categories/useCategories";
 import useProducts from "./useProducts";
 import CategoryList from "./CategoryList";
+import ProductVariantHandle from "./ProductVariantHandle";
+import ProductsVariants from "./ProductVariants";
 
 const ProductManagement = () => {
   const { categories } = useCategories();
@@ -10,6 +12,11 @@ const ProductManagement = () => {
     handleCategory,
     categoryDataInputs,
     setCategoryDataInputs,
+    productVariant,
+    productVariants,
+    handleVariantData,
+    submitProductVariant,
+    productErrors,
   } = useProducts();
   const levelCategories = categories.filter((category) => category.level === 1);
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +30,14 @@ const ProductManagement = () => {
     handleCategory,
     handleIsOpen,
     setCategoryDataInputs,
+  };
+
+  const utilObjectVariant = {
+    categoryDataInputs,
+    productVariant,
+    handleVariantData,
+    submitProductVariant,
+    productErrors,
   };
 
   const getInputField = (attribute) => {
@@ -146,44 +161,10 @@ const ProductManagement = () => {
         </div>
       </div>
 
-      {/* Right: Placeholder */}
-      <div className="w-[40%]">
-        <div className="a-section--box">
-          {categoryDataInputs.variants.length ? (
-            <div>
-              <div className="a-section--title">Product Variants</div>
-              <div>
-                {categoryDataInputs.variants.map((variant) => (
-                  <div>
-                    <div>{variant.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center gap-4">
-              <div className="space-y-2">
-                <div className="a-section--title">Number of stock</div>
-                <input
-                  type="number"
-                  name="stock"
-                  id=""
-                  className="a-input"
-                  placeholder="Eg: 12"
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="a-section--title">Price</div>
-                <input
-                  type="number"
-                  placeholder=""
-                  className="a-input"
-                  step={0.01}
-                />
-              </div>
-            </div>
-          )}
-        </div>
+      {/* Right section */}
+      <div className="w-[40%] space-y-8">
+        <ProductVariantHandle utils={utilObjectVariant} />
+        <ProductsVariants productVariants={productVariants} />
       </div>
     </section>
   );
