@@ -152,6 +152,13 @@ const ProductManagement = () => {
           {categoryDataInputs.variants.length ? (
             <div>
               <div className="a-section--title">Product Variants</div>
+              <div>
+                {categoryDataInputs.variants.map((variant) => (
+                  <div>
+                    <div>{variant.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="flex items-center justify-center gap-4">

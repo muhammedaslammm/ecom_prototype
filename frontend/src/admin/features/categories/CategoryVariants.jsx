@@ -88,7 +88,7 @@ const CategoryVariants = ({ data }) => {
             </div>
           </div>
         )}
-        {parentVariants.length > 0 && (
+        {parentVariants.length > 0 && variants.length === 0 && (
           <div className="a-section--box flex flex-col">
             <div className="a-section--title max-w-[80%]">
               No variants are added so far for this category. A product might
