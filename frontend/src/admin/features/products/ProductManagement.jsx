@@ -81,7 +81,7 @@ const ProductManagement = () => {
 
   return (
     <section className="flex gap-6 mb-8">
-      <div className="w-[60%] flex flex-col gap-6">
+      <div className="w-1/2 flex flex-col gap-6">
         <div className="a-section--box flex flex-col gap-2">
           <div className="space-y-2">
             <label className="a-section--title block">Product Title</label>
@@ -162,7 +162,7 @@ const ProductManagement = () => {
       </div>
 
       {/* Right section */}
-      <div className="w-[40%] space-y-8">
+      <div className="w-1/2 space-y-8">
         <ProductVariantHandle utils={utilObjectVariant} />
         <ProductsVariants productVariants={productVariants} />
       </div>

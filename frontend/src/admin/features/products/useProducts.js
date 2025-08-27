@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { generateVariantsWithSKU } from "./utils/generateVariantsWithSKU";
 
 const useProducts = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -6,61 +7,23 @@ const useProducts = () => {
     variants: [],
     sections: [],
   });
-  const [productVariant, setProductVariant] = useState({
-    variant: {},
-    price: 0,
-    stock: 0,
-  });
   const [productVariants, setProductVariants] = useState([]);
   const [productErrors, setProductErrors] = useState({});
 
+  // auto generating product variants
   useEffect(() => {
-    let object = {};
-    if (categoryDataInputs.variants.length) {
-      categoryDataInputs.variants.forEach((v) => {
-        object[v.label] = v.values[0];
+    if (selectedCategory) {
+      const product_variants = generateVariantsWithSKU({
+        categoryTitle: selectedCategory,
+        category_variants: categoryDataInputs.variants,
       });
-      setProductVariant((prev) => ({ ...prev, variant: object }));
-      return;
+      console.log("product variants:", product_variants);
+      setProductVariants(product_variants);
     }
-  }, [categoryDataInputs, productVariants]);
+  }, [selectedCategory]);
 
-  const handleCategory = (id) => {
-    setSelectedCategory(id);
-  };
-
-  const handleVariantData = (event) => {
-    const { name, value } = event.target;
-    setProductErrors((prevError) => {
-      return { ...prevError, [name]: "" };
-    });
-    setProductVariant((prevInfo) => {
-      let newVariant = { ...prevInfo };
-      if (name === "stock" || name === "price") newVariant[name] = value;
-      else newVariant.variant[name] = value;
-      return newVariant;
-    });
-  };
-
-  const submitProductVariant = () => {
-    const errors = {};
-    console.log("variant:", productVariant);
-    Object.entries(productVariant).forEach(([key, value]) => {
-      if ((key === "stock" || key === "price") && Number(value) <= 0)
-        errors[key] = `${key} cannot be empty or 0`;
-    });
-    console.log("errors", errors);
-    if (Object.keys(errors).length) {
-      return setProductErrors((prevErrors) => {
-        let new_errors = { ...prevErrors };
-        Object.entries(errors).forEach(([key, value]) => {
-          new_errors[key] = value;
-        });
-        return new_errors;
-      });
-    }
-    setProductVariants((prev) => [...prev, productVariant]);
-    setProductVariant({ variant: {}, price: 0, stock: 0 });
+  const handleCategory = (title) => {
+    setSelectedCategory(title);
   };
 
   return {
@@ -68,10 +31,7 @@ const useProducts = () => {
     handleCategory,
     categoryDataInputs,
     setCategoryDataInputs,
-    productVariant,
     productVariants,
-    handleVariantData,
-    submitProductVariant,
     productErrors,
   };
 };
