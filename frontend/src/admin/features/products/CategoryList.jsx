@@ -1,11 +1,10 @@
 import { useState } from "react";
 import useProducts from "./useProducts";
-import useCategories from "../categories/useCategories";
 
 const CategoryList = ({ utils }) => {
   const { categories, handleCategory, handleIsOpen, setCategoryDataInputs } =
     utils;
-  const { getChildCategories } = useCategories();
+  const { getChildCategories } = useProducts();
   const [history, setHistory] = useState([{ categories: categories }]);
   let currentCategories = history[history.length - 1];
 

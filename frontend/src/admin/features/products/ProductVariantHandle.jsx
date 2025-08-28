@@ -4,9 +4,25 @@ const ProductVariantHandle = ({ utils }) => {
   return (
     <div className="a-section--box">
       {categoryDataInputs.variants.length ? (
-        <div></div>
+        categoryDataInputs.variants.map((variant) => (
+          <div className="border border-neutral-300 p-2 rounded-[.3rem] text-[1.2rem]">
+            <div className="flex flex-col gap-4">
+              <div className="text-cyan-700">{`SKU: ${variant.sku}`}</div>
+              <div>
+                {variant.attributes &&
+                  variant.attributes.map((attribute) => (
+                    <div className="flex items-center gap-2">
+                      <span>{`${attribute.label}:`}</span>
+                      <span className="font-medium">{attribute.value}</span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <div></div>
+          </div>
+        ))
       ) : (
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex gap-4">
           <div className="space-y-2">
             <div className="a-section--title">Number of stock</div>
             <input

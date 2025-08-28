@@ -9,6 +9,8 @@ const useProducts = () => {
   });
   const [productVariants, setProductVariants] = useState([]);
   const [productErrors, setProductErrors] = useState({});
+  const [categories, setCategories] = useState([]);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
 
   // auto generating product variants
   useEffect(() => {
@@ -17,22 +19,48 @@ const useProducts = () => {
         categoryTitle: selectedCategory,
         category_variants: categoryDataInputs.variants,
       });
+      if (product_variants.length)
+        setCategoryDataInputs((prev) => ({
+          ...prev,
+          variants: product_variants,
+        }));
       console.log("product variants:", product_variants);
-      setProductVariants(product_variants);
     }
   }, [selectedCategory]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const response = await fetch(
+        `${BACKEND_URL}/api/categories?filter=all-category`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
+      setCategories(data.categories);
+    };
+    getCategories();
+  }, []);
 
   const handleCategory = (title) => {
     setSelectedCategory(title);
   };
 
+  const getChildCategories = (id) => {
+    return categories.filter((category) => {
+      if (category.parent && category.parent._id === id) return category;
+    });
+  };
+
   return {
+    categories,
     selectedCategory,
     handleCategory,
     categoryDataInputs,
     setCategoryDataInputs,
     productVariants,
     productErrors,
+    getChildCategories,
   };
 };
 

@@ -30,7 +30,7 @@ const useCategories = () => {
   const [navbar, setNavbar] = useState(true);
 
   const navigate = useNavigate();
-  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL_2;
+  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL_1;
   const [searchParams] = useSearchParams();
   const action = searchParams.get("action");
   const category_id = searchParams.get("category_id");
@@ -59,10 +59,18 @@ const useCategories = () => {
   }, []);
 
   // fetching all categories
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const handlePage = (action) => {
+    if (action === "up" && currentPage < totalPages)
+      setCurrentPage((prevPage) => prevPage + 1);
+    else if (action === "down" && currentPage > 1)
+      setCurrentPage((prevPage) => prevPage - 1);
+  };
   useEffect(() => {
     const fetchCategories = async () => {
       const response = await fetch(
-        `${BACKEND_API_URL}/api/categories?filter=all`,
+        `${BACKEND_API_URL}/api/categories?filter=all&current_page=${currentPage}`,
         {
           method: "GET",
         }
@@ -70,10 +78,11 @@ const useCategories = () => {
       const data = await response.json();
       if (response.ok) {
         setCategories(data.categories);
+        setTotalPages(data.total_pages);
       } else throw new Error(data.message);
     };
     fetchCategories();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     async function fetchLevels() {
@@ -91,12 +100,6 @@ const useCategories = () => {
     }
     fetchLevels();
   }, []);
-
-  const getChildCategories = (id) => {
-    return categories.filter((category) => {
-      if (category.parent && category.parent._id === id) return category;
-    });
-  };
 
   const handleCategoryTitle = (value) => {
     setCategoryTitle(value);
@@ -391,9 +394,11 @@ const useCategories = () => {
   return {
     action,
     categories,
+    currentPage,
+    totalPages,
+    handlePage,
     actualCategoryTitle,
     categoryTitle,
-    getChildCategories,
     handleCategoryTitle,
     levels,
     selectedLevel,
