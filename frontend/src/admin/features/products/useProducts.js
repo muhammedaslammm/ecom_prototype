@@ -52,6 +52,16 @@ const useProducts = () => {
     });
   };
 
+  const deleteVariant = (sku) => {
+    setCategoryDataInputs((prevObj) => {
+      const newObject = { ...prevObj };
+      newObject.variants = newObject.variants.filter(
+        (variant) => variant.sku !== sku
+      );
+      return newObject;
+    });
+  };
+
   return {
     categories,
     selectedCategory,
@@ -61,6 +71,9 @@ const useProducts = () => {
     productVariants,
     productErrors,
     getChildCategories,
+    variantActions: {
+      deleteVariant,
+    },
   };
 };
 

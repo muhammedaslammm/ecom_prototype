@@ -50,9 +50,11 @@ const useCategories = () => {
         setActualCategoryTitle(title);
         setCategoryTitle(title);
         setSelectedLevel(level);
-        setSelectedParent(parent);
+        setSelectedParent(parent._id);
+        setParents(data.parents);
         setVariants(variants);
         setCategorySections(sections);
+        console.log("parent:", parent);
       }
     };
     if (action === "update") fetchCategory();
@@ -391,7 +393,19 @@ const useCategories = () => {
     }
   };
 
+  const deleteAll = async () => {
+    const response = await fetch(`${BACKEND_API_URL}/api/categories`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (response.ok) {
+      toast.success("All Categories Deleted");
+      setCategories([]);
+    }
+  };
+
   return {
+    deleteAll,
     action,
     categories,
     currentPage,
@@ -404,6 +418,7 @@ const useCategories = () => {
     selectedLevel,
     handleSelectedLevel,
     parents,
+    selectedParent,
     handleParent,
     parentSections,
     getParentDetails,

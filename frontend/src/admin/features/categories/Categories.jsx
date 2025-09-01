@@ -6,8 +6,14 @@ import useCategories from "./useCategories";
 import { CaretRight, CaretLeft } from "phosphor-react";
 
 const Categories = () => {
-  const { deleteCategory, categories, currentPage, totalPages, handlePage } =
-    useCategories();
+  const {
+    deleteCategory,
+    deleteAll,
+    categories,
+    currentPage,
+    totalPages,
+    handlePage,
+  } = useCategories();
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -35,7 +41,7 @@ const Categories = () => {
                 </button>
               </div>
               <Link
-                className="a-text--button !text-[1.2rem] !normal-case  text-white bg-[#176eb1] hover:bg-black !py-3 transition"
+                className="a-text--button !text-[1.2rem] text-white bg-black/80 hover:bg-black !py-3 transition !rounded-[.3rem]"
                 to="category-management?action=create"
               >
                 Add new category

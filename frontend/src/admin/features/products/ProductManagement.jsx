@@ -13,10 +13,9 @@ const ProductManagement = () => {
     categoryDataInputs,
     setCategoryDataInputs,
     productVariant,
-    productVariants,
     handleVariantData,
-    submitProductVariant,
     productErrors,
+    variantActions,
   } = useProducts();
   const levelCategories = categories.filter((category) => category.level === 1);
   const [isOpen, setIsOpen] = useState(false);
@@ -36,8 +35,8 @@ const ProductManagement = () => {
     categoryDataInputs,
     productVariant,
     handleVariantData,
-    submitProductVariant,
     productErrors,
+    variantActions,
   };
 
   const getInputField = (attribute) => {
