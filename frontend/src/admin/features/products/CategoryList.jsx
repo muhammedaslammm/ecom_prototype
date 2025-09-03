@@ -8,14 +8,17 @@ const CategoryList = ({ utils }) => {
   const [history, setHistory] = useState([{ categories: categories }]);
   let currentCategories = history[history.length - 1];
 
-  const getChildrens = ({ _id, title, variants, sections }) => {
-    const childrens = getChildCategories(_id);
+  const getChildrens = (category) => {
+    const childrens = getChildCategories(category._id);
     if (childrens.length > 0)
       setHistory((prevHistory) => [...prevHistory, { categories: childrens }]);
     else {
-      handleCategory(title);
+      handleCategory(category);
       handleIsOpen();
-      setCategoryDataInputs((prevObj) => ({ variants, sections }));
+      setCategoryDataInputs((prevObj) => ({
+        variants: category.variants,
+        sections: category.sections,
+      }));
     }
   };
 
