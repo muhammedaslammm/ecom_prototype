@@ -6,12 +6,12 @@ const CategoryProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [navbarCategories, setNavbarCategories] = useState([]);
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          `${BACKEND_URL}/api/categories?filter=all`,
+          `${BACKEND_URL}/api/categories?filter=all-category`,
           {
             method: "GET",
           }

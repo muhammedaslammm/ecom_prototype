@@ -5,7 +5,11 @@ export const getCategoryById = async (req, res) => {
   const { id } = req.params;
   try {
     const category = await Category.findOne({ _id: id }).populate("parent");
-    res.status(200).json({ success: true, category });
+    let parents = [];
+    if (category.level !== 1)
+      parents = await Category.find({ level: category.level - 1 });
+
+    res.status(200).json({ success: true, category, parents });
   } catch (error) {
     console.error(
       "error when trying to fetch the category by id.",
@@ -15,12 +19,30 @@ export const getCategoryById = async (req, res) => {
   }
 };
 
+export async function deleteAllCategories(req, res) {
+  await Category.deleteMany({});
+  res.status(200).json({ success: true });
+}
+
 export async function getCategories(req, res) {
-  const { filter } = req.query;
+  const { filter, current_page } = req.query;
+  console.log("filter:", filter);
+  console.log("current page number type:", typeof current_page);
+  let limit = 12;
   try {
     const categories = await Category.find().populate("parent");
+    const total = await Category.countDocuments();
     switch (filter) {
       case "all":
+        let page_categories = await Category.find()
+          .skip(limit * (Number(current_page) - 1))
+          .limit(limit);
+        return res.status(200).json({
+          success: true,
+          categories: page_categories,
+          total_pages: Math.ceil(total / limit),
+        });
+      case "all-category":
         return res.status(200).json({ success: true, categories });
       case "level":
         const getLevelsCount = (categories, currentLevel = 1, levels = [1]) => {

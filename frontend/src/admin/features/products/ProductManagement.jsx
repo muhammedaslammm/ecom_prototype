@@ -2,14 +2,20 @@ import { useState } from "react";
 import useCategories from "../categories/useCategories";
 import useProducts from "./useProducts";
 import CategoryList from "./CategoryList";
+import ProductVariantHandle from "./ProductVariantHandle";
+import ProductsVariants from "./ProductVariants";
 
 const ProductManagement = () => {
-  const { categories } = useCategories();
   const {
+    categories,
     selectedCategory,
     handleCategory,
     categoryDataInputs,
     setCategoryDataInputs,
+    productVariant,
+    handleVariantData,
+    productErrors,
+    variantActions,
   } = useProducts();
   const levelCategories = categories.filter((category) => category.level === 1);
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +29,14 @@ const ProductManagement = () => {
     handleCategory,
     handleIsOpen,
     setCategoryDataInputs,
+  };
+
+  const utilObjectVariant = {
+    categoryDataInputs,
+    productVariant,
+    handleVariantData,
+    productErrors,
+    variantActions,
   };
 
   const getInputField = (attribute) => {
@@ -66,7 +80,7 @@ const ProductManagement = () => {
 
   return (
     <section className="flex gap-6 mb-8">
-      <div className="w-[60%] flex flex-col gap-6">
+      <div className="w-4/6 flex flex-col gap-6">
         <div className="a-section--box flex flex-col gap-2">
           <div className="space-y-2">
             <label className="a-section--title block">Product Title</label>
@@ -146,44 +160,9 @@ const ProductManagement = () => {
         </div>
       </div>
 
-      {/* Right: Placeholder */}
-      <div className="w-[40%]">
-        <div className="a-section--box">
-          {categoryDataInputs.variants.length ? (
-            <div>
-              <div className="a-section--title">Product Variants</div>
-              <div>
-                {categoryDataInputs.variants.map((variant) => (
-                  <div>
-                    <div>{variant.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center gap-4">
-              <div className="space-y-2">
-                <div className="a-section--title">Number of stock</div>
-                <input
-                  type="number"
-                  name="stock"
-                  id=""
-                  className="a-input"
-                  placeholder="Eg: 12"
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="a-section--title">Price</div>
-                <input
-                  type="number"
-                  placeholder=""
-                  className="a-input"
-                  step={0.01}
-                />
-              </div>
-            </div>
-          )}
-        </div>
+      {/* Right section */}
+      <div className="w-2/6 space-y-8">
+        <ProductVariantHandle utils={utilObjectVariant} />
       </div>
     </section>
   );

@@ -3,9 +3,17 @@ import AdminElseBlock from "../../components/AdminElseBlock";
 import { DotsThreeVertical } from "phosphor-react";
 import { useState, useEffect, useRef, useContext } from "react";
 import useCategories from "./useCategories";
+import { CaretRight, CaretLeft } from "phosphor-react";
 
 const Categories = () => {
-  const { deleteCategory, categories } = useCategories();
+  const {
+    deleteCategory,
+    deleteAll,
+    categories,
+    currentPage,
+    totalPages,
+    handlePage,
+  } = useCategories();
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -18,7 +26,7 @@ const Categories = () => {
     <section className="a-section--container pb-8">
       <div>
         {categories.length ? (
-          <div className="a-section--box w-full max-w-full min-h-[100svh] flex flex-col gap-2">
+          <div className="a-section--box w-full max-w-full min-h-[88svh] flex flex-col gap-2">
             <div className="flex flex-row justify-between items-center gap-4">
               <div className="flex gap-4 w-full max-w-[70rem]">
                 <div className="bg-white w-full">
@@ -27,16 +35,13 @@ const Categories = () => {
                     className="bg-neutral-100 w-full py-[.8rem] px-4 text-[1.3rem] font-medium rounded-[.3rem]"
                     placeholder="Search category here ..."
                   />
-                  {/* <button className="absolute right-4 top-[50%] -translate-y-1/2 text-neutral-600 text-[1.4rem]">
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                  </button> */}
                 </div>
                 <button className="search a-text--button text-black bg-neutral-200">
                   Search
                 </button>
               </div>
               <Link
-                className="a-text--button !text-[1.2rem] !normal-case  text-white bg-[#176eb1] hover:bg-black !py-3 transition"
+                className="a-text--button !text-[1.2rem] text-white bg-black/80 hover:bg-black !py-3 transition !rounded-[.3rem]"
                 to="category-management?action=create"
               >
                 Add new category
@@ -52,7 +57,7 @@ const Categories = () => {
                 <div className="text-center">Actions</div>
               </div>
 
-              {categories.map((c) => (
+              {categories.map((c, index) => (
                 <div
                   key={c._id}
                   className="grid grid-cols-4 gap-8 py-4 px-4 border-b-0 border-neutral-200 last:border-b-0 text-[1.3rem] text-neutral-800 items-center even:bg-neutral-100"
@@ -103,6 +108,23 @@ const Categories = () => {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="flex justify-end items-center  gap-8 mt-auto">
+              <CaretLeft
+                className={`w-[1.5rem] h-[1.5rem] cursor-pointer ${
+                  currentPage == 1 ? "text-neutral-300" : ""
+                }`}
+                weight="bold"
+                onClick={() => handlePage("down")}
+              />
+              <div className="text-[1.4rem]">{currentPage}</div>
+              <CaretRight
+                className={`w-[1.5rem] h-[1.5rem] cursor-pointer ${
+                  currentPage === totalPages ? "text-neutral-300" : ""
+                }`}
+                weight="bold"
+                onClick={() => handlePage("up")}
+              />
             </div>
           </div>
         ) : (

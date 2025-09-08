@@ -13,6 +13,7 @@ const CategoryManagement = () => {
     selectedLevel,
     handleSelectedLevel,
     parents,
+    selectedParent,
     handleParent,
     parentSections,
     getParentDetails,
@@ -140,6 +141,7 @@ const CategoryManagement = () => {
                           name="parent"
                           id={parent._id}
                           onChange={() => handleParent(parent._id)}
+                          checked={parent._id === selectedParent}
                         />
                         <label
                           className="a-text--label font-medium"
