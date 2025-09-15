@@ -7,7 +7,7 @@ import {
 const ProductVariantHandle = ({ utils }) => {
   const { categoryDataInputs, variantActions, errors } = utils;
   const { handleVariantData, deleteVariant } = variantActions;
-
+  
   return (
     categoryDataInputs.variants.length > 0 && (
       <div className="a-section--box">

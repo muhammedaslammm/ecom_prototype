@@ -109,7 +109,6 @@ export function generateVariantsWithSKU({
       stock: 0, // default, editable in UI
       images: [],
     });
-
     seq++;
   }
 

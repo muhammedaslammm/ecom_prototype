@@ -6,6 +6,7 @@ import useCategories from "./useCategories";
 import { CaretRight, CaretLeft } from "phosphor-react";
 import ShimmerContainer from "../../components/ShimmerContainer";
 
+
 const Categories = () => {
   const {
     deleteCategory,
@@ -60,7 +61,7 @@ const Categories = () => {
                 <div className="text-center">Actions</div>
               </div>
 
-              {categories.map((c) => (
+              {categories.map((c, index) => (
                 <div
                   key={c._id}
                   className="grid grid-cols-4 gap-8 py-4 px-4 border-b-0 border-neutral-200 last:border-b-0 text-[1.3rem] text-neutral-800 items-center even:bg-neutral-100"
