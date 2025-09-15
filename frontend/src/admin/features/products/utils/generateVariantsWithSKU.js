@@ -107,9 +107,8 @@ export function generateVariantsWithSKU({
       })),
       price: 0, // default, editable in UI
       stock: 0, // default, editable in UI
-      enabled: true,
+      images: [],
     });
-
     seq++;
   }
 

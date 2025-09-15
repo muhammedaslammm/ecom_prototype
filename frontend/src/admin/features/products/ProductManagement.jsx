@@ -4,6 +4,9 @@ import useProducts from "./useProducts";
 import CategoryList from "./CategoryList";
 import ProductVariantHandle from "./ProductVariantHandle";
 import ProductsVariants from "./ProductVariants";
+import getInputField from "./utils/getInputField.jsx";
+import { InputLabel } from "../../components/InputLabel.jsx";
+
 
 const ProductManagement = () => {
   const {
@@ -16,9 +19,15 @@ const ProductManagement = () => {
     handleVariantData,
     productErrors,
     variantActions,
+    data,
+    submitProduct,
+    errors,
   } = useProducts();
   const levelCategories = categories.filter((category) => category.level === 1);
   const [isOpen, setIsOpen] = useState(false);
+
+  const { generalData, sectionData, handleGeneralData, handleSectionData } =
+    data;
 
   const handleIsOpen = () => {
     setIsOpen(!isOpen);
@@ -37,45 +46,7 @@ const ProductManagement = () => {
     handleVariantData,
     productErrors,
     variantActions,
-  };
-
-  const getInputField = (attribute) => {
-    switch (attribute.field_type) {
-      case "text":
-        return (
-          <div className="space-y-1">
-            <div className="a-text--label">{attribute.label}</div>
-            <input
-              type="text"
-              className="a-input placeholder:capitalize"
-              placeholder={`Enter ${attribute.label}...`}
-            />
-          </div>
-        );
-
-      case "select":
-        return (
-          <div className="space-y-1">
-            <div className="a-text--label">{attribute.label}</div>
-            <select name="" id="" className="a-input">
-              {attribute.options.map((option) => (
-                <option value={option}>{option}</option>
-              ))}
-            </select>
-          </div>
-        );
-      case "multi-select":
-        return (
-          <div className="space-y-1">
-            <div className="a-text--label">{attribute.label}</div>
-            <select name="" id="" className="a-input">
-              {attribute.options.map((option) => (
-                <option value={option}>{option}</option>
-              ))}
-            </select>
-          </div>
-        );
-    }
+    errors,
   };
 
   return (
@@ -83,30 +54,44 @@ const ProductManagement = () => {
       <div className="w-4/6 flex flex-col gap-6">
         <div className="a-section--box flex flex-col gap-2">
           <div className="space-y-2">
-            <label className="a-section--title block">Product Title</label>
+            <InputLabel label="Title" error={errors.product_title} />
+
             <input
               type="text"
-              name="name"
+              name="product_title"
               placeholder="Eg: Samsung Galaxy S21"
               className="a-input"
+              value={generalData.product_title}
+              onChange={handleGeneralData}
             />
           </div>
 
           <div className="flex gap-2">
             <div className="w-full">
-              <div className="a-section--title ">Brand Name</div>
+              <InputLabel label="Brand" error={errors.brand} />
+
               <input
                 type="text"
                 name="brand"
                 placeholder="Eg: Samsung"
                 className="a-input"
+                value={generalData.brand}
+                onChange={handleGeneralData}
               />
             </div>
             <div className="w-full">
-              <div className="a-section--title">Category</div>
+              <div className="flex items-center justify-between">
+                <div className="a-section--title">Category</div>
+                {errors.category && (
+                  <div className="a-text--error">{errors.category}</div>
+                )}
+              </div>
+
               <div className="relative">
                 <div className="a-input cursor-pointer" onClick={handleIsOpen}>
-                  {selectedCategory ? selectedCategory : "Choose one Categrory"}
+                  {selectedCategory
+                    ? selectedCategory.title
+                    : "Choose one Categrory"}
                 </div>
                 {isOpen && <CategoryList utils={utilObject} />}
               </div>
@@ -114,12 +99,14 @@ const ProductManagement = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="a-section--title block">Description</label>
+            <InputLabel label="Description" error={errors.description} />
             <textarea
               name="description"
               placeholder="Eg: A premium Android smartphone with AMOLED display..."
               rows={6}
               className="a-input"
+              value={generalData.description}
+              onChange={handleGeneralData}
             />
           </div>
         </div>
@@ -127,14 +114,16 @@ const ProductManagement = () => {
         <div className="a-section--box !space-y-15">
           {categoryDataInputs.sections.length ? (
             <div className="space-y-4">
-              <div className="a-section--title">Section Attributes</div>
+              <div className="a-section--title">Section Related Data</div>
               {categoryDataInputs.sections.map((section) => (
                 <div className="space-y-6 bg-neutral-50 border border-neutral-300 rounded-[1rem] p-8">
                   <div className="a-section--title">
                     {section.section_title}
                   </div>
                   <div className="grid grid-cols-3 gap-4">
-                    {section.attributes.map((att) => getInputField(att))}
+                    {section.attributes.map((att) =>
+                      getInputField(att, sectionData, handleSectionData, errors)
+                    )}
                   </div>
                 </div>
               ))}
@@ -162,6 +151,14 @@ const ProductManagement = () => {
 
       {/* Right section */}
       <div className="w-2/6 space-y-8">
+        <div className="flex items-center justify-end">
+          <button
+            className="a-text--button text-white bg-black/95"
+            onClick={submitProduct}
+          >
+            Create Product
+          </button>
+        </div>
         <ProductVariantHandle utils={utilObjectVariant} />
       </div>
     </section>

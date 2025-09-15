@@ -45,7 +45,7 @@
 }
 
 .a-text--error {
-  @apply text-[1.2rem] font-medium text-red-700 bg-red-50 py-2 px-4 rounded-[.3rem] cursor-pointer transition;
+  @apply text-[1.2rem] font-medium text-red-700 bg-red-50 py-1.5 px-4 rounded-[.3rem] cursor-pointer transition;
 }
 
 .a-text--button {
@@ -62,4 +62,17 @@
 
 .a-text--table-data {
   @apply text-[1.4rem] leading-[2rem] font-medium;
+}
+
+.a-shimmer-animation {
+  animation: shimmer-anime 2s infinite;
+}
+
+@keyframes shimmer-anime {
+  from {
+    transform: translateX(-20%);
+  }
+  to {
+    transform: translateX(100%);
+  }
 }
