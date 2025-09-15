@@ -36,8 +36,9 @@ const CategoryList = ({ utils }) => {
           {`<- Back`}
         </div>
       )}
-      {currentCategories.categories.map((category) => (
+      {currentCategories.categories.map((category, index) => (
         <div
+          key={index}
           className="p-2 text-[1.4rem] hover:bg-neutral-100 rounded-[.2rem] cursor-pointer"
           onClick={() => getChildrens(category)}
         >

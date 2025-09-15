@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { generateVariantsWithSKU } from "./utils/generateVariantsWithSKU";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const useProducts = () => {
   const [product, setProduct] = useState({});
@@ -18,6 +20,31 @@ const useProducts = () => {
   const [categories, setCategories] = useState([]);
   const [errors, setErrors] = useState({});
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  const navigate = useNavigate();
+
+  // getting all products
+  const [products, setProducts] = useState(null);
+  let [currentPage, setCurrentPage] = useState(1);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        let response = await fetch(
+          `${BACKEND_URL}/api/products?filter=admin-all&current_page=${currentPage}`,
+          {
+            method: "GET",
+          }
+        );
+        let data = await response.json();
+        if (!response.ok) throw new Error(data.message);
+        else {
+          setProducts(data.products);
+        }
+      } catch (error) {
+        console.log("error:", error.message);
+      }
+    };
+    fetchProducts();
+  });
 
   // auto generating product variants
   useEffect(() => {
@@ -140,8 +167,9 @@ const useProducts = () => {
     });
   };
 
-  const submitProduct = () => {
+  const submitProduct = async () => {
     let product_errors = {};
+    console.log("section data:", sectionData);
 
     // validating general data
     Object.entries(generalData).forEach(([key, value]) => {
@@ -171,6 +199,34 @@ const useProducts = () => {
     if (Object.keys(product_errors).length) {
       return setErrors((prev) => ({ ...prev, ...product_errors }));
     }
+    try {
+      console.log("product general data:", generalData);
+      const data = {
+        general_data: generalData,
+        sections: sectionData,
+        variants: categoryDataInputs.variants,
+      };
+
+      const response = await fetch(`${BACKEND_URL}/api/products`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      
+      const response_data = await response.json();
+      if (!response.ok) {
+        if (response.status === 409) alert("Conflict:" + response_data.message);
+        throw new Error(response_data.message);
+      } else {
+        console.log(response_data.message);
+        toast.success("Product Successfully Created");
+        navigate("/admin/products");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return {
@@ -179,6 +235,7 @@ const useProducts = () => {
     handleCategory,
     categoryDataInputs,
     setCategoryDataInputs,
+    products,
     productErrors,
     getChildCategories,
     data: {

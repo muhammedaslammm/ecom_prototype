@@ -63,3 +63,16 @@
 .a-text--table-data {
   @apply text-[1.4rem] leading-[2rem] font-medium;
 }
+
+.a-shimmer-animation {
+  animation: shimmer-anime 2s infinite;
+}
+
+@keyframes shimmer-anime {
+  from {
+    transform: translateX(-20%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

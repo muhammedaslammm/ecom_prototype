@@ -63,7 +63,7 @@ const ProductVariantHandle = ({ utils }) => {
                         type="number"
                         name="price"
                         data-id={variant.sku}
-                        className={`a-input ${
+                        className={`a-input  outline-none ${
                           errors[`${variant.sku}_price`]
                             ? "!border-red-600"
                             : ""

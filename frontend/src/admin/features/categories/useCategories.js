@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const useCategories = () => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(null);
   const [error, setError] = useState(null);
   const [actualCategoryTitle, setActualCategoryTitle] = useState("");
   const [categoryTitle, setCategoryTitle] = useState("");

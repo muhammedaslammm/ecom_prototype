@@ -4,6 +4,7 @@ import { DotsThreeVertical } from "phosphor-react";
 import { useState, useEffect, useRef, useContext } from "react";
 import useCategories from "./useCategories";
 import { CaretRight, CaretLeft } from "phosphor-react";
+import ShimmerContainer from "../../components/ShimmerContainer";
 
 const Categories = () => {
   const {
@@ -25,10 +26,12 @@ const Categories = () => {
   return (
     <section className="a-section--container pb-8">
       <div>
-        {categories.length ? (
+        {categories === null ? (
+          <ShimmerContainer />
+        ) : categories.length ? (
           <div className="a-section--box w-full max-w-full min-h-[88svh] flex flex-col gap-2">
             <div className="flex flex-row justify-between items-center gap-4">
-              <div className="flex gap-4 w-full max-w-[70rem]">
+              <div className="flex gap-4 w-full max-w-[50rem]">
                 <div className="bg-white w-full">
                   <input
                     type="search"
@@ -49,7 +52,7 @@ const Categories = () => {
             </div>
 
             {/* Table */}
-            <div className="table w-full border-0 border-neutral-300 bg-white">
+            <div className="w-full border-0 border-neutral-300 bg-white">
               <div className="grid grid-cols-4 gap-8 py-4 px-4 border-0 border-neutral-200 text-[1.3rem] font-semibold text-neutral-700">
                 <div>Category Title</div>
                 <div className="text-center">Level</div>
@@ -57,7 +60,7 @@ const Categories = () => {
                 <div className="text-center">Actions</div>
               </div>
 
-              {categories.map((c, index) => (
+              {categories.map((c) => (
                 <div
                   key={c._id}
                   className="grid grid-cols-4 gap-8 py-4 px-4 border-b-0 border-neutral-200 last:border-b-0 text-[1.3rem] text-neutral-800 items-center even:bg-neutral-100"
