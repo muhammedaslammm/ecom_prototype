@@ -49,6 +49,12 @@ const Categories = () => {
               >
                 Add new category
               </Link>
+              {/* <button
+                className="a-text--button cursor-pointer bg-neutral-100 hover:bg-neutral-200"
+                onClick={deleteAll}
+              >
+                delete categories
+              </button> */}
             </div>
 
             {/* Table */}

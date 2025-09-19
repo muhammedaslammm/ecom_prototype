@@ -126,9 +126,7 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <StrictMode>
-    <ContextProvider>
-      <RouterProvider router={router} />
-    </ContextProvider>
-  </StrictMode>
+  <ContextProvider>
+    <RouterProvider router={router} />
+  </ContextProvider>
 );

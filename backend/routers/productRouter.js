@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post("/products", createProduct);
 router.get("/products", getProducts);
-router.get("/products/validate-sku", validateSKU);
+router.post("/products/validate-sku", validateSKU);
 
 export default router;

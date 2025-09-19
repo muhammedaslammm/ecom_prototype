@@ -29,7 +29,7 @@ const useProducts = () => {
     const fetchProducts = async () => {
       try {
         let response = await fetch(
-          `${BACKEND_URL}/api/products?filter=admin-all&current_page=${currentPage}`,
+          `${BACKEND_URL}/api/products?filter=admin-products&current_page=${currentPage}`,
           {
             method: "GET",
           }
@@ -44,23 +44,31 @@ const useProducts = () => {
       }
     };
     fetchProducts();
-  });
+  }, []);
 
   // auto generating product variants
+  const [matchingSKUs, setMatchingSKUs] = useState([]);
   useEffect(() => {
     if (selectedCategory) {
-      const product_variants = generateVariantsWithSKU({
-        categoryTitle: selectedCategory,
-        category_variants: categoryDataInputs.variants,
-      });
-      if (product_variants.length)
-        setCategoryDataInputs((prev) => ({
-          ...prev,
-          variants: product_variants,
-        }));
-      console.log("product variants:", product_variants);
+      let callFunction = async () => {
+        const product_variants = await generateVariantsWithSKU({
+          categoryTitle: selectedCategory,
+          category_variants: categoryDataInputs.variants,
+        });
+        if (product_variants.length)
+          setCategoryDataInputs((prev) => ({
+            ...prev,
+            variants: product_variants,
+          }));
+        console.log("product variants:", product_variants);
+      };
+      callFunction();
     }
   }, [selectedCategory]);
+
+  useEffect(() => {
+    console.log("variants:", categoryDataInputs.variants);
+  }, [categoryDataInputs]);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -188,9 +196,9 @@ const useProducts = () => {
     // validating variant data
     if (categoryDataInputs.variants.length) {
       categoryDataInputs.variants.forEach((variant) => {
-        if (variant.price == 0)
+        if (variant.price == 0 && !variant.block)
           product_errors[`${variant.sku}_price`] = "error";
-        if (variant.stock == 0)
+        if (variant.stock == 0 && !variant.block)
           product_errors[`${variant.sku}_stock`] = "error";
       });
     }
@@ -203,6 +211,7 @@ const useProducts = () => {
       console.log("product general data:", generalData);
       const data = {
         general_data: generalData,
+        category: selectedCategory._id,
         sections: sectionData,
         variants: categoryDataInputs.variants,
       };
@@ -214,7 +223,7 @@ const useProducts = () => {
         },
         body: JSON.stringify(data),
       });
-      
+
       const response_data = await response.json();
       if (!response.ok) {
         if (response.status === 409) alert("Conflict:" + response_data.message);

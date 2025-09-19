@@ -11,7 +11,7 @@ function toCode(text, len = 3) {
   return base.slice(0, len).padEnd(len, "X");
 }
 
-/** Derive a category code from a title (e.g., "T-Shirt" -> "TSH") */
+/** Derive a category?.title code from a title (e.g., "T-Shirt" -> "TSH") */
 function deriveCategoryCode(title, len = 3) {
   const parts = String(title).split(/\s|-/).filter(Boolean);
   if (parts.length >= 2) {
@@ -19,6 +19,24 @@ function deriveCategoryCode(title, len = 3) {
     return toCode(firstLetters, len);
   }
   return toCode(title, len);
+}
+
+async function deriveProductCode(id) {
+  try {
+    let response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL_1}/api/categories/product-code/${id}`,
+      {
+        method: "GET",
+      }
+    );
+    let data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+    else {
+      return String(data.categoryProductCount).padStart(4, "0");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 /** Ensure value-codes are unique within a variant label (append 2,3,4… if needed) */
@@ -52,20 +70,21 @@ function cartesian(arrays) {
 /**
  * Generate variant combinations + SKUs.
  * @param {Object} opts
- * @param {string} opts.categoryTitle
+ * @param {string} opts.category?.title
  * @param {Array<{label:string, values:string[]}>} opts.variants
  * @param {number} [opts.seqStart=1]  Starting sequence number for SKUs
  * @param {Set<string>} [opts.existingSkus]  To avoid collisions (optional)
  */
 
-export function generateVariantsWithSKU({
-  categoryTitle,
+export async function generateVariantsWithSKU({
+  category,
   category_variants,
   seqStart = 1,
   existingSkus = new Set(),
 }) {
   // 1) Derive codes
-  const categoryCode = deriveCategoryCode(categoryTitle, 3);
+  const categoryCode = deriveCategoryCode(category?.title, 3);
+  const productCode = await deriveProductCode(category?._id);
 
   // For each variant label, make a value→code map
   const codedVariants = category_variants.map((v) => ({
@@ -85,10 +104,9 @@ export function generateVariantsWithSKU({
 
   for (const combo of combos) {
     const variantCodePart = combo.map((x) => x.code).join("-");
-    let sku = `${categoryCode}-${variantCodePart}-${String(seq).padStart(
-      3,
-      "0"
-    )}`;
+    let sku = `${categoryCode}-${productCode}-${variantCodePart}-${String(
+      seq
+    ).padStart(3, "0")}`;
 
     // Avoid collisions with existing SKUs if provided
     if (existingSkus.has(sku)) {

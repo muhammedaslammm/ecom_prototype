@@ -79,6 +79,27 @@ export async function getCategories(req, res) {
   }
 }
 
+export async function getCategoryProductCode(req, res) {
+  const { id } = req.params;
+
+  try {
+    let [match] = await Category.aggregate([
+      { $match: { _id: new mongoose.Types.ObjectId(id) } },
+      { $project: { currentProductCode: 1, _id: 0 } },
+    ]);
+    if (!match)
+      res.status(404).json({ message: "Requested Category Not Found!" });
+    else
+      res.status(200).json({
+        message: "success",
+        categoryProductCount: match.categoryProductCount,
+      });
+  } catch (error) {
+    console.log("error:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+}
+
 export async function createCategory(req, res) {
   try {
     const data = req.body;

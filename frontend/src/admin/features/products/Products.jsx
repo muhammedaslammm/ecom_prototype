@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { DotsThree } from "phosphor-react";
 import AdminElseBlock from "../../components/AdminElseBlock";
 import useProducts from "./useProducts";
 import ShimmerContainer from "../../components/ShimmerContainer";
@@ -34,14 +35,31 @@ const Products = () => {
               </Link>
             </div>
             <div className="w-full border-0 border-neutral-300 bg-white">
-              <div className="grid grid-cols-4 py-4 px-4 border-0 border-neutral-200 text-[1.3rem] font-semibold text-neutral-700">
-                <div>Product Title</div>
-                <div>Category</div>
-                <div className="">Variants</div>
+              <div className="flex justify-between py-4 px-4 border-0 border-neutral-200 text-[1.3rem] font-semibold text-neutral-700">
+                <div className="grid grid-cols-3 w-[80%] gap-[2rem]">
+                  <div>Product Title</div>
+                  <div>Category</div>
+                  <div className="">Variants</div>
+                </div>
+                <div className="">
+                  <div className="">Options</div>
+                </div>
               </div>
-              {products.map((product) => (
-                <div className="py-4 px-4 border-b-0 border-neutral-200 last:border-b-0 text-[1.3rem] text-neutral-800 items-center even:bg-neutral-100">
-                  <div>{product.product_title}</div>
+              {products.map((product, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between py-4 px-4 border-b-0 border-neutral-200 last:border-b-0 text-[1.3rem] text-neutral-800 items-center even:bg-neutral-100"
+                >
+                  <div className="grid grid-cols-3 w-[80%] gap-[2rem]">
+                    <div>{product.product_title}</div>
+                    <div>{product.category}</div>
+                    <div>{product.total_variants}</div>
+                  </div>
+                  <div className="">
+                    <div>
+                      <DotsThree weight="bold" className="w-[5rem] h-8" />
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

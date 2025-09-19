@@ -3,7 +3,6 @@ import useCategories from "../categories/useCategories";
 import useProducts from "./useProducts";
 import CategoryList from "./CategoryList";
 import ProductVariantHandle from "./ProductVariantHandle";
-import ProductsVariants from "./ProductVariants";
 import getInputField from "./utils/getInputField.jsx";
 import { InputLabel } from "../../components/InputLabel.jsx";
 
@@ -14,7 +13,6 @@ const ProductManagement = () => {
     handleCategory,
     categoryDataInputs,
     setCategoryDataInputs,
-    productVariant,
     handleVariantData,
     productErrors,
     variantActions,
@@ -41,7 +39,6 @@ const ProductManagement = () => {
 
   const utilObjectVariant = {
     categoryDataInputs,
-    productVariant,
     handleVariantData,
     productErrors,
     variantActions,

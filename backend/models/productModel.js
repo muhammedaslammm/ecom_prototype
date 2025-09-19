@@ -1,19 +1,4 @@
 import mongoose from "mongoose";
-// const Schema = new mongoose.Schema({
-//   groupID: { type: mongoose.Schema.Types.ObjectId },
-//   product_title: { type: String },
-//   brand: { type: String },
-//   category: { type: mongoose.Schema.Types.ObjectId },
-//   stock: Number,
-//   price: Number,
-//   sku: { type: String, unique: true },
-//   images: [String],
-//   description: { type: String },
-//   sections: [
-//     { title: { type: String }, attributes: [{ label: String, value: String }] },
-//   ],
-//   variant_details: [{ label: String, value: String, code: String }],
-// });
 
 const Schema = new mongoose.Schema(
   {
@@ -29,6 +14,7 @@ const Parent = Product.discriminator(
     product_title: String,
     brand: String,
     description: String,
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "category" },
     sections: [{ title: String, details: [{ label: String, value: String }] }],
   })
 );

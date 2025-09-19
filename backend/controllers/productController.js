@@ -1,10 +1,23 @@
 import { Product, Parent, Variant } from "../models/productModel.js";
 import { Types } from "mongoose";
 
-export const validateSKU = async (req, res) => {};
+export const validateSKU = async (req, res) => {
+  console.log("req.body:", req.body);
+  let { skuArray } = req.body;
+  let matchingSKUs = (await Variant.find({ sku: { $in: skuArray } })).map(
+    (variant) => variant.sku
+  );
+  console.log("matching skus:", matchingSKUs);
+  if (matchingSKUs.length) {
+    return res
+      .status(409)
+      .json({ message: "Some SKUs are already created.", SKUs: matchingSKUs });
+  }
+  return res.status(200).json({ message: "Variants can be created" });
+};
 
 export const createProduct = async (req, res) => {
-  let { general_data, sections, variants } = req.body;
+  let { general_data, sections, variants, category } = req.body;
   console.log("variants:", variants);
   // structuring sections
   let new_sections = Object.values(
@@ -29,6 +42,7 @@ export const createProduct = async (req, res) => {
     product_title: general_data.product_title,
     brand: general_data.brand,
     description: general_data.description,
+    category,
     sections: new_sections,
   };
 
@@ -50,6 +64,7 @@ export const createProduct = async (req, res) => {
     }
     res.status(200).json({ message: "success" });
   } catch (error) {
+    console.log("error:", error.message);
     if (error.code === 11000) {
       return res.status(409).json({ message: "Duplicate SKU or Unique Field" });
     }
@@ -62,11 +77,43 @@ export const getProducts = async (req, res) => {
   let products = [];
   try {
     switch (filter) {
-      case "admin-all":
+      case "admin-products":
         let limit = 7;
-        products = await Parent.find()
-          .skip(limit * (current_page - 1))
-          .limit(limit);
+        let pipeline = [
+          {
+            $lookup: {
+              from: "products",
+              localField: "_id",
+              foreignField: "parentId",
+              as: "variants",
+            },
+          },
+          {
+            $addFields: { total_variants: { $size: "$variants" } },
+          },
+          {
+            $lookup: {
+              from: "categories",
+              localField: "category",
+              foreignField: "_id",
+              as: "category",
+            },
+          },
+          {
+            $unwind: "$category",
+          },
+          {
+            $project: {
+              product_title: 1,
+              category: "$category.title",
+              total_variants: 1,
+            },
+          },
+          { $skip: limit * (current_page - 1) },
+          { $limit: limit },
+        ];
+        products = await Parent.aggregate(pipeline);
+        console.log("products:", products);
         break;
       default:
         break;
