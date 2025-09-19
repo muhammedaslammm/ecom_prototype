@@ -6,6 +6,7 @@ import ProductVariantHandle from "./ProductVariantHandle";
 import getInputField from "./utils/getInputField.jsx";
 import { InputLabel } from "../../components/InputLabel.jsx";
 
+
 const ProductManagement = () => {
   const {
     categories,

@@ -27,7 +27,7 @@ const useCategories = () => {
     attributes: [],
   });
   const [categorySections, setCategorySections] = useState([]);
-  const [navbar, setNavbar] = useState(true);
+  const [navbar, setNavbar] = useState(false);
 
   const navigate = useNavigate();
   const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL_1;

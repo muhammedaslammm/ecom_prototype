@@ -11,7 +11,7 @@ const CategoryProvider = ({ children }) => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          `${BACKEND_URL}/api/categories?filter=all`,
+          `${BACKEND_URL}/api/categories?filter=all-category`,
           {
             method: "GET",
           }

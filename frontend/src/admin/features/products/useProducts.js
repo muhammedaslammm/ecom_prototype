@@ -236,6 +236,7 @@ const useProducts = () => {
     } catch (error) {
       console.error(error.message);
     }
+
   };
 
   return {
