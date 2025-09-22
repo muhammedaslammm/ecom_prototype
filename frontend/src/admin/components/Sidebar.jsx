@@ -8,7 +8,7 @@ const Sidebar = () => {
   const slug = pathname.split("/").filter(Boolean)[1];
   const [currentSlug, setCurrentSlug] = useState(slug);
   return (
-    <aside className="admin__sidebar fixed top-0 h-screen left-0 w-[25rem] bg-neutral-200 flex flex-col justify-between p-8">
+    <aside className="admin__sidebar fixed top-0 h-screen left-0 w-[25rem] bg-neutral-200 flex flex-col justify-between p-8 z-10">
       <ul className="flex flex-col">
         {adminRouteData.map(
           (data, index) =>

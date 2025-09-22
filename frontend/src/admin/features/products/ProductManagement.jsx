@@ -6,7 +6,6 @@ import ProductVariantHandle from "./ProductVariantHandle";
 import getInputField from "./utils/getInputField.jsx";
 import { InputLabel } from "../../components/InputLabel.jsx";
 
-
 const ProductManagement = () => {
   const {
     categories,
@@ -48,6 +47,14 @@ const ProductManagement = () => {
 
   return (
     <section className="flex gap-6 mb-8">
+      <div className="fixed left-[25rem] bottom-0 bg-white right-0 flex items-center justify-end px-[2.5rem] py-[1rem] shadow-[0px_-5px_20px_#c7c7c7]">
+        <button
+          className="a-text--button text-white bg-black/95"
+          onClick={submitProduct}
+        >
+          Create Product
+        </button>
+      </div>
       <div className="w-4/6 flex flex-col gap-6">
         <div className="a-section--box flex flex-col gap-2">
           <div className="space-y-2">
@@ -107,56 +114,44 @@ const ProductManagement = () => {
             />
           </div>
         </div>
-        {/* sections */}
-        <div className="a-section--box !space-y-15">
-          {categoryDataInputs.sections.length ? (
-            <div className="space-y-4">
-              <div className="a-section--title">Section Related Data</div>
-              {categoryDataInputs.sections.map((section) => (
-                <div className="space-y-6 bg-neutral-50 border border-neutral-300 rounded-[1rem] p-8">
-                  <div className="a-section--title">
-                    {section.section_title}
-                  </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    {section.attributes.map((att) =>
-                      getInputField(att, sectionData, handleSectionData, errors)
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <div className="a-section--title">
-                Section attributes for adding product details isn't provided for
-                the selected category.
-              </div>
-              <p className="a-text--body">
-                Adding more information about the product under different
-                section is more important for a product inorder to get more
-                attention and trust of customers. Visit the selected{" "}
-                <span className="font-semibold italic">Category</span> in the{" "}
-                <span className="font-semibold italic">
-                  Category - Management
-                </span>{" "}
-                page and add required sections.
-              </p>
-            </div>
-          )}
+        <div className="space-y-8">
+          <ProductVariantHandle utils={utilObjectVariant} />
         </div>
       </div>
-
-      {/* Right section */}
-      <div className="w-2/6 space-y-8">
-        <div className="flex items-center justify-end">
-          <button
-            className="a-text--button text-white bg-black/95"
-            onClick={submitProduct}
-          >
-            Create Product
-          </button>
-        </div>
-        <ProductVariantHandle utils={utilObjectVariant} />
+      {/* sections */}
+      <div className="a-section--box w-2/6 !space-y-15">
+        {categoryDataInputs.sections.length ? (
+          <div className="space-y-4">
+            <div className="a-section--title">Section Related Data</div>
+            {categoryDataInputs.sections.map((section) => (
+              <div className="space-y-6 bg-neutral-50 border border-neutral-300 rounded-[1rem] p-8">
+                <div className="a-section--title">{section.section_title}</div>
+                <div className="grid grid-cols-2 gap-4">
+                  {section.attributes.map((att) =>
+                    getInputField(att, sectionData, handleSectionData, errors)
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <div className="a-section--title">
+              Section attributes for adding product details isn't provided for
+              the selected category.
+            </div>
+            <p className="a-text--body">
+              Adding more information about the product under different section
+              is more important for a product inorder to get more attention and
+              trust of customers. Visit the selected{" "}
+              <span className="font-semibold italic">Category</span> in the{" "}
+              <span className="font-semibold italic">
+                Category - Management
+              </span>{" "}
+              page and add required sections.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

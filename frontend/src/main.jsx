@@ -40,6 +40,9 @@ import UI from "./admin/pages/UI.jsx";
 import Categories from "./admin/features/categories/Categories.jsx";
 import CategoryManagement from "./admin/features/categories/CategoryMangement.jsx";
 import ProductManagement from "./admin/features/products/ProductManagement.jsx";
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
+
 // router is created, which handles various routes.
 const router = createBrowserRouter([
   // client
@@ -127,6 +130,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <ContextProvider>
-    <RouterProvider router={router} />
+    <Theme>
+      <RouterProvider router={router} />
+    </Theme>
   </ContextProvider>
 );

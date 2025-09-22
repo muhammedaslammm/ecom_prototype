@@ -5,18 +5,25 @@ import {
   PencilSimpleLine,
   AlignBottom,
 } from "phosphor-react";
+import ImageModal from "./ImageModal";
 import { useEffect, useState } from "react";
 const ProductVariantHandle = ({ utils }) => {
   const { categoryDataInputs, variantActions, errors } = utils;
   const { handleVariantData, deleteVariant } = variantActions;
 
   let [variants, setVariants] = useState(categoryDataInputs.variants);
+  let [open, setOpen] = useState(false);
+  let [images, setImages] = useState([]);
 
   useEffect(() => {
     setVariants(() => {
       return categoryDataInputs.variants.sort((a, b) => a.block - b.block);
     });
   }, [categoryDataInputs.variants]);
+
+  const handleModal = () => {
+    setOpen(!open);
+  };
 
   return (
     variants.length > 0 && (
@@ -101,9 +108,13 @@ const ProductVariantHandle = ({ utils }) => {
                     {![].length > 0 ? (
                       <div>
                         No images added for this variant.{" "}
-                        <span className="capitalize font-medium underline hover:text-violet-600 transition-colors cursor-pointer">
+                        <span
+                          className="capitalize font-medium underline hover:text-violet-600 transition-colors cursor-pointer"
+                          onClick={handleModal}
+                        >
                           add images
                         </span>
+                        {open && <ImageModal func={handleModal} />}
                       </div>
                     ) : (
                       <div></div>

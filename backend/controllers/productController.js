@@ -1,4 +1,5 @@
 import { Product, Parent, Variant } from "../models/productModel.js";
+import Category from "../models/categoryModel.js";
 import { Types } from "mongoose";
 
 export const validateSKU = async (req, res) => {
@@ -18,7 +19,6 @@ export const validateSKU = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   let { general_data, sections, variants, category } = req.body;
-  console.log("variants:", variants);
   // structuring sections
   let new_sections = Object.values(
     Object.values(sections).reduce((object, section) => {
@@ -49,19 +49,26 @@ export const createProduct = async (req, res) => {
   try {
     // create parent product;
     let parent_product = await Parent.create(parent_data);
-
-    // creating variant products
-    for (let variant of variants) {
-      console.log("attributes:", variant.attributes);
-      await Variant.create({
+    let getVariantData = (variant) => {
+      return {
         parentId: parent_product._id,
         sku: variant.sku,
         price: variant.price,
         stock: variant.stock,
         images: variant.images,
         variant_details: variant.attributes,
-      });
-    }
+      };
+    };
+
+    // creating variant products
+    let variantsArray = variants.map((variant) => getVariantData(variant));
+    console.log("variant_array:", variantsArray);
+    await Variant.insertMany(variantsArray);
+
+    await Category.updateOne(
+      { _id: category },
+      { $inc: { categoryProductCount: 1 } }
+    );
     res.status(200).json({ message: "success" });
   } catch (error) {
     console.log("error:", error.message);
@@ -106,6 +113,7 @@ export const getProducts = async (req, res) => {
             $project: {
               product_title: 1,
               category: "$category.title",
+              brand: 1,
               total_variants: 1,
             },
           },

@@ -32,7 +32,8 @@ async function deriveProductCode(id) {
     let data = await response.json();
     if (!response.ok) throw new Error(data.message);
     else {
-      return String(data.categoryProductCount).padStart(4, "0");
+      console.log("category product count:", data.categoryProductCount);
+      return String(data.categoryProductCount + 1).padStart(4, "0");
     }
   } catch (error) {
     console.log(error.message);
@@ -83,6 +84,7 @@ export async function generateVariantsWithSKU({
   existingSkus = new Set(),
 }) {
   // 1) Derive codes
+  console.log("category:", category);
   const categoryCode = deriveCategoryCode(category?.title, 3);
   const productCode = await deriveProductCode(category?._id);
 

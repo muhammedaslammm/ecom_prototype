@@ -52,7 +52,7 @@ const useProducts = () => {
     if (selectedCategory) {
       let callFunction = async () => {
         const product_variants = await generateVariantsWithSKU({
-          categoryTitle: selectedCategory,
+          category: selectedCategory,
           category_variants: categoryDataInputs.variants,
         });
         if (product_variants.length)
@@ -236,7 +236,6 @@ const useProducts = () => {
     } catch (error) {
       console.error(error.message);
     }
-
   };
 
   return {

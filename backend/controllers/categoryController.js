@@ -1,8 +1,10 @@
 import Category from "../models/categoryModel.js";
+import mongoose from "mongoose";
 
 // get category by id
 export const getCategoryById = async (req, res) => {
   const { id } = req.params;
+  console.log("id", id);
   try {
     const category = await Category.findOne({ _id: id }).populate("parent");
     let parents = [];
@@ -81,12 +83,14 @@ export async function getCategories(req, res) {
 
 export async function getCategoryProductCode(req, res) {
   const { id } = req.params;
+  console.log("id:", typeof id);
 
   try {
     let [match] = await Category.aggregate([
       { $match: { _id: new mongoose.Types.ObjectId(id) } },
-      { $project: { currentProductCode: 1, _id: 0 } },
+      { $project: { categoryProductCount: 1, _id: 0 } },
     ]);
+    console.log(match);
     if (!match)
       res.status(404).json({ message: "Requested Category Not Found!" });
     else

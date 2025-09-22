@@ -25,7 +25,7 @@ const CategorySchema = new mongoose.Schema(
         ],
       },
     ],
-    currentProductCode: { type: Number, default: 1 },
+    categoryProductCount: { type: Number, default: 1 },
     isDeleted: { type: Boolean },
   },
   { timestamps: true }
