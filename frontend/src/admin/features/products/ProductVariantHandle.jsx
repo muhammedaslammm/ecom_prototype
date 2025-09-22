@@ -13,6 +13,7 @@ const ProductVariantHandle = ({ utils }) => {
 
   let [variants, setVariants] = useState(categoryDataInputs.variants);
   let [open, setOpen] = useState(false);
+  let [SKU, setSKU] = useState(null);
   let [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -21,7 +22,9 @@ const ProductVariantHandle = ({ utils }) => {
     });
   }, [categoryDataInputs.variants]);
 
-  const handleModal = () => {
+  const handleModal = (sku = null) => {
+    console.log("sku:", sku);
+    if (sku) setSKU(sku);
     setOpen(!open);
   };
 
@@ -32,7 +35,7 @@ const ProductVariantHandle = ({ utils }) => {
           <div className="a-section--title">{`Product Variants ( ${variants.length} )`}</div>
 
           {variants.map((variant) => (
-            <div className={`${variant?.block ? "relative" : ""}`}>
+            <div className={`${variant?.block ? "relative" : "mt-[1rem]"}`}>
               <div
                 className={`border ${
                   variant?.block
@@ -105,25 +108,37 @@ const ProductVariantHandle = ({ utils }) => {
                   </div>
 
                   <div className="border-t border-neutral-300 py-4 bg-neutral-100 px-2">
-                    {![].length ? (
+                    {variant?.images && !variant?.images.length ? (
                       <div>
                         No images added for this variant.{" "}
                         <span
                           className="capitalize font-medium underline hover:text-violet-600 transition-colors cursor-pointer"
-                          onClick={handleModal}
+                          onClick={() => handleModal(variant.sku)}
                         >
                           add images
                         </span>
-                        {open && (
-                          <ImageModal
-                            sku={variant.sku}
-                            func={handleModal}
-                            handleImages={handleImages}
-                          />
-                        )}
                       </div>
                     ) : (
-                      <div></div>
+                      variant?.images && (
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div>{`Total Images Added (${variant?.images.length})`}</div>
+                            <div className="text-violet-600 capitalize underline">
+                              handle images
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap gap-4">
+                            {variant.images.map((image) => (
+                              <img
+                                src={image.url}
+                                alt=""
+                                className="w-[5rem] h-[5rem] object-cover"
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )
                     )}
                   </div>
                 </div>
@@ -137,6 +152,13 @@ const ProductVariantHandle = ({ utils }) => {
               )} */}
             </div>
           ))}
+          {open && (
+            <ImageModal
+              sku={SKU}
+              func={handleModal}
+              handleImages={handleImages}
+            />
+          )}
         </div>
       </div>
     )

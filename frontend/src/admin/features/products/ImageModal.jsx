@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 const ImageModal = ({ sku, func, handleImages }) => {
   let inputRef = useRef(null);
   let [images, setImages] = useState([]);
-
   const handleInputClick = () => {
     inputRef.current.click();
   };
@@ -28,17 +27,22 @@ const ImageModal = ({ sku, func, handleImages }) => {
     });
   };
 
+  const submitImagesButton = () => {
+    let imagesResult = handleImages(sku, images);
+    if (imagesResult) func();
+  };
+
   return createPortal(
     <div className="fixed inset-0 bg-black/10 flex items-center justify-center">
       <div className="bg-white p-6 rounded-[.5rem] w-[70%] min-h-[60rem] max-h-[60rem]  flex flex-col gap-6">
         <div className="flex justify-between items-start">
           <div className="text-[1.4rem] font-medium capitalize">
-            Handle Product Images {sku}
+            Handle Product Images
           </div>
           <X
             className="text-red-700 w-[1.5rem] h-[1.5rem] cursor-pointer"
             weight="bold"
-            onClick={func}
+            onClick={() => func()}
           />
         </div>
 
@@ -51,19 +55,19 @@ const ImageModal = ({ sku, func, handleImages }) => {
           onChange={handleFileChange}
         />
         {!images.length ? (
-          <div className="flex-1 flex flex-col justify-center items-center gap-4 border-3 border-dashed border-gray-400">
+          <div className="flex-1 flex flex-col justify-center items-center gap-4 border-3 border-dashed border-gray-400 rounded-[1rem]">
             <div className="text-[1.7rem] font-medium">
               No images are added for this product variant so far.
             </div>
             <button
-              className="a-text--button bg-green-800 text-white self-center"
+              className="a-text--button bg-green-800 !px-[3rem] text-white self-center cursor-pointer"
               onClick={handleInputClick}
             >
               Add images
             </button>
           </div>
         ) : (
-          <div className="grid flex-1 grid-cols-5 auto-rows-[15rem] gap-4 overflow-y-scroll border-3 border-dashed border-gray-400 p-4">
+          <div className="grid flex-1 grid-cols-5 auto-rows-[15rem] gap-4 overflow-y-scroll border-3 border-dashed border-gray-400 p-4 rounded-[1rem]">
             {images.map((image, index) => (
               <div key={index} className="relative">
                 <img
@@ -81,7 +85,7 @@ const ImageModal = ({ sku, func, handleImages }) => {
           </div>
         )}
         <div className="self-end mt-auto  a-text--button text-white bg-red-800/90">
-          <button>Submit Images</button>
+          <button onClick={submitImagesButton}>Submit Images</button>
         </div>
       </div>
     </div>,

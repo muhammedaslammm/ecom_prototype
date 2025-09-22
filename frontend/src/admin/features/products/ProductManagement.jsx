@@ -48,7 +48,7 @@ const ProductManagement = () => {
   };
 
   return (
-    <section className="flex gap-6 mb-8">
+    <section className="flex gap-6 mb-8 pb-[7rem]">
       <div className="fixed left-[25rem] bottom-0 bg-white right-0 flex items-center justify-end px-[2.5rem] py-[1rem] shadow-[0px_-5px_20px_#c7c7c7]">
         <button
           className="a-text--button text-white bg-black/95"

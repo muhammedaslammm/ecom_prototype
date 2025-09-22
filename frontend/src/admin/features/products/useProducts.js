@@ -51,15 +51,13 @@ const useProducts = () => {
   useEffect(() => {
     if (selectedCategory) {
       let callFunction = async () => {
-        try{
-
-        }catch(error){
-          
-        }
+        try {
+        } catch (error) {}
         const product_variants = await generateVariantsWithSKU({
           category: selectedCategory,
           category_variants: categoryDataInputs.variants,
         });
+        console.log("variants after sku generated", product_variants);
         if (product_variants.length)
           setCategoryDataInputs((prev) => ({
             ...prev,
@@ -179,7 +177,17 @@ const useProducts = () => {
     });
   };
 
-  const handleImages = (sku) => {};
+  const handleImages = (sku, images) => {
+    setCategoryDataInputs((prevObject) => {
+      let newCategoryDataObject = { ...prevObject };
+      let variants = newCategoryDataObject.variants.map((variant) => {
+        if (variant.sku === sku) variant.images = images;
+        return variant;
+      });
+      return { ...newCategoryDataObject, variants };
+    });
+    return true;
+  };
 
   const submitProduct = async () => {
     let product_errors = {};
