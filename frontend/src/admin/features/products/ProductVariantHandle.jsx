@@ -8,7 +8,7 @@ import {
 import ImageModal from "./ImageModal";
 import { useEffect, useState } from "react";
 const ProductVariantHandle = ({ utils }) => {
-  const { categoryDataInputs, variantActions, errors } = utils;
+  const { categoryDataInputs, variantActions, errors, handleImages } = utils;
   const { handleVariantData, deleteVariant } = variantActions;
 
   let [variants, setVariants] = useState(categoryDataInputs.variants);
@@ -105,7 +105,7 @@ const ProductVariantHandle = ({ utils }) => {
                   </div>
 
                   <div className="border-t border-neutral-300 py-4 bg-neutral-100 px-2">
-                    {![].length > 0 ? (
+                    {![].length ? (
                       <div>
                         No images added for this variant.{" "}
                         <span
@@ -114,7 +114,13 @@ const ProductVariantHandle = ({ utils }) => {
                         >
                           add images
                         </span>
-                        {open && <ImageModal func={handleModal} />}
+                        {open && (
+                          <ImageModal
+                            sku={variant.sku}
+                            func={handleModal}
+                            handleImages={handleImages}
+                          />
+                        )}
                       </div>
                     ) : (
                       <div></div>
@@ -122,13 +128,13 @@ const ProductVariantHandle = ({ utils }) => {
                   </div>
                 </div>
               </div>
-              {variant?.block && (
+              {/* {variant?.block && (
                 <div className="absolute inset-0 flex justify-center items-center">
                   <div className="text-[1.2rem] text-red-500/75 font-medium">
                     A product with same SKU is already created!
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           ))}
         </div>

@@ -17,6 +17,7 @@ const ProductManagement = () => {
     productErrors,
     variantActions,
     data,
+    handleImages,
     submitProduct,
     errors,
   } = useProducts();
@@ -42,6 +43,7 @@ const ProductManagement = () => {
     handleVariantData,
     productErrors,
     variantActions,
+    handleImages,
     errors,
   };
 
