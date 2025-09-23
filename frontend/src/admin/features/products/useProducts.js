@@ -186,6 +186,12 @@ const useProducts = () => {
       });
       return { ...newCategoryDataObject, variants };
     });
+    setErrors((prev) => {
+      let keyword = `${sku}_images`;
+      let newObj = { ...prev };
+      delete newObj[keyword];
+      return newObj;
+    });
     return true;
   };
 
@@ -214,6 +220,10 @@ const useProducts = () => {
           product_errors[`${variant.sku}_price`] = "error";
         if (variant.stock == 0 && !variant.block)
           product_errors[`${variant.sku}_stock`] = "error";
+        if (variant.images.length === 0) {
+          product_errors[`${variant.sku}_images`] =
+            "Atleast one Image required";
+        }
       });
     }
 
@@ -229,6 +239,7 @@ const useProducts = () => {
         sections: sectionData,
         variants: categoryDataInputs.variants,
       };
+      // images need to be send to backend. note that, each variants are having images in images array. find it out
 
       const response = await fetch(`${BACKEND_URL}/api/products`, {
         method: "POST",

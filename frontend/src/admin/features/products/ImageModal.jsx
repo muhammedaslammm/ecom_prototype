@@ -1,13 +1,18 @@
 import { createPortal } from "react-dom";
-import { X, ImageSquare } from "phosphor-react";
-import { useRef, useState } from "react";
+import { X, Plus } from "phosphor-react";
+import { useEffect, useRef, useState } from "react";
 
-const ImageModal = ({ sku, func, handleImages }) => {
+const ImageModal = ({ variants, sku, func, handleImages }) => {
   let inputRef = useRef(null);
   let [images, setImages] = useState([]);
   const handleInputClick = () => {
     inputRef.current.click();
   };
+
+  useEffect(() => {
+    let result = variants.find((variant) => variant.sku === sku);
+    if (result.images.length) setImages(result.images);
+  }, []);
 
   const handleFileChange = (event) => {
     console.log("events:", event.target.files);
@@ -16,7 +21,7 @@ const ImageModal = ({ sku, func, handleImages }) => {
       file,
       url: URL.createObjectURL(file),
     }));
-    setImages(previews);
+    setImages((prev) => [...prev, ...previews]);
   };
 
   const changeImage = (index) => {
@@ -76,15 +81,20 @@ const ImageModal = ({ sku, func, handleImages }) => {
                   className="w-full h-full object-cover"
                 />
                 <X
-                  className="absolute top-2 right-2 w-[1.5rem] h-[1.5rem] text-red-700 bg-white"
+                  className="absolute top-2 right-2 w-[1.5rem] h-[1.5rem] text-red-700 bg-white cursor-pointer"
                   weight="bold"
                   onClick={() => changeImage(index)}
                 />
               </div>
             ))}
+            <Plus
+              className="border-3 border-dashed border-gray-400 w-full h-full text-gray-400 cursor-pointer"
+              onClick={handleInputClick}
+              weight="thin"
+            />
           </div>
         )}
-        <div className="self-end mt-auto  a-text--button text-white bg-red-800/90">
+        <div className="self-end mt-auto !cursor-pointer a-text--button text-white bg-red-800/90">
           <button onClick={submitImagesButton}>Submit Images</button>
         </div>
       </div>

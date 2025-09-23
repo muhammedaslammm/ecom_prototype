@@ -109,21 +109,31 @@ const ProductVariantHandle = ({ utils }) => {
 
                   <div className="border-t border-neutral-300 py-4 bg-neutral-100 px-2">
                     {variant?.images && !variant?.images.length ? (
-                      <div>
-                        No images added for this variant.{" "}
-                        <span
-                          className="capitalize font-medium underline hover:text-violet-600 transition-colors cursor-pointer"
-                          onClick={() => handleModal(variant.sku)}
-                        >
-                          add images
-                        </span>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          No images added for this variant.{" "}
+                          <span
+                            className="capitalize font-medium underline hover:text-violet-600 transition-colors cursor-pointer"
+                            onClick={() => handleModal(variant.sku)}
+                          >
+                            add images
+                          </span>
+                        </div>
+                        {errors[`${variant.sku}_images`] && (
+                          <div className="a-text--error">
+                            {errors[`${variant.sku}_images`]}
+                          </div>
+                        )}
                       </div>
                     ) : (
                       variant?.images && (
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
                             <div>{`Total Images Added (${variant?.images.length})`}</div>
-                            <div className="text-violet-600 capitalize underline">
+                            <div
+                              className="text-violet-600 hover:text-violet-900 transition-colors capitalize underline cursor-pointer"
+                              onClick={() => handleModal(variant.sku)}
+                            >
                               handle images
                             </div>
                           </div>
@@ -154,6 +164,7 @@ const ProductVariantHandle = ({ utils }) => {
           ))}
           {open && (
             <ImageModal
+              variants={categoryDataInputs.variants}
               sku={SKU}
               func={handleModal}
               handleImages={handleImages}
