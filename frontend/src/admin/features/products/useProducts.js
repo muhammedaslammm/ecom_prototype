@@ -232,21 +232,28 @@ const useProducts = () => {
       return setErrors((prev) => ({ ...prev, ...product_errors }));
     }
     try {
-      console.log("product general data:", generalData);
+      let formData = new FormData();
       const data = {
         general_data: generalData,
         category: selectedCategory._id,
         sections: sectionData,
-        variants: categoryDataInputs.variants,
+        variants: categoryDataInputs.variants.map((variant) => ({
+          ...variant,
+          images: [],
+        })),
       };
-      // images need to be send to backend. note that, each variants are having images in images array. find it out
+      formData.append("data", JSON.stringify(data));
+
+      // adding images in multipart body
+      categoryDataInputs.variants.forEach((variant, vIndex) => {
+        variant.images.forEach((image, iIndex) => {
+          formData.append(`variant[${vIndex}][images]`, image.file);
+        });
+      });
 
       const response = await fetch(`${BACKEND_URL}/api/products`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       const response_data = await response.json();

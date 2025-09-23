@@ -18,6 +18,9 @@ export const validateSKU = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
+  console.log("parsed data", JSON.parse(req.body.data));
+  console.log("req.files:", req.files);
+  // do from here (hint: upload images to backend. frontend data is coming!)
   let { general_data, sections, variants, category } = req.body;
   // structuring sections
   let new_sections = Object.values(
