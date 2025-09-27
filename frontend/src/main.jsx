@@ -36,12 +36,12 @@ import Products from "./admin/features/products/Products.jsx";
 import Register from "./client/pages/Register.jsx";
 import SignUp from "./client/components/form/SignUp.jsx";
 import SignIn from "./client/components/form/SignIn.jsx";
-import UI from "./admin/pages/UI.jsx";
 import Categories from "./admin/features/categories/Categories.jsx";
 import CategoryManagement from "./admin/features/categories/CategoryMangement.jsx";
 import ProductManagement from "./admin/features/products/ProductManagement.jsx";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
+import AdminUI from "./admin/features/ui/AdminUI.jsx";
 
 // router is created, which handles various routes.
 const router = createBrowserRouter([
@@ -121,7 +121,7 @@ const router = createBrowserRouter([
         ],
       },
       { path: "users", element: <Users /> },
-      { path: "ui", element: <UI /> },
+      { path: "ui", element: <AdminUI /> },
     ],
   },
 ]);
