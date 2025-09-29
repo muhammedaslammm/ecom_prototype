@@ -7,14 +7,18 @@ import {
 import BannerForm from "./formSchemas/BannerForm";
 
 const NewSection = ({ config }) => {
-  let { section, handleSectionType, handleFormInput } = config;
+  let { section, handleSectionType, handleFormInput, createSection } = config;
   return (
-    <Accordion type="single" collapsible className="a-section--box !py-[.2rem]">
+    <Accordion
+      type="single"
+      collapsible
+      className="a-section--box !py-[.2rem] h-full"
+    >
       <AccordionItem value="item-1">
         <AccordionTrigger className="a-text--section">
           Add new home section
         </AccordionTrigger>
-        <AccordionContent className=" flex flex-col gap-[2.5rem] border p-4 rounded-[.5rem] mb-4">
+        <AccordionContent className="flex flex-col gap-[2.5rem] border p-4 rounded-[.5rem] mb-4">
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-1">
               <div className="a-text--label">Section type</div>
@@ -37,11 +41,18 @@ const NewSection = ({ config }) => {
             </div>
           </div>
 
-          {section?.section_type === "banner" ? (
+          {/* section form */}
+          {section?.section_type === "banner" && (
             <BannerForm section={section} handleFormInput={handleFormInput} />
-          ) : (
-            <></>
           )}
+
+          {/* submit button */}
+          <button
+            className="self-end a-text--button bg-[#0078d4] hover:bg-[#148ae5] transition-colors text-white"
+            onClick={createSection}
+          >
+            Create Section
+          </button>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

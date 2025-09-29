@@ -5,7 +5,7 @@ import getLayouts from "./utils/getLayouts";
 const BannerForm = ({ section, handleFormInput }) => {
   let layouts = getLayouts(section.section_type);
   return (
-    <div className="flex h-full gap-8">
+    <div className="flex gap-8">
       <div className="space-y-4 w-2/6">
         <div className="a-text--label">Section Layout</div>
         <div className="flex gap-4">
@@ -32,7 +32,9 @@ const BannerForm = ({ section, handleFormInput }) => {
         <div className="a-text--label">
           {section.layout !== "1" ? "Banner Images" : "Banner Image"}
         </div>
-        {section.layout !== "1" && <BannerImages />}
+        {section.layout !== "1" && (
+          <BannerImages handleFormInput={handleFormInput} />
+        )}
         {section.layout === "1" && <BannerImage />}
       </div>
     </div>

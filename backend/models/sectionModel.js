@@ -15,6 +15,7 @@ let Banner = Section.discriminator(
   new Schema({
     layout: String,
     backgroundImage: String,
+    backgroundImages: [String],
     ctaLink: String,
   })
 );
