@@ -18,8 +18,6 @@ const useRoute = () => {
     breadcrumbs,
     routes_length: routes.length,
   };
-
-  return;
 };
 
 export default useRoute;
