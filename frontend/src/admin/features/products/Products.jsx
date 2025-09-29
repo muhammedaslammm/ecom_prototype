@@ -8,7 +8,7 @@ import ShimmerContainer from "../../components/ShimmerContainer";
 const Products = () => {
   let { products } = useProducts();
   return (
-    <section className="a-section--container">
+    <section className="a-section--container pb-[4rem]">
       <div>
         {products === null ? (
           <ShimmerContainer />

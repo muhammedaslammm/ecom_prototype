@@ -195,6 +195,8 @@ const useProducts = () => {
     return true;
   };
 
+  const [productSubmitButtonStat, setProductSubmitButtonStat] =
+    useState("idle");
   const submitProduct = async () => {
     let product_errors = {};
     console.log("section data:", sectionData);
@@ -251,6 +253,7 @@ const useProducts = () => {
         });
       });
 
+      setProductSubmitButtonStat("loading");
       const response = await fetch(`${BACKEND_URL}/api/products`, {
         method: "POST",
         body: formData,
@@ -266,6 +269,10 @@ const useProducts = () => {
         navigate("/admin/products");
       }
     } catch (error) {
+      setProductSubmitButtonStat("failed");
+      setTimeout(() => {
+        setProductSubmitButtonStat("idle");
+      }, 2500);
       console.error(error.message);
     }
   };
@@ -291,6 +298,7 @@ const useProducts = () => {
     },
     handleImages,
     submitProduct,
+    productSubmitButtonStat,
     errors,
   };
 };

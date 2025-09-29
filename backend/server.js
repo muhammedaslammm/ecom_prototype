@@ -1,7 +1,6 @@
+import "dotenv/config";
 import mongoose from "mongoose";
-import dotevn from "dotenv";
 import app from "./app.js";
-dotevn.config();
 // import config from "./config.js";
 
 const PORT = process.env.PORT || 1000;

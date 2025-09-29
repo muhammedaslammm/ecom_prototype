@@ -1,6 +1,7 @@
-import { Product, Parent, Variant } from "../models/productModel.js";
+import { Parent, Variant } from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
-import { Types } from "mongoose";
+import cloudinary from "../utils/cloudinary.js";
+import uploadToCloudinary from "../utils/uploadToCloudinary.js";
 
 export const validateSKU = async (req, res) => {
   console.log("req.body:", req.body);
@@ -18,38 +19,50 @@ export const validateSKU = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  console.log("parsed data", JSON.parse(req.body.data));
-  console.log("req.files:", req.files);
-  // do from here (hint: upload images to backend. frontend data is coming!)
-  let { general_data, sections, variants, category } = req.body;
-  // structuring sections
-  let new_sections = Object.values(
-    Object.values(sections).reduce((object, section) => {
-      if (!object[section.section]) {
-        object[section.section] = {
-          title: section.section,
-          details: [{ label: section.label, value: section.value }],
-        };
-      } else
-        object[section.section].details.push({
-          label: section.label,
-          value: section.value,
-        });
-      return object;
-    }, {})
-  );
-
-  // structuring parent data
-  let parent_data = {
-    product_type: "parent",
-    product_title: general_data.product_title,
-    brand: general_data.brand,
-    description: general_data.description,
-    category,
-    sections: new_sections,
-  };
-
+  let data = JSON.parse(req.body.data);
   try {
+    for (let file of req.files) {
+      let match = file.fieldname.match(/variant\[(\d+)\]\[images\]/);
+      if (!match) continue;
+
+      let variantIndex = parseInt(match[1], 10); //parsing string number to base 10 number
+      let uploadResult = await uploadToCloudinary(file.buffer, "products");
+      if (!data.variants[variantIndex].images) {
+        data.variants[variantIndex].images = [];
+      }
+      data.variants[variantIndex].images.push(uploadResult.secure_url);
+    }
+    console.log("products data images", data.variants[0].images);
+
+    let { sections, general_data, variants, category } = data;
+
+    // data structuring
+    let new_sections = Object.values(
+      Object.values(sections).reduce((object, section) => {
+        if (!object[section.section]) {
+          object[section.section] = {
+            title: section.section,
+            details: [{ label: section.label, value: section.value }],
+          };
+        } else
+          object[section.section].details.push({
+            label: section.label,
+            value: section.value,
+          });
+        return object;
+      }, {})
+    );
+
+    // structuring parent data
+    let parent_data = {
+      product_type: "parent",
+      product_title: general_data.product_title,
+      brand: general_data.brand,
+      description: general_data.description,
+      category,
+      sections: new_sections,
+    };
+
     // create parent product;
     let parent_product = await Parent.create(parent_data);
     let getVariantData = (variant) => {
@@ -67,7 +80,6 @@ export const createProduct = async (req, res) => {
     let variantsArray = variants.map((variant) => getVariantData(variant));
     console.log("variant_array:", variantsArray);
     await Variant.insertMany(variantsArray);
-
     await Category.updateOne(
       { _id: category },
       { $inc: { categoryProductCount: 1 } }
@@ -80,6 +92,8 @@ export const createProduct = async (req, res) => {
     }
     return res.status(500).json({ message: error.message });
   }
+
+  // structuring sections
 };
 
 export const getProducts = async (req, res) => {

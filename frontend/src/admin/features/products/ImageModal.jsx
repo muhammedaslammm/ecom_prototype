@@ -72,13 +72,13 @@ const ImageModal = ({ variants, sku, func, handleImages }) => {
             </button>
           </div>
         ) : (
-          <div className="grid flex-1 grid-cols-5 auto-rows-[15rem] gap-4 overflow-y-scroll border-3 border-dashed border-gray-400 p-4 rounded-[1rem]">
+          <div className="grid flex-1 grid-cols-5 auto-rows-[16rem] gap-4 overflow-y-scroll border-3 border-dashed border-gray-400 p-4 rounded-[1rem]">
             {images.map((image, index) => (
-              <div key={index} className="relative">
+              <div key={index} className="relative border border-neutral-500">
                 <img
                   src={image.url}
                   alt={image.file.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
                 <X
                   className="absolute top-2 right-2 w-[1.5rem] h-[1.5rem] text-red-700 bg-white cursor-pointer"

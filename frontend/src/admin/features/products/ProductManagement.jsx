@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useCategories from "../categories/useCategories";
+import { Spinner } from "phosphor-react";
 import useProducts from "./useProducts";
 import CategoryList from "./CategoryList";
 import ProductVariantHandle from "./ProductVariantHandle";
@@ -19,6 +19,7 @@ const ProductManagement = () => {
     data,
     handleImages,
     submitProduct,
+    productSubmitButtonStat,
     errors,
   } = useProducts();
   const levelCategories = categories.filter((category) => category.level === 1);
@@ -51,10 +52,26 @@ const ProductManagement = () => {
     <section className="flex gap-6 mb-8 pb-[7rem]">
       <div className="fixed left-[25rem] bottom-0 bg-white right-0 flex items-center justify-end px-[2.5rem] py-[1rem] shadow-[0px_-5px_20px_#c7c7c7]">
         <button
-          className="a-text--button text-white bg-black/95"
+          className={`a-text--button text-white bg-black/95 flex items-center justify-center ${
+            productSubmitButtonStat === "suceess"
+              ? "bg-green-700/95"
+              : productSubmitButtonStat !== "idle"
+              ? "!cursor-not-allowed"
+              : "!cursor-pointer"
+          }`}
           onClick={submitProduct}
+          disabled={productSubmitButtonStat !== "idle"}
         >
-          Create Product
+          {productSubmitButtonStat === "loading" ? (
+            <div className="flex gap-2 items-center">
+              <span>Creating Product</span>
+              <Spinner className="animate-spin w-[1.7rem] h-[1.7rem] " />
+            </div>
+          ) : productSubmitButtonStat === "success" ? (
+            "Product Successfully Created"
+          ) : (
+            "Create Product"
+          )}
         </button>
       </div>
       <div className="w-4/6 flex flex-col gap-6">
