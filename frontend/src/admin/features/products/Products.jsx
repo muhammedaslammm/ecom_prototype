@@ -29,6 +29,7 @@ const Products = () => {
                 <button
                   className="a-text--button bg-neutral-100 hover:bg-red-100 hover:text-red-700"
                   onClick={deleteAllProducts}
+                  disabled
                 >
                   delete all products
                 </button>
