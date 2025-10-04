@@ -3,8 +3,14 @@ import useHomeUI from "./useHomeUI";
 import NewSection from "./NewSection";
 
 const AdminUI = () => {
-  let { section, handleSectionType, handleFormInput } = useHomeUI();
-  let section_config = { section, handleSectionType, handleFormInput };
+  let { section, handleSectionType, handleFormInput, createSection } =
+    useHomeUI();
+  let section_config = {
+    section,
+    handleSectionType,
+    handleFormInput,
+    createSection,
+  };
   return (
     <div className="a-section--container">
       {/* announcement-sections */}

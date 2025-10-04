@@ -5,3 +5,5 @@ import upload from "../middlewares/multer.js";
 const router = express.Router();
 
 router.post("/sections", upload.any(), createSection);
+
+export default router;

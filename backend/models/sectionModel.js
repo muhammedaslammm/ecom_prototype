@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 let Section = mongoose.model(
   "section",
-  new Schema(
+  new mongoose.Schema(
     {
       section_type: { type: String, required: true },
     },
@@ -12,7 +12,7 @@ let Section = mongoose.model(
 
 let Banner = Section.discriminator(
   "banner",
-  new Schema({
+  new mongoose.Schema({
     layout: String,
     backgroundImage: String,
     backgroundImages: [String],
@@ -22,7 +22,7 @@ let Banner = Section.discriminator(
 
 let Listing = Section.discriminator(
   "listing",
-  mongoose.Schema({
+  new mongoose.Schema({
     section_title: String,
     backgroundImage: String,
     backgroundColor: String,

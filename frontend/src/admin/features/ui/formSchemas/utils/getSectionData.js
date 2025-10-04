@@ -2,8 +2,8 @@ const section_schema = {
   banner: {
     section_type: "banner",
     layout: "1",
-    backgroundImage: "",
     backgroundImages: [""],
+    backgroundImage: "",
   },
   listing: { section_type: "listing", layout: "2" },
 };

@@ -1,6 +1,5 @@
 import { Parent, Variant } from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
-import cloudinary from "../utils/cloudinary.js";
 import uploadToCloudinary from "../utils/uploadToCloudinary.js";
 
 export const validateSKU = async (req, res) => {

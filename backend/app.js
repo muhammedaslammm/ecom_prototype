@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routers/userRouter.js";
 import categoryRouter from "./routers/categoryRouter.js";
 import productRouter from "./routers/productRouter.js";
+import sectionRouter from "./routers/sectionRouter.js";
 
 const app = express();
 const allowedURLs = [
@@ -30,5 +31,6 @@ app.use(express.json());
 app.use("/api", userRouter);
 app.use("/api", categoryRouter);
 app.use("/api", productRouter);
+app.use("/api", sectionRouter);
 
 export default app;
