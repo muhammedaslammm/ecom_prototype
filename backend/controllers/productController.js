@@ -1,6 +1,7 @@
 import { Parent, Variant, Product } from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
 import uploadToCloudinary from "../utils/uploadToCloudinary.js";
+import mongoose from "mongoose";
 
 export const validateSKU = async (req, res) => {
   console.log("req.body:", req.body);
@@ -97,6 +98,7 @@ export const createProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   let { filter, current_page } = req.query;
+  console.log("filter:", filter);
   let products = [];
   try {
     switch (filter) {
@@ -137,13 +139,32 @@ export const getProducts = async (req, res) => {
           { $limit: limit },
         ];
         products = await Parent.aggregate(pipeline);
-        console.log("products:", products);
+        break;
+      case "home":
+        let { filter, category, product_limit } = req.query;
+        console.log("product controller filter:", filter);
+        console.log("category:", category);
+
+        let pipeline_2 = [
+          { $match: { category } },
+          {
+            $lookup: {
+              from: "variants",
+              localField: "_id",
+              foreignField: "parentID",
+              as: "variants",
+            },
+          },
+        ];
+
+        let result_products = await Parent.aggregate(pipeline_2);
         break;
       default:
         break;
     }
     res.status(200).json({ message: "success", products });
   } catch (error) {
+    console.log("error:", error.message);
     res.status(500).json({ message: error.message });
   }
 };

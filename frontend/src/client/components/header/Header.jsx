@@ -1,6 +1,4 @@
-import { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { CategoryContext } from "../../../contexts";
+import { useLocation } from "react-router-dom";
 import HeaderTop from "./HeaderTop";
 import HeaderBottom from "./HeaderBottom";
 

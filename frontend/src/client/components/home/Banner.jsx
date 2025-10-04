@@ -1,4 +1,4 @@
-import camera_banner from "../assets/home_banners/camera_banner.jpg";
+import camera_banner from "../../assets/home_banners/camera_banner.jpg";
 
 const Banner = () => {
   return (
