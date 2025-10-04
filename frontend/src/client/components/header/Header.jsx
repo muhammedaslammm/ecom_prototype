@@ -8,10 +8,13 @@ const Header = ({ state }) => {
   const { pathname } = useLocation();
   const [page] = pathname.split("/").filter(Boolean);
   return (
-    <header className="bg-neutral-50">
+    <header className="" style={{ backgroundColor: "white" }}>
       {page === "home" && (
-        <div className="text-white bg-gradient-to-r from-[#84a7ab] to-[#cfb97c] text-center text-[1.6rem] font-medium py-3">
-          All new projectors and laptops are out here in the store. grab now!
+        <div
+          className="text-white text-center text-[1.6rem] font-medium py-[.5rem]"
+          style={{ backgroundColor: "#b00015" }}
+        >
+          New Equipments are available in 10% discount
         </div>
       )}
       <HeaderTop />

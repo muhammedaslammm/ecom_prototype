@@ -122,13 +122,16 @@ const HeaderBottom = () => {
   };
 
   return (
-    <nav className="bg-gray-900 text-white relative">
-      <ul className="flex gap-6 px-4 py-3">
+    <nav
+      className="relative"
+      style={{ backgroundColor: "#121212", color: "white" }}
+    >
+      <ul className="flex w-[95%] mx-auto">
         {/* First N categories */}
         {navbarCategories.slice(0, MAX_TOP_LEVEL).map((cat) => (
           <li
             key={cat._id}
-            className="relative cursor-pointer hover:text-yellow-400"
+            className="relative text-[1.4rem] font-medium py-[.7rem] px-4 cursor-pointer hover:bg-white hover:text-black transition-colors"
             onClick={(e) => {
               e.stopPropagation();
               setActiveMoreCat(null); // reset if switching

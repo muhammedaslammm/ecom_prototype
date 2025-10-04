@@ -6,7 +6,7 @@ import useProducts from "./useProducts";
 import ShimmerContainer from "../../components/ShimmerContainer";
 
 const Products = () => {
-  let { products } = useProducts();
+  let { products, deleteAllProducts } = useProducts();
   return (
     <section className="a-section--container pb-[4rem]">
       <div>
@@ -25,6 +25,12 @@ const Products = () => {
                 </div>
                 <button className="search a-text--button text-black bg-neutral-200">
                   Search
+                </button>
+                <button
+                  className="a-text--button bg-neutral-100 hover:bg-red-100 hover:text-red-700"
+                  onClick={deleteAllProducts}
+                >
+                  delete all products
                 </button>
               </div>
               <Link

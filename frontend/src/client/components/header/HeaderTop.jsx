@@ -4,9 +4,12 @@ const HeaderTop = () => {
   return (
     <div className="border border-neutral-300">
       <div className="header w-full flex justify-between">
-        <div className="left flex items-center gap-6">
+        <div className="left flex items-center gap-8">
           <Link to={`/home`}>
-            <div className="logo--header">prototype</div>
+            <div className="leading-[2.4rem] uppercase text-[2.5rem]">
+              <span className="text-[#b00015] font-semibold">prototype</span>{" "}
+              <br /> <span className="text-black font-medium">site</span>
+            </div>
           </Link>
           <div className="flex items-center space-x-3">
             <div className="relative">
@@ -23,7 +26,7 @@ const HeaderTop = () => {
         </div>
 
         <nav>
-          <ul className="options flex gap-[2.8rem] text-[1.5rem] font-semibold text-neutral-800">
+          <ul className="options flex gap-[2.8rem] text-[1.6rem] font-medium text-neutral-800">
             <Link to={`/cart`} className="capitalize cursor-pointer">
               cart
             </Link>
@@ -33,7 +36,25 @@ const HeaderTop = () => {
             <Link to={`/profile`} className="capitalize cursor-pointer">
               profile
             </Link>
-            <li>Sign Up / Sign In</li>
+            <div>
+              <button>
+                <span
+                  className="py-2 px-6"
+                  style={{ backgroundColor: "#b00015", color: "white" }}
+                >
+                  Sign Up
+                </span>
+                <span
+                  className="py-2 px-6"
+                  style={{
+                    backgroundColor: "white",
+                    color: "black",
+                  }}
+                >
+                  Sign In
+                </span>
+              </button>
+            </div>
           </ul>
         </nav>
       </div>

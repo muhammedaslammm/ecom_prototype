@@ -12,9 +12,9 @@ function App() {
     <>
       <Toaster position="top-center" />
       <div className="application bg-neutral-200">
-        <Header state={state} /> {/*header UI */}
-        <Outlet /> {/*this part changes based on the route defined.*/}
-        <Footer /> {/*footer UI */}
+        <Header state={state} />
+        <Outlet />
+        <Footer />
       </div>
     </>
   );

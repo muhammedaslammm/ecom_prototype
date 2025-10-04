@@ -277,7 +277,24 @@ const useProducts = () => {
     }
   };
 
+  const deleteAllProducts = async () => {
+    try {
+      let response = await fetch(`${BACKEND_URL}/api/products`, {
+        method: "DELETE",
+      });
+      let data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+      else {
+        setProduct(null);
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return {
+    deleteAllProducts,
     categories,
     selectedCategory,
     handleCategory,

@@ -1,4 +1,4 @@
-import { Parent, Variant } from "../models/productModel.js";
+import { Parent, Variant, Product } from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
 import uploadToCloudinary from "../utils/uploadToCloudinary.js";
 
@@ -143,6 +143,15 @@ export const getProducts = async (req, res) => {
         break;
     }
     res.status(200).json({ message: "success", products });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteProducts = async (req, res) => {
+  try {
+    await Product.deleteMany({});
+    res.status(200).json({ message: "products successfully deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
