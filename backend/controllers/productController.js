@@ -186,6 +186,32 @@ export const getProducts = async (req, res) => {
   }
 };
 
+// get single product data;
+export const getProduct = async (req, res) => {
+  let { id } = req.params;
+  let pipeline = [
+    {
+      $match: { _id: new mongoose.Types.ObjectId(id) },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "parentId",
+        foreignField: "_id",
+        as: "parent",
+      },
+    },
+    { $unwind: "$parent" },
+  ];
+  try {
+    let product = await Product.aggregate(pipeline);
+    res.status(200).json({ product: product[0] || null });
+  } catch (error) {
+    console.log("single product fetching error:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const deleteProducts = async (req, res) => {
   try {
     await Product.deleteMany({});

@@ -58,7 +58,7 @@ const router = createBrowserRouter([
       // client pages
       { path: "home", element: <Home /> },
       { path: "wishlist", element: <Wishlist /> },
-      { path: "product/:productid", element: <Productpage /> },
+      { path: "product/:id", element: <Productpage /> },
       {
         path: "/:category/:sub_category/:sub_category_2",
         element: <ProductList />,

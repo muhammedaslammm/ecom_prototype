@@ -13,7 +13,10 @@ function App() {
       <Toaster position="top-center" />
       <div className="application bg-neutral-200">
         <Header state={state} />
-        <Outlet />
+        <div className="pt-[14rem]">
+          <Outlet />
+        </div>
+
         <Footer />
       </div>
     </>
