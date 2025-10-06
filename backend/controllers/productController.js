@@ -142,22 +142,39 @@ export const getProducts = async (req, res) => {
         break;
       case "home":
         let { filter, category, product_limit } = req.query;
-        console.log("product controller filter:", filter);
-        console.log("category:", category);
-
         let pipeline_2 = [
-          { $match: { category } },
+          {
+            $match: { category: new mongoose.Types.ObjectId(category) },
+          },
           {
             $lookup: {
-              from: "variants",
+              from: "products",
               localField: "_id",
-              foreignField: "parentID",
+              foreignField: "parentId",
               as: "variants",
             },
           },
+          {
+            $addFields: {
+              variant: { $arrayElemAt: ["$variants", 0] },
+            },
+          },
+          {
+            $project: {
+              variants: 0,
+              product_type: 0,
+              description: 0,
+              category: 0,
+              sections: 0,
+              "variant.product_type": 0,
+              "variant.sku": 0,
+              "variant.variant_details": 0,
+              "variant.parentId": 0,
+            },
+          },
         ];
-
-        let result_products = await Parent.aggregate(pipeline_2);
+        products = await Parent.aggregate(pipeline_2);
+        // console.log("result:", result);
         break;
       default:
         break;
