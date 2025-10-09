@@ -1,69 +1,67 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useProducts } from "./useProducts";
 
 const ImageCards = ({ categoryID, title, description }) => {
-  let [products, setProducts] = useState([]);
-  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  let { getProducts, products } = useProducts();
+
   useEffect(() => {
-    let getProducts = async () => {
-      try {
-        let response = await fetch(
-          `${BACKEND_URL}/api/products?filter=home&category=${categoryID}&product_limit=5`,
-          { method: "GET" }
-        );
-        let data = await response.json();
-        if (!response.ok) throw new Error(data.message);
-        else {
-          console.log("products:", data.products);
-          setProducts(data.products);
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-    getProducts();
-  }, []);
+    getProducts(categoryID);
+  });
 
   const getBanner = (id) => {
     switch (id) {
       case "68e0acabaf8a46edb6f645aa":
-        return "/client/banner_refridgerator.png";
+        return "/client/banner_refridgerator.jpg";
       case "68e0ab97af8a46edb6f64564":
         return "/client/banner_washing_machine.png";
     }
   };
 
+  const getColor = (id) => {
+    switch (id) {
+      case "68e0acabaf8a46edb6f645aa":
+        return "#460809";
+      case "68e0ab97af8a46edb6f64564":
+        return "white";
+    }
+  };
   const getBackgroundColor = (id) => {
     switch (id) {
       case "68e0acabaf8a46edb6f645aa":
-        return "#ffd4d6";
+        return "#d4d4d4";
+      case "68e0ab97af8a46edb6f64564":
+        return "#080003";
     }
   };
 
   return (
     <section
-      className="mx-auto my-4 bg-neutral-200"
-      // style={{ backgroundColor: getBackgroundColor(categoryID) }}
+      className="mx-auto my-4"
+      style={{ backgroundColor: getBackgroundColor(categoryID) }}
     >
-      <div className="relative h-[25rem]">
+      <div className="relative h-[20rem]">
         <img
           src={getBanner(categoryID)}
           alt="refridgerator banner image"
           className="w-full h-full object-cover"
         />
-        <div className="absolute bottom-12 left-16">
-          <div className="text-white  text-[3rem] font-medium">{title}</div>
-          <div className="text-white/70">{description}</div>
+        <div
+          className="absolute bottom-12 left-16"
+          style={{ color: getColor(categoryID) }}
+        >
+          <div className="text-[3rem] font-medium">{title}</div>
+          <div className="">{description}</div>
         </div>
       </div>
       <div className="grid grid-cols-5 gap-4 w-[95%] mx-auto py-8">
         {products.map((product) => (
           <Link to={`/product/${product.variant._id}`}>
-            <div className="bg-white p-4 flex flex-col gap-6">
+            <div className="bg-white p-4 flex flex-col gap-6 group">
               <img
                 src={product.variant.images[0]}
                 alt="product image"
-                className="w-full h-[15rem] object-contain"
+                className="w-full h-[15rem] object-contain group-hover:scale-[1.1] transition-transform"
               />
               <div className="text-center leading-[2.2rem]">
                 <div className="text-[1.8rem] font-medium">
