@@ -4,7 +4,7 @@ import getSectionData from "./formSchemas/utils/getSectionData";
 const useHomeUI = () => {
   const [sections, setSections] = useState([]);
   const [section, setSection] = useState(getSectionData("banner")); //this is an object
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
 
   // handle section type
   const handleSectionType = (event) => {

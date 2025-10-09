@@ -19,7 +19,7 @@ const useProducts = () => {
   const [productErrors, setProductErrors] = useState({});
   const [categories, setCategories] = useState([]);
   const [errors, setErrors] = useState({});
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
   const navigate = useNavigate();
 
   // getting all products

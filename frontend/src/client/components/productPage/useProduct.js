@@ -6,7 +6,7 @@ export const useProduct = () => {
   let [product, setProduct] = useState(null);
   let navigate = useNavigate();
   const { id } = useParams();
-  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
 
   useEffect(() => {
     const getProductData = async () => {

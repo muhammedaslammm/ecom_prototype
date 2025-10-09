@@ -30,7 +30,7 @@ const useCategories = () => {
   const [navbar, setNavbar] = useState(false);
 
   const navigate = useNavigate();
-  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL_1;
+  const BACKEND_API_URL = import.meta.env.VITE_BACKEND_URL_2;
   const [searchParams] = useSearchParams();
   const action = searchParams.get("action");
   const category_id = searchParams.get("category_id");
