@@ -1,27 +1,15 @@
 import ProductCard from "./ProductCard";
-import ProductsGridTool from "./ProductsGridTool";
 
-const ProductlistBody = ({
-  slug,
-  products,
-  image,
-  countmsg,
-  handleSorting,
-  sort,
-}) => {
+const ProductlistBody = ({ products, categoryObject }) => {
   return (
     <div className="w-[80%]">
       <h1
-        className={`text-[3rem] bg-no-repeat bg-cover font-semibold bg-neutral-400 text-white p-10 capitalize rounded-[.4rem]`}
-        style={{ backgroundImage: `url(${image})` }}
+        className={`text-[2.8rem] font-medium p-8 bg-white capitalize rounded-[.4rem]`}
+        style={{ color: "black" }}
       >
-        {slug}
+        {categoryObject?.title}
       </h1>
-      <ProductsGridTool
-        countmsg={countmsg}
-        handleSorting={handleSorting}
-        sort={sort}
-      />
+
       {products.length ? (
         <div className="grid grid-cols-4 gap-4 my-8">
           {products.map((product) => (

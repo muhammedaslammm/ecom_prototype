@@ -60,7 +60,7 @@ const router = createBrowserRouter([
       { path: "wishlist", element: <Wishlist /> },
       { path: "product/:id", element: <Productpage /> },
       {
-        path: "/:category/:sub_category/:sub_category_2",
+        path: "/category/:category",
         element: <ProductList />,
       },
       { path: "cart", element: <Cart /> },

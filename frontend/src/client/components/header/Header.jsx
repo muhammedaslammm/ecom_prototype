@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import HeaderTop from "./HeaderTop";
 import HeaderBottom from "./HeaderBottom";
+import { HeaderBottom2 } from "./HeaderBottom2";
 
 const Header = ({ state }) => {
   const { pathname } = useLocation();
@@ -17,7 +18,7 @@ const Header = ({ state }) => {
         New Equipments are available in 10% discount
       </div>
       <HeaderTop />
-      <HeaderBottom />
+      <HeaderBottom2 />
     </header>
   );
 };

@@ -38,7 +38,7 @@ html {
 }
 
 .button {
-  @apply px-8 py-3 text-[1.4rem] rounded-[.3rem] transition;
+  @apply px-8 py-3 text-[1.5rem] font-medium rounded-[.3rem] transition;
 }
 
 .box--form {
@@ -54,4 +54,19 @@ html {
 
 .text--body {
   @apply text-[1.4rem];
+}
+
+.shimmer {
+  @apply py-5 bg-gradient-to-r from-neutral-200 via-neutral-400 to-neutral-200 overflow-x-hidden;
+  background-size: 200% 100%;
+  animation: anime--shimmer 1s infinite;
+}
+
+@keyframes anime--shimmer {
+  0% {
+    background-position: -100%, 0;
+  }
+  100% {
+    background-position: 100%, 0;
+  }
 }

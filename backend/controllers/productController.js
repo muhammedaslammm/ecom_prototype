@@ -97,7 +97,7 @@ export const createProduct = async (req, res) => {
 };
 
 export const getProducts = async (req, res) => {
-  let { filter, current_page } = req.query;
+  let { filter, current_page, category } = req.query;
   console.log("filter:", filter);
   let products = [];
   try {
@@ -141,7 +141,6 @@ export const getProducts = async (req, res) => {
         products = await Parent.aggregate(pipeline);
         break;
       case "home":
-        let { filter, category, product_limit } = req.query;
         let pipeline_2 = [
           {
             $match: { category: new mongoose.Types.ObjectId(category) },
@@ -175,6 +174,23 @@ export const getProducts = async (req, res) => {
         ];
         products = await Parent.aggregate(pipeline_2);
         // console.log("result:", result);
+        break;
+      case "product-list":
+        let aggregationPipeline = [
+          { $match: { category: new mongoose.Types.ObjectId(category) } },
+          { $project: { description: 0, sections: 0 } },
+          {
+            $lookup: {
+              from: "products",
+              localField: "_id",
+              foreignField: "parentId",
+              as: "variants",
+            },
+          },
+          { $addFields: { variant: { $arrayElemAt: ["$variants", 0] } } },
+          { $project: { variants: 0 } },
+        ];
+        products = await Product.aggregate(aggregationPipeline);
         break;
       default:
         break;

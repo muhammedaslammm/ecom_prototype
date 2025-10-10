@@ -4,20 +4,28 @@ import mongoose from "mongoose";
 // get category by id
 export const getCategoryById = async (req, res) => {
   const { id } = req.params;
+  const { filter } = req.query;
   console.log("id", id);
   try {
     const category = await Category.findOne({ _id: id }).populate("parent");
-    let parents = [];
-    if (category.level !== 1)
-      parents = await Category.find({ level: category.level - 1 });
+    switch (filter) {
+      case "product-list":
+        res.status(200).json({ success: true, category });
+        break;
+      default:
+        let parents = [];
+        if (category.level !== 1)
+          parents = await Category.find({ level: category.level - 1 });
 
-    res.status(200).json({ success: true, category, parents });
+        res.status(200).json({ success: true, category, parents });
+        break;
+    }
   } catch (error) {
     console.error(
       "error when trying to fetch the category by id.",
       error.message
     );
-    res.status(500).json({ success: false });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

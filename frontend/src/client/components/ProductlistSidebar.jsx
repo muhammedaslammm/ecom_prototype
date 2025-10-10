@@ -1,13 +1,9 @@
 import { useRef, useState } from "react";
 
-const ProductlistSidebar = ({
-  sidebar_content,
-  manageFilter,
-  selectedLabels,
-}) => {
+const ProductlistSidebar = ({ sidebar }) => {
   return (
-    <div className="w-[20%]  shadow-[0_0_.5rem_rgb(220,220,220)] bg-white p-6 rounded-[.4rem]">
-      {sidebar_content.map((content) => {
+    <div className="w-[20%] bg-white p-6 rounded-[.4rem] space-y-8">
+      {sidebar.map((content) => {
         if (content.data) {
           return (
             <div className="flex flex-col gap-[.5rem]">
@@ -16,28 +12,30 @@ const ProductlistSidebar = ({
               </h3>
               <ul className="flex flex-col">
                 {content.data.map((d) => (
-                  <div
-                    className="flex gap-4 items-center cursor-pointer"
-                    onClick={() => manageFilter(content.label, d.name, d.slug)}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedLabels.includes(d.name)}
-                    />
+                  <label className="flex gap-4 items-center cursor-pointer">
+                    <input type="checkbox" />
                     <li
-                      className={`text-[1.5rem] text-gray-500 font-medium  py-[.3rem] ${
-                        selectedLabels.includes(d.name) ? "text-gray-950" : ""
-                      }`}
+                      className={`text-[1.5rem] text-gray-500 font-medium  py-[.3rem] `}
                     >
-                      {d.name}
+                      {d}
                     </li>
-                  </div>
+                  </label>
                 ))}
               </ul>
             </div>
           );
         }
       })}
+      <div className="space-y-[1rem]">
+        <div className="shimmer w-[50%]"></div>
+        <div className="space-y-2">
+          {Array(4)
+            .fill(undefined)
+            .map((_) => (
+              <div className="shimmer w-full"></div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 };

@@ -19,6 +19,12 @@ export const Details = ({ product }) => {
           <p className="line-clamp-4">{product?.parent?.description}</p>
         </div>
       </section>
+      <div className="grid grid-cols-2 gap-6">
+        <button className="button border border-neutral-900 text-neutral-900 bg-white">
+          Add to Whishlist
+        </button>
+        <button className="button bg-[#b00015] text-white">Add to Cart</button>
+      </div>
       {sections && (
         <section className="bg-white p-6">
           {sections.map((section) => (
