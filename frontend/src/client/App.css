@@ -38,7 +38,7 @@ html {
 }
 
 .button {
-  @apply px-8 py-3 text-[1.5rem] font-medium rounded-[.3rem] transition;
+  @apply px-8 py-4 text-[1.5rem] font-medium rounded-[.3rem] transition;
 }
 
 .box--form {

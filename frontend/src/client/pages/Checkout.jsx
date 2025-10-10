@@ -64,7 +64,7 @@ const Checkout = () => {
     <div className="w-[95%] max-w-[1600px] mx-auto my-4 gap-10 text-neutral-800">
       <button
         onClick={() => navigate(-1)}
-        className="text-[#bc46c2] underline text-[1.6rem] hover:text-[#a23aa9] mb-4 cursor-pointer"
+        className=" underline text-[1.6rem] mb-4 cursor-pointer"
       >
         Back
       </button>
@@ -73,9 +73,7 @@ const Checkout = () => {
         <div className="w-full lg:w-8/12 space-y-6 flex flex-col">
           {/* Billing address */}
           <div className="space-y-4 border border-neutral-300 bg-white p-6 md:p-8 rounded-[.5rem]">
-            <h2 className="text-[1.9rem] font-semibold text-[#bc46c2]">
-              Billing address
-            </h2>
+            <h2 className="text-[1.9rem] font-semibold ">Billing address</h2>
             {addressSaved && !showNewAddressForm ? (
               <div className="space-y-4 border border-[#bc46c2]/40 p-6 rounded bg-white">
                 <p className="text-[1.8rem]">
@@ -86,7 +84,7 @@ const Checkout = () => {
                   Phone: +971 50 123 4567
                 </p>
                 <button
-                  className="text-[#bc46c2] underline text-[1.8rem] cursor-pointer"
+                  className=" underline text-[1.8rem] cursor-pointer"
                   onClick={() => {
                     setShowNewAddressForm(true);
                     setAddressSaved(false);
@@ -97,12 +95,12 @@ const Checkout = () => {
               </div>
             ) : (
               <form className="border border-neutral-300 gap-4 bg-white p-6 rounded space-y-4">
-                <h3 className="capitalize text-[1.7rem] font-medium text-[#bc46c2]">
+                <h3 className="capitalize text-[1.7rem] font-medium ">
                   enter address details
                 </h3>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col md:flex-row gap-4">
-                    <div className="w-full">
+                    <div className="w-full space-y-4">
                       <input
                         type="text"
                         placeholder="First name"
@@ -113,13 +111,13 @@ const Checkout = () => {
                         className="input--form"
                       />
                       {errors.firstName && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-red-500 text-[1.4rem]">
                           {errors.firstName}
                         </p>
                       )}
                     </div>
 
-                    <div className="w-full">
+                    <div className="w-full space-y-4">
                       <input
                         type="text"
                         placeholder="Last name"
@@ -130,7 +128,7 @@ const Checkout = () => {
                         className="input--form"
                       />
                       {errors.lastName && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-red-500 text-[1.4rem]">
                           {errors.lastName}
                         </p>
                       )}
@@ -147,11 +145,13 @@ const Checkout = () => {
                     className="input--form"
                   />
                   {errors.address && (
-                    <p className="text-red-500 text-sm">{errors.address}</p>
+                    <p className="text-red-500 text-[1.4rem]">
+                      {errors.address}
+                    </p>
                   )}
 
                   <div className="flex flex-col md:flex-row gap-4">
-                    <div className="w-full">
+                    <div className="w-full space-y-4">
                       <input
                         type="text"
                         placeholder="City"
@@ -162,11 +162,13 @@ const Checkout = () => {
                         className="input--form"
                       />
                       {errors.city && (
-                        <p className="text-red-500 text-sm">{errors.city}</p>
+                        <p className="text-red-500 text-[1.4rem]">
+                          {errors.city}
+                        </p>
                       )}
                     </div>
 
-                    <div className="w-full">
+                    <div className="w-full space-y-4">
                       <input
                         type="text"
                         placeholder="State"
@@ -177,12 +179,14 @@ const Checkout = () => {
                         className="input--form"
                       />
                       {errors.state && (
-                        <p className="text-red-500 text-sm">{errors.state}</p>
+                        <p className="text-red-500 text-[1.4rem]">
+                          {errors.state}
+                        </p>
                       )}
                     </div>
                   </div>
 
-                  <div className="w-full md:w-1/2">
+                  <div className="w-full space-y-4 md:w-1/2">
                     <input
                       type="number"
                       placeholder="Phone (10 digits)"
@@ -193,7 +197,9 @@ const Checkout = () => {
                       className="input--form"
                     />
                     {errors.phone && (
-                      <p className="text-red-500 text-sm">{errors.phone}</p>
+                      <p className="text-red-500 text-[1.4rem]">
+                        {errors.phone}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -203,9 +209,7 @@ const Checkout = () => {
 
           {/* Payment */}
           <div className="space-y-4 bg-white border border-neutral-300 p-6 md:p-8 rounded-[.5rem]">
-            <h2 className="text-[1.8rem] font-medium text-[#bc46c2]">
-              Payment options
-            </h2>
+            <h2 className="text-[1.8rem] font-medium ">Payment options</h2>
             <div className="space-y-8">
               <label className="flex items-center gap-4 text-[1.75rem]">
                 <input
@@ -255,7 +259,7 @@ const Checkout = () => {
 
           <button
             onClick={handlePlaceOrder}
-            className="text-[1.6rem] self-end text-white font-medium bg-[#bc46c2] py-3.5 px-6 mt-6 hover:bg-[#a23aa9] cursor-pointer transition duration-200"
+            className="text-[1.6rem] self-end bg-black text-white font-medium py-3.5 px-6 mt-6  cursor-pointer transition duration-200"
           >
             {payment === "cod" ? "Place Order" : "Proceed to Payment"}
           </button>
@@ -263,9 +267,7 @@ const Checkout = () => {
 
         {/* RIGHT */}
         <div className="w-full lg:w-4/12 self-start border border-neutral-300 p-6 md:p-8 bg-white rounded-[.5rem] space-y-4">
-          <h2 className="text-[1.8rem] font-semibold text-[#bc46c2]">
-            Order Summary
-          </h2>
+          <h2 className="text-[1.8rem] font-semibold ">Order Summary</h2>
           {cartItems.map((item) => (
             <div
               key={item.id}
@@ -274,14 +276,12 @@ const Checkout = () => {
               <p className="font-medium">
                 {item.title} ({item.quantity}x)
               </p>
-              <p className="text-[#bc46c2]">Rs {item.offer_price}</p>
+              <p className="">Rs {item.offer_price}</p>
             </div>
           ))}
           <div className="flex justify-between font-medium text-[1.8rem] mt-6">
             <span>Total</span>
-            <span className="font-semibold text-[#bc46c2]">
-              Rs {subtotal.toFixed(2)}
-            </span>
+            <span className="font-semibold ">Rs {subtotal.toFixed(2)}</span>
           </div>
         </div>
       </div>

@@ -205,23 +205,36 @@ export const getProducts = async (req, res) => {
 // get single product data;
 export const getProduct = async (req, res) => {
   let { id } = req.params;
-  let pipeline = [
-    {
-      $match: { _id: new mongoose.Types.ObjectId(id) },
-    },
-    {
-      $lookup: {
-        from: "products",
-        localField: "parentId",
-        foreignField: "_id",
-        as: "parent",
-      },
-    },
-    { $unwind: "$parent" },
-  ];
+  let { parent, filter } = req.query;
+  let pipeline = [];
+
+  switch (filter) {
+    case "variant":
+      pipeline = [
+        { $match: { parentId: new mongoose.Types.ObjectId(parent) } },
+      ];
+      break;
+    default:
+      pipeline = [
+        {
+          $match: { _id: new mongoose.Types.ObjectId(id) },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "parentId",
+            foreignField: "_id",
+            as: "parent",
+          },
+        },
+        { $unwind: "$parent" },
+      ];
+      break;
+  }
+
   try {
-    let product = await Product.aggregate(pipeline);
-    res.status(200).json({ product: product[0] || null });
+    let products = await Product.aggregate(pipeline);
+    res.status(200).json({ products });
   } catch (error) {
     console.log("single product fetching error:", error.message);
     res.status(500).json({ message: error.message });

@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Toaster position="top-center" />
-      <div className="application bg-neutral-200">
+      <div className="application bg-neutral-200 min-h-[90vh]">
         <Header state={state} />
         <div className="pt-[14rem]">
           <Outlet />

@@ -4,6 +4,7 @@ import { CartContext, WishlistContext } from "@/contexts";
 
 export const useProduct = () => {
   let [product, setProduct] = useState(null);
+  let [productVariants, setProductVariants] = useState([]);
   let navigate = useNavigate();
   const { id } = useParams();
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
@@ -17,8 +18,8 @@ export const useProduct = () => {
         let data = await response.json();
         if (!response.ok) throw new Error(data.message);
         else {
-          console.log("product:", data.product);
-          setProduct(data.product);
+          console.log("product:", data.products);
+          setProduct(data.products[0]);
         }
       } catch (error) {
         console.log("error:", error.message);
@@ -26,6 +27,25 @@ export const useProduct = () => {
     };
     getProductData();
   }, []);
+
+  useEffect(() => {
+    const fetchVariants = async () => {
+      try {
+        let response = await fetch(
+          `${BACKEND_URL}/api/products/${id}?filter=variant&parent=${product.parentId}`
+        );
+        let data = await response.json();
+        if (!response.ok) throw new Error(data.message);
+        else {
+          console.log("product-variants:", data.products);
+          setProductVariants(data.products);
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    fetchVariants();
+  }, [product]);
 
   const { addToWishList } = useContext(WishlistContext);
   const { addToCart } = useContext(CartContext);
@@ -35,7 +55,6 @@ export const useProduct = () => {
     if (response.success) navigate("/wishlist");
     else window.alert(response.message);
   };
-
   const handleAddToCart = (product) => {
     const response = addToCart(product);
     if (response.success) {

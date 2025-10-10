@@ -12,13 +12,13 @@ const OrderSummary = () => {
   return (
     <div className="w-[90%] mx-auto my-4 space-y-6 text-neutral-800">
       {orderSuccessful ? (
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-4 text-[#5e2b70] bg-purple-100 p-8 rounded-[.5rem]">
-          <h2 className="capitalize text-[2.5rem] lg:text-[3rem] font-semibold">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-4 bg-green-200 p-8 rounded-[.5rem]">
+          <h2 className="capitalize text-[2.2rem] lg:text-[3rem] font-semibold">
             order successfully placed
           </h2>
           <button
             onClick={() => navigate("/home")}
-            className="capitalize text-[#bc46c2] text-[1.5rem] font-semibold underline cursor-pointer hover:text-[#a63aad]"
+            className="capitalize text-[1.5rem] font-semibold underline cursor-pointer"
           >
             take me to home page, let's shop again
           </button>
@@ -37,7 +37,7 @@ const OrderSummary = () => {
             <PaymentMethod method={paymentMethod} />
           </div>
 
-          <div className="bg-[#bc46c2] text-white p-6 rounded-[.5rem] w-full lg:w-2/12">
+          <div className="bg-[#b00015] text-white p-6 rounded-[.5rem] w-full lg:w-2/12">
             <p className="text-[1.5rem] flex flex-col text-end">
               Payment Total:
               <span className="font-semibold text-[2rem]">
@@ -49,9 +49,7 @@ const OrderSummary = () => {
 
         {/* Items Ordered */}
         <div className="bg-white p-6 border border-neutral-300 rounded-[.5rem] space-y-4">
-          <h2 className="text-[1.7rem] font-semibold text-[#bc46c2]">
-            Items Ordered
-          </h2>
+          <h2 className="text-[1.7rem] font-semibold">Items Ordered</h2>
 
           <div className="space-y-4">
             {items.map((item) => (
