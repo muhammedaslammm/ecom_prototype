@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useSearch } from "./useSearch";
+import { Spinner } from "phosphor-react";
 
 const HeaderTop = () => {
+  const { query, setQuery, setOpen, open, loading } = useSearch();
   return (
     <div className="border border-neutral-300">
       <div className="header w-full flex justify-between">
@@ -17,10 +20,21 @@ const HeaderTop = () => {
                 type="search"
                 placeholder="Search for products..."
                 className="w-[38rem] px-4 py-4 bg-neutral-200 text-[1.5rem] placeholder:text-neutral-600 placeholder:font-medium rounded-md focus:outline-none focus:ring-2 outline-none"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
               />
               <button className="absolute h-full right-4">
                 <i className="fa-solid fa-magnifying-glass text-[1.8rem] text-neutral-600 cursor-pointer"></i>
               </button>
+              {open && (
+                <div className="absolute top-18 p-6 bg-white left-0 right-0">
+                  {loading && (
+                    <div className="flex items-center justify-center">
+                      <Spinner className="w-[3rem] h-[3rem] animate-spin" />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
