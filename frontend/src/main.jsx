@@ -42,6 +42,7 @@ import ProductManagement from "./admin/features/products/ProductManagement.jsx";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import AdminUI from "./admin/features/ui/AdminUI.jsx";
+import { SearchResult } from "./client/pages/SearchResult.jsx";
 
 // router is created, which handles various routes.
 const router = createBrowserRouter([
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
         path: "/category/:category",
         element: <ProductList />,
       },
+      { path: "/search", element: <SearchResult /> },
       { path: "cart", element: <Cart /> },
       { path: "profile", element: <Profile /> },
       { path: "checkout", element: <Checkout /> },

@@ -98,7 +98,6 @@ export const createProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   let { filter, current_page, category } = req.query;
-  console.log("filter:", filter);
   let products = [];
   try {
     switch (filter) {
@@ -192,6 +191,39 @@ export const getProducts = async (req, res) => {
         ];
         products = await Product.aggregate(aggregationPipeline);
         break;
+      case "search":
+        let { query } = req.query;
+        console.log("query:", query);
+        products = await Product.aggregate([
+          {
+            $match: {
+              $or: [
+                { product_title: { $regex: query, $options: "i" } },
+                { description: { $regex: query, $options: "i" } },
+                { brand: { $regex: query, $options: "i" } },
+                { "sections.details.value": { $regex: query, $options: "i" } },
+              ],
+            },
+          },
+          { $project: { category: 0, sections: 0 } },
+          {
+            $lookup: {
+              from: "products",
+              localField: "_id",
+              foreignField: "parentId",
+              as: "variants",
+            },
+          },
+          { $addFields: { variant: { $arrayElemAt: ["$variants", 0] } } },
+          {
+            $project: {
+              variants: 0,
+            },
+          },
+        ]);
+        console.log("search result:", products);
+        break;
+
       default:
         break;
     }

@@ -3,7 +3,8 @@ import { useSearch } from "./useSearch";
 import { Spinner } from "phosphor-react";
 
 const HeaderTop = () => {
-  const { query, setQuery, setOpen, open, loading } = useSearch();
+  const { query, setQuery, open, loading, suggessions, submitQuery } =
+    useSearch();
   return (
     <div className="border border-neutral-300">
       <div className="header w-full flex justify-between">
@@ -15,7 +16,7 @@ const HeaderTop = () => {
             </div>
           </Link>
           <div className="flex items-center space-x-3">
-            <div className="relative">
+            <form className="relative" onSubmit={submitQuery}>
               <input
                 type="search"
                 placeholder="Search for products..."
@@ -23,19 +24,41 @@ const HeaderTop = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <button className="absolute h-full right-4">
+              <button className="absolute h-full right-4" type="submit">
                 <i className="fa-solid fa-magnifying-glass text-[1.8rem] text-neutral-600 cursor-pointer"></i>
               </button>
               {open && (
-                <div className="absolute top-18 p-6 bg-white left-0 right-0">
+                <div className="absolute top-18 p-6 bg-white text-black left-0 right-0 z-30">
                   {loading && (
                     <div className="flex items-center justify-center">
                       <Spinner className="w-[3rem] h-[3rem] animate-spin" />
                     </div>
                   )}
+                  {suggessions.length > 0 ? (
+                    suggessions.map((suggestion) => (
+                      <Link className="flex items-center justify-between p-1 hover:bg-neutral-200 cursor-pointer">
+                        <div>
+                          {suggestion.product_title
+                            .split(" ")
+                            .slice(0, 7)
+                            .join(" ")}
+                        </div>
+                        <img
+                          src={suggestion.thumbnail}
+                          alt={`${suggestion.product_title
+                            .split(" ")
+                            .slice(0, 4)
+                            .join(" ")} image`}
+                          className="w-[3rem] h-[3rem] object-cover"
+                        />
+                      </Link>
+                    ))
+                  ) : (
+                    <div>No match found !</div>
+                  )}
                 </div>
               )}
-            </div>
+            </form>
           </div>
         </div>
 
