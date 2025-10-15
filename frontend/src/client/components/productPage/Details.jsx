@@ -1,16 +1,7 @@
-import { CartContext } from "@/contexts";
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-export const Details = ({ product }) => {
+export const Details = ({ config }) => {
+  let { product, addtoCart } = config;
   let { sections } = product.parent;
-  const { addToCart } = useContext(CartContext);
-  const navigate = useNavigate();
 
-  const handleCartButton = () => {
-    addToCart(product);
-    navigate("/cart");
-  };
   return (
     <div className="md:w-3/6 space-y-6">
       <section className="bg-white p-6 flex flex-col gap-4">
@@ -31,15 +22,15 @@ export const Details = ({ product }) => {
         </div>
       </section>
       <div className="grid grid-cols-2 gap-6 bg-white p-4">
-        <button className="button border border-neutral-900 text-neutral-900 bg-white">
+        <button className="button border border-neutral-900 text-neutral-900 bg-white cursor-pointer">
           Add to Whishlist
         </button>
-        <Link
-          className="button bg-black text-white text-center"
-          onClick={handleCartButton}
+        <button
+          className="button bg-black text-white text-center cursor-pointer"
+          onClick={addtoCart}
         >
           Add to Cart
-        </Link>
+        </button>
       </div>
       {sections && (
         <section className="bg-white p-6">

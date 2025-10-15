@@ -3,14 +3,15 @@ import { ImageGrid } from "../components/productPage/ImageGrid";
 import { useProduct } from "../components/productPage/useProduct";
 
 const Productpage = () => {
-  const { product } = useProduct();
+  const { product, addtoCart } = useProduct();
+  const productConfig = { product, addtoCart };
 
   return product ? (
     <div className="w-[95%] mx-auto py-12 space-y-16">
       {/* top */}
       <div className="flex flex-col md:flex-row gap-5">
         <ImageGrid images={product?.images} />
-        <Details product={product} />
+        <Details config={productConfig} />
       </div>
     </div>
   ) : (

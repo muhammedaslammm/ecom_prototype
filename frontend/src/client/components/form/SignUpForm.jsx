@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import signupSchema from "../formSchema/signupSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
-import { UserContext } from "../../../contexts";
+import { UserContext } from "@/provider/UserContext";
 import { toast } from "sonner";
 
 const SignUpForm = () => {
@@ -11,6 +11,7 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm({
     resolver: zodResolver(signupSchema),
   });
@@ -20,6 +21,13 @@ const SignUpForm = () => {
   // form submission
   const submitForm = async (userData) => {
     const response = await registerUser(userData);
+    if (response?.existingUser) {
+      setError("email", {
+        type: "manual",
+        message: "Email already in use",
+      });
+      return;
+    }
     if (response) {
       toast.success("user registration successfull");
       navigate("/home");
@@ -79,7 +87,7 @@ const SignUpForm = () => {
         </div>
       </div>
       <div className="flex justify-between items-start mt-6">
-        <button className="px-8 py-2 text-[1.55rem] rounded-[.2rem] transition font-semibold text-white bg-sky-600 uppercase text-center hover:bg-sky-700 active:bg-sky-600 cursor-pointer self-start">
+        <button className="px-8 py-2 text-[1.55rem] rounded-[.2rem] transition font-semibold text-white bg-[#b00015] uppercase text-center hover:bg-sky-700 active:bg-sky-600 cursor-pointer self-start">
           sign up
         </button>
         <p className="text-[1.4rem] text-gray-400 flex flex-col items-end">

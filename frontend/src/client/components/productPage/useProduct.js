@@ -1,12 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { CartContext, WishlistContext } from "@/contexts";
-
+import { UserContext } from "@/provider/UserContext";
 export const useProduct = () => {
   let [product, setProduct] = useState(null);
   let [productVariants, setProductVariants] = useState([]);
   let navigate = useNavigate();
   const { id } = useParams();
+
+  const { user } = useContext(UserContext);
   let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
 
   useEffect(() => {
@@ -47,24 +48,10 @@ export const useProduct = () => {
     fetchVariants();
   }, [product]);
 
-  const { addToWishList } = useContext(WishlistContext);
-  const { addToCart } = useContext(CartContext);
-
-  const addProductToWishlist = (product) => {
-    const response = addToWishList(product);
-    if (response.success) navigate("/wishlist");
-    else window.alert(response.message);
-  };
-  const handleAddToCart = (product) => {
-    const response = addToCart(product);
-    if (response.success) {
-      navigate("/cart");
-    } else {
-      if (window.confirm(response.message + ". Go to cart?")) {
-        navigate("/cart");
-      }
-    }
+  const addtoCart = () => {
+    if (!user) navigate("/register/log-in");
+    
   };
 
-  return { product };
+  return { product, addtoCart };
 };

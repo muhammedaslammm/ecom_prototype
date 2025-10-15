@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { CartContext } from "../contexts";
 
-// Provider Component
 const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
@@ -9,7 +8,6 @@ const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
-  // ✅ Add a product to cart
   const addToCart = (product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
     if (existingItem) {
@@ -25,12 +23,10 @@ const CartProvider = ({ children }) => {
     };
   };
 
-  // ❌ Remove an item from cart
   const removeFromCart = (id) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  // 🔁 Increase or decrease quantity
   const updateQuantity = (id, delta) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -44,7 +40,6 @@ const CartProvider = ({ children }) => {
     );
   };
 
-  // 💰 Calculate total price
   const getCartTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.offer_price * item.quantity,
