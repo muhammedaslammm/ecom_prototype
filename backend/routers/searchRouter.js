@@ -72,7 +72,6 @@ router.get("/search/suggestions", async (req, res) => {
             thumbnail: { $arrayElemAt: ["$variant.images", 0] },
           },
         },
-        { $project: { variant: 0 } },
       ]);
     }
     res.json({ result });

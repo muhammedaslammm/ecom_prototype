@@ -3,7 +3,7 @@ import { useSearch } from "./useSearch";
 import { Spinner } from "phosphor-react";
 
 const HeaderTop = () => {
-  const { query, setQuery, open, loading, suggessions, submitQuery } =
+  const { query, setQuery, open, setOpen, loading, suggessions, submitQuery } =
     useSearch();
   return (
     <div className="border border-neutral-300">
@@ -36,7 +36,11 @@ const HeaderTop = () => {
                   )}
                   {suggessions.length > 0 ? (
                     suggessions.map((suggestion) => (
-                      <Link className="flex items-center justify-between p-1 hover:bg-neutral-200 cursor-pointer">
+                      <Link
+                        className="flex items-center justify-between p-1 hover:bg-neutral-200 cursor-pointer"
+                        to={`/product/${suggestion.variant._id}`}
+                        onClick={() => setOpen(false)}
+                      >
                         <div>
                           {suggestion.product_title
                             .split(" ")
