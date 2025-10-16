@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Address from "../components/Address";
-import { CartContext } from "../../contexts";
+import { CartContext } from "@/provider/CartProvider";
 
 const PaymentDetails = () => {
   const location = useLocation();

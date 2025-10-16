@@ -6,6 +6,7 @@ import categoryRouter from "./routers/categoryRouter.js";
 import productRouter from "./routers/productRouter.js";
 import sectionRouter from "./routers/sectionRouter.js";
 import searchRouter from "./routers/searchRouter.js";
+import cartRouter from "./routers/cartRouter.js";
 
 const app = express();
 const allowedURLs = [
@@ -34,5 +35,6 @@ app.use("/api", categoryRouter);
 app.use("/api", productRouter);
 app.use("/api", sectionRouter);
 app.use("/api", searchRouter);
+app.use("/api", cartRouter);
 
 export default app;

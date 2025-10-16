@@ -1,5 +1,5 @@
 export const Details = ({ config }) => {
-  let { product, addtoCart } = config;
+  let { product, addProducttoCart } = config;
   let { sections } = product.parent;
 
   return (
@@ -26,8 +26,13 @@ export const Details = ({ config }) => {
           Add to Whishlist
         </button>
         <button
-          className="button bg-black text-white text-center cursor-pointer"
-          onClick={addtoCart}
+          className={`button bg-black text-white text-center ${
+            product?.stock <= 0
+              ? "cursor-not-allowed opacity-40"
+              : "cursor-pointer"
+          }  `}
+          onClick={() => addProducttoCart(product?._id)}
+          disabled={product?.stock <= 0}
         >
           Add to Cart
         </button>

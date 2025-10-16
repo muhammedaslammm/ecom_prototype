@@ -4,7 +4,7 @@ import { toast } from "sonner";
 const UserContext = createContext();
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
   useEffect(() => {
     let url = `${BACKEND_URL}/api/auth/verify/me`;
     const getUserStat = async () => {
@@ -85,7 +85,13 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const value = { user, loginUser, registerUser, logoutUser };
+  const value = {
+    user,
+    userId: user?._id,
+    loginUser,
+    registerUser,
+    logoutUser,
+  };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 

@@ -10,7 +10,7 @@ export const useSearch = () => {
   let cacheRef = useRef(null);
   let navigate = useNavigate();
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
 
   useEffect(() => {
     if (debounce.current) clearTimeout(debounce.current);

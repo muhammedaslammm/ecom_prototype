@@ -1,66 +1,76 @@
-import React, { useContext, useState } from "react";
-import { CartContext } from "../contexts";
+import React, { createContext, useState, useEffect, useContext } from "react";
 
+export const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [cart, setCart] = useState([]);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
 
   const clearCart = () => {
     setCartItems([]);
   };
 
-  const addToCart = (product) => {
-    const existingItem = cartItems.find((item) => item.id === product.id);
-    if (existingItem) {
-      return {
-        success: false,
-        message: "Item already in cart",
-      };
-    }
-    setCartItems((prevItems) => [...prevItems, { ...product, quantity: 1 }]);
-    return {
-      success: true,
-      message: "Item added to cart",
+  useEffect(() => {
+    const getCart = async () => {
+      try {
+        let response = await fetch(`${BACKEND_URL}/api/cart`, {
+          method: "GET",
+          credentials: "include",
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message);
+        setCart(result.cart);
+      } catch (error) {
+        console.error("Error in Cart Fetch:", error.message);
+      }
     };
+    getCart();
+  }, []);
+
+  const getCart = () => {};
+
+  const addToCart = async (productId) => {
+    try {
+      let response = await fetch(`${BACKEND_URL}/api/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ productId }),
+      });
+      let result = await response.json();
+      if (response.status === 401) {
+        return toast.error(
+          "You cannot access the route without proper authentication"
+        );
+      }
+      if (!response.ok) throw new Error(result.message);
+      setCart(result.cart);
+      console.log("product successfully added to cart :", result.cart);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
-  const removeFromCart = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  };
+  const removeFromCart = (id) => {};
 
-  const updateQuantity = (id, delta) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity + delta),
-            }
-          : item
-      )
-    );
-  };
+  const updateQuantity = () => {};
 
-  const getCartTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.offer_price * item.quantity,
-      0
-    );
-  };
+  const getCartTotal = () => {};
 
-  return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        getCartTotal,
-        clearCart,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+  const value = {
+    items: cart?.items || [],
+    cart,
+    addToCart,
+    getCart,
+    removeFromCart,
+    updateQuantity,
+    getCartTotal,
+    clearCart,
+    cartItems,
+  };
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export default CartProvider;

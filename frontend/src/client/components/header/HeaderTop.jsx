@@ -3,11 +3,13 @@ import { useSearch } from "./useSearch";
 import { Spinner } from "phosphor-react";
 import { useContext } from "react";
 import { UserContext } from "@/provider/UserContext";
+import { CartContext } from "@/provider/CartProvider";
 
 const HeaderTop = () => {
   const { user, logoutUser } = useContext(UserContext);
   const { query, setQuery, open, setOpen, loading, suggessions, submitQuery } =
     useSearch();
+  const { items } = useContext(CartContext);
   return (
     <div className="border border-neutral-300">
       <div className="header w-full flex justify-between">
@@ -71,9 +73,15 @@ const HeaderTop = () => {
 
         <nav>
           <ul className="options flex items-center gap-[2.8rem] text-[1.6rem] font-medium text-neutral-800">
-            <Link to={`/cart`} className="capitalize cursor-pointer">
-              cart
-            </Link>
+            <div className="relative">
+              <Link to={`/cart`} className="capitalize cursor-pointer">
+                cart
+              </Link>
+              <span className="absolute top-0 right-[-1.5rem] text-[.8rem] py-[.1rem] px-[.5rem] bg-red-600 text-white rounded-full">
+                {items.length}
+              </span>
+            </div>
+
             <Link to={`/wishlist`} className="capitalize cursor-pointer">
               wishlist
             </Link>

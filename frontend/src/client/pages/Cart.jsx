@@ -1,7 +1,7 @@
 import EmptyPage from "../components/EmptyPage";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { CartContext } from "../../contexts";
+import { CartContext } from "@/provider/CartProvider";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal } =

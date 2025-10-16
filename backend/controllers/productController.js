@@ -246,6 +246,8 @@ export const getProduct = async (req, res) => {
         { $match: { parentId: new mongoose.Types.ObjectId(parent) } },
       ];
       break;
+    case "stock":
+      pipeline = [{ $match: { _id: new mongoose.Types.ObjectId(id) } }];
     default:
       pipeline = [
         {

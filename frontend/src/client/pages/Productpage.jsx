@@ -3,8 +3,8 @@ import { ImageGrid } from "../components/productPage/ImageGrid";
 import { useProduct } from "../components/productPage/useProduct";
 
 const Productpage = () => {
-  const { product, addtoCart } = useProduct();
-  const productConfig = { product, addtoCart };
+  const { product, addProducttoCart } = useProduct();
+  const productConfig = { product, addProducttoCart };
 
   return product ? (
     <div className="w-[95%] mx-auto py-12 space-y-16">
