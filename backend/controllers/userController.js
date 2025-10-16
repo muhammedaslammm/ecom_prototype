@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
       password: hashedPasword,
     });
 
-    const token = getToken(new_user._id);
+    const token = getToken(new_user);
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
     });
     res
       .status(200)
-      .json({ message: "User Successfully Created", user: new_user._id });
+      .json({ message: "User Successfully Created", user: new_user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -51,9 +51,13 @@ export const signinUser = async (req, res) => {
     if (!compareResult) {
       return res.status(401).json({ message: "Invalid Email or Password" });
     }
-    res
-      .status(200)
-      .json({ message: "User Authenticated", user: matchingUser._id });
+    let token = getToken(matchingUser);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    res.status(200).json({ message: "User Authenticated", user: matchingUser });
   } catch (error) {
     console.error("error:", error.message);
     res.status(500).json({ message: error.message });
@@ -61,4 +65,10 @@ export const signinUser = async (req, res) => {
 };
 
 // logout user
-export const logoutUser = async (req, res) => {};
+export const logoutUser = async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+  });
+  res.json({ success: true, message: "User Logged Out" });
+};

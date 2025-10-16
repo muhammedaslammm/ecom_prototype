@@ -56,6 +56,10 @@ html {
   @apply text-[1.4rem];
 }
 
+.text--links {
+  @apply text-[1.4rem] py-2 px-2 font-medium;
+}
+
 .shimmer {
   @apply py-5 bg-gradient-to-r from-neutral-200 via-neutral-400 to-neutral-200 overflow-x-hidden;
   background-size: 200% 100%;

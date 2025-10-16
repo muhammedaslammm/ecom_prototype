@@ -15,10 +15,11 @@ const UserProvider = ({ children }) => {
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.message);
+        console.log("user:", result.user);
         setUser(result.user);
       } catch (error) {
         console.error(error.message);
-        setUser(null);
+        setUser(undefined);
       }
     };
     getUserStat();
@@ -71,7 +72,20 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const value = { user, loginUser, registerUser };
+  const logoutUser = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(undefined);
+      toast.success("User Successfully Logged Out");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const value = { user, loginUser, registerUser, logoutUser };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 

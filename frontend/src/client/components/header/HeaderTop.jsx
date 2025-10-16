@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useSearch } from "./useSearch";
 import { Spinner } from "phosphor-react";
+import { useContext } from "react";
+import { UserContext } from "@/provider/UserContext";
 
 const HeaderTop = () => {
+  const { user, logoutUser } = useContext(UserContext);
   const { query, setQuery, open, setOpen, loading, suggessions, submitQuery } =
     useSearch();
   return (
@@ -67,7 +70,7 @@ const HeaderTop = () => {
         </div>
 
         <nav>
-          <ul className="options flex gap-[2.8rem] text-[1.6rem] font-medium text-neutral-800">
+          <ul className="options flex items-center gap-[2.8rem] text-[1.6rem] font-medium text-neutral-800">
             <Link to={`/cart`} className="capitalize cursor-pointer">
               cart
             </Link>
@@ -78,23 +81,33 @@ const HeaderTop = () => {
               profile
             </Link>
             <div>
-              <button>
-                <span
-                  className="py-2 px-6"
+              {user ? (
+                <button
+                  className="py-2 px-6 cursor-pointer"
                   style={{ backgroundColor: "#b00015", color: "white" }}
+                  onClick={logoutUser}
                 >
-                  Sign Up
-                </span>
-                <span
-                  className="py-2 px-6"
-                  style={{
-                    backgroundColor: "white",
-                    color: "black",
-                  }}
-                >
-                  Sign In
-                </span>
-              </button>
+                  Logout
+                </button>
+              ) : (
+                <Link to="/register/log-in">
+                  <span
+                    className="py-2 px-6"
+                    style={{ backgroundColor: "#b00015", color: "white" }}
+                  >
+                    Sign Up
+                  </span>
+                  <span
+                    className="py-2 px-6"
+                    style={{
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    Sign In
+                  </span>
+                </Link>
+              )}
             </div>
           </ul>
         </nav>

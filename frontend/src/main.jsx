@@ -11,7 +11,7 @@ import Home from "./client/pages/Home.jsx";
 import Wishlist from "./client/pages/Wishlist.jsx";
 import Productpage from "./client/pages/Productpage.jsx";
 import Cart from "./client/pages/cart/Cart.jsx";
-import Profile from "./client/pages/Profile.jsx";
+import Profile from "./client/pages/profile/page.jsx";
 import ProductList from "./client/pages/ProductList.jsx";
 import Checkout from "./client/pages/Checkout.jsx";
 import PaymentDetails from "./client/pages/PaymentDetails.jsx";

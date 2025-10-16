@@ -1,9 +1,17 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import RegisterHeader from "../components/RegisterHeader";
 import { Toaster } from "sonner";
+import { useContext, useEffect } from "react";
+import { UserContext } from "@/provider/UserContext";
 
 const Register = () => {
-  return (
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  if (user === null) return;
+  return user ? (
+    navigate("/home")
+  ) : (
     <div className="bg-neutral-200 h-screen overflow-hidden">
       <Toaster position="top-center" />
 
