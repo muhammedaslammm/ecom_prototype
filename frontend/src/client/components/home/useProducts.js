@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 export const useProducts = () => {
   const [products, setProducts] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
-  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (!categoryId) return;

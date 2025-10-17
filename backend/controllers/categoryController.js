@@ -36,8 +36,6 @@ export async function deleteAllCategories(req, res) {
 
 export async function getCategories(req, res) {
   const { filter, current_page } = req.query;
-  console.log("filter:", filter);
-  console.log("current page number type:", typeof current_page);
   let limit = 12;
   try {
     const categories = await Category.find().populate("parent");
@@ -85,6 +83,7 @@ export async function getCategories(req, res) {
         break;
     }
   } catch (error) {
+    console.log("error:", error.message);
     res.status(500).json({ message: error.message });
   }
 }

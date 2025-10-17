@@ -8,10 +8,11 @@ const Register = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  if (user === null) return;
-  return user ? (
-    navigate("/home")
-  ) : (
+  useEffect(() => {
+    if (user) navigate("/home");
+  }, [user]);
+
+  return (
     <div className="bg-neutral-200 h-screen overflow-hidden">
       <Toaster position="top-center" />
 

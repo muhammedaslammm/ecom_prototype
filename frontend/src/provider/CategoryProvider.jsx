@@ -6,7 +6,7 @@ const CategoryProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [navbarCategories, setNavbarCategories] = useState([]);
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -14,6 +14,7 @@ const CategoryProvider = ({ children }) => {
           `${BACKEND_URL}/api/categories?filter=all-category`,
           {
             method: "GET",
+            credentials: "include",
           }
         );
         const data = await response.json();

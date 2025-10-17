@@ -10,7 +10,7 @@ export const useProduct = () => {
 
   const { user } = useContext(UserContext);
   const { addToCart } = useContext(CartContext);
-  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const getProductData = async () => {

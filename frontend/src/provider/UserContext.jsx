@@ -4,7 +4,7 @@ import { toast } from "sonner";
 const UserContext = createContext();
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
+  let BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     let url = `${BACKEND_URL}/api/auth/verify/me`;
     const getUserStat = async () => {
@@ -19,7 +19,7 @@ const UserProvider = ({ children }) => {
         setUser(result.user);
       } catch (error) {
         console.error(error.message);
-        setUser(undefined);
+        setUser(null);
       }
     };
     getUserStat();
@@ -78,7 +78,7 @@ const UserProvider = ({ children }) => {
         method: "POST",
         credentials: "include",
       });
-      setUser(undefined);
+      setUser(null);
       toast.success("User Successfully Logged Out");
     } catch (error) {
       console.error(error.message);
@@ -87,7 +87,6 @@ const UserProvider = ({ children }) => {
 
   const value = {
     user,
-    userId: user?._id,
     loginUser,
     registerUser,
     logoutUser,

@@ -5,6 +5,7 @@ import getToken from "../utils/getToken.js";
 import verifyPassword from "../utils/verifyPassword.js";
 
 export const verifyState = (req, res) => {
+  console.log("user data without token:", req.user);
   return res
     .status(200)
     .json({ success: true, message: "User Authenticated", user: req.user });

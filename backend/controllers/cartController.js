@@ -5,6 +5,7 @@ export const getCart = async (req, res) => {
   let { _id } = req.user;
   try {
     const cart = await Cart.findOne({ userId: _id });
+    console.log("cart:", cart);
     res.json({ cart }); //need to use pipeline to get the product parent detials + variant details
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { toast } from "sonner";
 
 export const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [cart, setCart] = useState([]);
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
+  const [cart, setCart] = useState({});
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const clearCart = () => {
     setCartItems([]);
@@ -19,6 +20,7 @@ const CartProvider = ({ children }) => {
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.message);
+        console.log("cart response:", result.cart);
         setCart(result.cart);
       } catch (error) {
         console.error("Error in Cart Fetch:", error.message);
@@ -41,9 +43,7 @@ const CartProvider = ({ children }) => {
       });
       let result = await response.json();
       if (response.status === 401) {
-        return toast.error(
-          "You cannot access the route without proper authentication"
-        );
+        return toast.error("Failed : User is not Signed Up");
       }
       if (!response.ok) throw new Error(result.message);
       setCart(result.cart);
