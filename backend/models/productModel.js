@@ -22,7 +22,7 @@ const Parent = Product.discriminator(
 const Variant = Product.discriminator(
   "variant",
   new mongoose.Schema({
-    parentId: { type: mongoose.Schema.Types.ObjectId },
+    parentId: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
     sku: String,
     price: Number,
     stock: Number,

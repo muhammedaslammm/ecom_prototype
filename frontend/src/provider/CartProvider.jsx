@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "sonner";
+import { UserContext } from "./UserContext";
 
 export const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [cart, setCart] = useState({});
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const { user } = useContext(UserContext);
 
   const clearCart = () => {
     setCartItems([]);
@@ -27,7 +29,7 @@ const CartProvider = ({ children }) => {
       }
     };
     getCart();
-  }, []);
+  }, [user]);
 
   const getCart = () => {};
 

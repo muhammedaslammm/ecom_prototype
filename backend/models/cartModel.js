@@ -5,7 +5,7 @@ const Schema = new mongoose.Schema(
     userId: { type: mongoose.Schema.Types.ObjectId },
     items: [
       {
-        productId: { type: mongoose.Schema.Types.ObjectId },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
         quantity: { type: Number },
         totalAmount: { type: Number },
       },
