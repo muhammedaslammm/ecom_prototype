@@ -39,22 +39,33 @@ const ProductList = () => {
   }, [category]);
 
   useEffect(() => {
-    setFilteredProducts(() => {
-      return products.filter((product) => {
-        return Object.entries(filter).every(([key, value]) => {
-          return product[key] === value;
-        });
+    const filtered = products.filter((product) => {
+      return Object.entries(filter).every(([key, values]) => {
+        // values is an array (e.g., ["Nike", "Adidas"])
+        return values.includes(product[key]);
       });
     });
-  }, [filter]);
+
+    setFilteredProducts(filtered);
+  }, [filter, products]);
 
   const filterProducts = (e) => {
-    let { name, value } = e.target;
-    console.log(`filter: ${name} | value: ${value}`);
-    setFilter((prevFilter) => ({
-      ...prevFilter,
-      [name]: value,
-    }));
+    const { name, value, checked } = e.target;
+
+    setFilter((prev) => {
+      const prevValues = prev[name] || [];
+
+      let updatedValues = checked
+        ? [...prevValues, value] // add if checked
+        : prevValues.filter((v) => v !== value); // remove if unchecked
+
+      // if array empty, remove the key
+      const newFilter = { ...prev };
+      if (updatedValues.length > 0) newFilter[name] = updatedValues;
+      else delete newFilter[name];
+
+      return newFilter;
+    });
   };
 
   useEffect(() => {
