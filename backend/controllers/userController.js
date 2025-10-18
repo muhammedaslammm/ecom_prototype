@@ -30,7 +30,7 @@ export const signup = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
     res
       .status(200)
@@ -58,7 +58,7 @@ export const signinUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
     res.status(200).json({ message: "User Authenticated", user: matchingUser });
   } catch (error) {
