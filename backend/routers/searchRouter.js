@@ -56,7 +56,7 @@ router.get("/search/suggestions", async (req, res) => {
       }));
 
       result = await Product.aggregate([
-        { $match: { $and: searchConditions } }, // all terms must appear somewhere
+        { $match: { $and: searchConditions } },
         { $project: { product_title: 1, brand: 1 } },
         { $limit: limit },
         {

@@ -9,10 +9,13 @@ const ProductList = () => {
   const { category } = useParams();
   const [categoryObject, setCategoryObject] = useState(null);
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filter, setFilter] = useState({});
   const [sidebar, setSidebar] = useState([]);
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
+    // better to filter in backend
     const getProducts = async () => {
       try {
         const response = await fetch(
@@ -26,6 +29,7 @@ const ProductList = () => {
         else {
           console.log("product list from backend:", data.products);
           setProducts(data.products);
+          setFilteredProducts(data.products);
         }
       } catch (error) {
         console.log("error:", error.message);
@@ -33,6 +37,25 @@ const ProductList = () => {
     };
     getProducts();
   }, [category]);
+
+  useEffect(() => {
+    setFilteredProducts(() => {
+      return products.filter((product) => {
+        return Object.entries(filter).every(([key, value]) => {
+          return product[key] === value;
+        });
+      });
+    });
+  }, [filter]);
+
+  const filterProducts = (e) => {
+    let { name, value } = e.target;
+    console.log(`filter: ${name} | value: ${value}`);
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      [name]: value,
+    }));
+  };
 
   useEffect(() => {
     const getCategory = async () => {
@@ -57,22 +80,22 @@ const ProductList = () => {
     let brands = [...new Set(products.map((product) => product.brand))];
     let obj1 = {
       head: "Brands",
+      label: "brand",
       data: brands,
     };
-    let obj2 = {
-      head: "Colors",
-      data: ["Red", "Black", "White", "Silver", "Maroon"],
-    };
-    setSidebar([obj1, obj2]);
+    setSidebar([obj1]);
   }, [products]);
 
   return (
     <main className="bg-pattern">
       <div className="product-list w-[90%] mx-auto my-4 pt-1 ">
         <div className="flex gap-6 my-2">
-          <ProductlistSidebar sidebar={sidebar} />
+          <ProductlistSidebar
+            sidebar={sidebar}
+            filterProducts={filterProducts}
+          />
           <ProductlistBody
-            products={products}
+            products={filteredProducts}
             categoryObject={categoryObject}
           />
         </div>

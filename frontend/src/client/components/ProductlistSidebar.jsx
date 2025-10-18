@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-const ProductlistSidebar = ({ sidebar }) => {
+const ProductlistSidebar = ({ sidebar, filterProducts }) => {
   return (
     <div className="w-[20%] bg-white p-6 rounded-[.4rem] space-y-8">
       {sidebar.map((content) => {
@@ -13,7 +13,13 @@ const ProductlistSidebar = ({ sidebar }) => {
               <ul className="flex flex-col">
                 {content.data.map((d) => (
                   <label className="flex gap-4 items-center cursor-pointer">
-                    <input type="checkbox" />
+                    <input
+                      name={content.label}
+                      type="checkbox"
+                      onChange={filterProducts}
+                      value={d}
+                      multiple={false}
+                    />
                     <li
                       className={`text-[1.5rem] text-gray-500 font-medium  py-[.3rem] `}
                     >

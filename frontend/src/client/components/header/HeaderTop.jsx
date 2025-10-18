@@ -77,7 +77,7 @@ const HeaderTop = () => {
               <Link to={`/cart`} className="capitalize cursor-pointer">
                 cart
               </Link>
-              <span className="absolute top-0 right-[-1.5rem] text-[.8rem] py-[.1rem] px-[.5rem] bg-red-600 text-white rounded-full">
+              <span className="absolute top-0 right-[-1.5rem] text-[.9rem] py-[.1rem] px-[.5rem] bg-red-600 text-white rounded-full">
                 {items.length}
               </span>
             </div>
