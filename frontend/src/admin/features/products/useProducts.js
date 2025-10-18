@@ -24,7 +24,16 @@ const useProducts = () => {
 
   // getting all products
   const [products, setProducts] = useState(null);
-  let [currentPage, setCurrentPage] = useState(5);
+  let [currentPage, setCurrentPage] = useState(1);
+  let [totalPages, setTotalPages] = useState(1);
+
+  const controlPage = async (action) => {
+    if (action === "up" && currentPage < totalPages)
+      setCurrentPage((prevPage) => prevPage + 1);
+    else if (action === "down" && currentPage > 1)
+      setCurrentPage((prevPage) => prevPage - 1);
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -38,13 +47,14 @@ const useProducts = () => {
         if (!response.ok) throw new Error(data.message);
         else {
           setProducts(data.products);
+          setTotalPages(data.total_pages);
         }
       } catch (error) {
         console.log("error:", error.message);
       }
     };
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   // auto generating product variants
   const [matchingSKUs, setMatchingSKUs] = useState([]);
@@ -294,6 +304,9 @@ const useProducts = () => {
   };
 
   return {
+    controlPage,
+    currentPage,
+    totalPages,
     deleteAllProducts,
     categories,
     selectedCategory,

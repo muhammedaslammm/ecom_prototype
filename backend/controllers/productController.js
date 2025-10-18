@@ -134,11 +134,16 @@ export const getProducts = async (req, res) => {
               total_variants: 1,
             },
           },
-          { $skip: limit * (current_page - 1) },
+          { $skip: limit * (Number(current_page) - 1) },
           { $limit: limit },
         ];
+        let total = await Parent.find().countDocuments();
         products = await Parent.aggregate(pipeline);
-        break;
+        return res.status(200).json({
+          message: "success",
+          products,
+          total_pages: Math.ceil(total / limit),
+        });
       case "home":
         let pipeline_2 = [
           {

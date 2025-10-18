@@ -4,9 +4,11 @@ import { DotsThree } from "phosphor-react";
 import AdminElseBlock from "../../components/AdminElseBlock";
 import useProducts from "./useProducts";
 import ShimmerContainer from "../../components/ShimmerContainer";
+import { CaretLeft, CaretRight } from "phosphor-react";
 
 const Products = () => {
-  let { products, deleteAllProducts } = useProducts();
+  let { products, deleteAllProducts, controlPage, totalPages, currentPage } =
+    useProducts();
   return (
     <section className="a-section--container pb-[4rem]">
       <div>
@@ -71,6 +73,23 @@ const Products = () => {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="flex justify-end items-center  gap-8 mt-auto">
+              <CaretLeft
+                className={`w-[1.5rem] h-[1.5rem] cursor-pointer ${
+                  currentPage == 1 ? "text-neutral-300" : ""
+                }`}
+                weight="bold"
+                onClick={() => controlPage("down")}
+              />
+              <div className="text-[1.4rem]">{"1"}</div>
+              <CaretRight
+                className={`w-[1.5rem] h-[1.5rem] cursor-pointer ${
+                  currentPage === totalPages ? "text-neutral-300" : ""
+                }`}
+                weight="bold"
+                onClick={() => controlPage("up")}
+              />
             </div>
           </div>
         ) : (
