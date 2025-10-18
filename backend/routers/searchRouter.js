@@ -45,16 +45,18 @@ router.get("/search/suggestions", async (req, res) => {
         error.message
       );
 
+      const terms = query.split(/\s+/).filter(Boolean); // ["Samsung", "Washing", "machine", "1400rpm"]
+
+      const searchConditions = terms.map((word) => ({
+        $or: [
+          { product_title: { $regex: word, $options: "i" } },
+          { brand: { $regex: word, $options: "i" } },
+          { "sections.details.value": { $regex: word, $options: "i" } },
+        ],
+      }));
+
       result = await Product.aggregate([
-        {
-          $match: {
-            $or: [
-              { product_title: { $regex: query, $options: "i" } },
-              { brand: { $regex: query, $options: "i" } },
-              { "sections.details.value": { $regex: query, $options: "i" } },
-            ],
-          },
-        },
+        { $match: { $and: searchConditions } }, // all terms must appear somewhere
         { $project: { product_title: 1, brand: 1 } },
         { $limit: limit },
         {

@@ -1,0 +1,28 @@
+result = await Product.aggregate([
+        {
+          $match: {
+            $or: [
+              { product_title: { $regex: query, $options: "i" } },
+              { brand: { $regex: query, $options: "i" } },
+              { "sections.details.value": { $regex: query, $options: "i" } },
+            ],
+          },
+        },
+        { $project: { product_title: 1, brand: 1 } },
+        { $limit: limit },
+        {
+          $lookup: {
+            from: "products",
+            localField: "_id",
+            foreignField: "parentId",
+            as: "variants",
+          },
+        },
+        { $addFields: { variant: { $arrayElemAt: ["$variants", 0] } } },
+        { $project: { variants: 0 } },
+        {
+          $addFields: {
+            thumbnail: { $arrayElemAt: ["$variant.images", 0] },
+          },
+        },
+      ]);

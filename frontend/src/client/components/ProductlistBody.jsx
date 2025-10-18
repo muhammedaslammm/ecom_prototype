@@ -1,14 +1,16 @@
 import ProductCard from "./ProductCard";
 
-const ProductlistBody = ({ products, categoryObject }) => {
+const ProductlistBody = ({ query, products, categoryObject }) => {
   return (
     <div className="w-[80%]">
-      <h1
-        className={`text-[2.8rem] font-medium p-8 bg-white capitalize rounded-[.4rem]`}
-        style={{ color: "black" }}
-      >
-        {categoryObject?.title}
-      </h1>
+      {products.length > 0 && (
+        <h1
+          className={`text-[2rem] font-medium p-8 bg-white capitalize rounded-[.4rem]`}
+          style={{ color: "black" }}
+        >
+          {categoryObject?.title || `Search Results for : ${query}`}
+        </h1>
+      )}
 
       {products.length ? (
         <div className="grid grid-cols-4 gap-4 my-8">

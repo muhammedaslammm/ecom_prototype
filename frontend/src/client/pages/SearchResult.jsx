@@ -10,10 +10,7 @@ export const SearchResult = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query");
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_1;
-
-  //   understand how searching works. does, query matches and shows all the products or just one product for n number of products!
-  //   also check whether the current workflow is correct or not. when a search suggession is clicked, the query is again used in backend to get all matching products.
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     let url = `${BACKEND_URL}/api/products?filter=search&query=${encodeURIComponent(
@@ -23,12 +20,16 @@ export const SearchResult = () => {
       try {
         let response = await fetch(url, {
           method: "GET",
+          credentials: "include",
         });
         if (!response.ok)
           throw new Error("Failed to get products based on search");
         let data = await response.json();
+        console.log("search results:", data.products);
         setProducts(data.products);
-      } catch (error) {}
+      } catch (error) {
+        console.log("error:", error.message);
+      }
     };
     fetchProducts();
   }, [query]);
@@ -39,6 +40,7 @@ export const SearchResult = () => {
         <div className="flex gap-6 my-2">
           <ProductlistSidebar sidebar={sidebar} />
           <ProductlistBody
+            query={query}
             products={products}
             categoryObject={categoryObject}
           />

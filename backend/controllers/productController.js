@@ -194,15 +194,24 @@ export const getProducts = async (req, res) => {
       case "search":
         let { query } = req.query;
         console.log("query:", query);
+        // Split the query into separate terms
+        const terms = query.split(/\s+/).filter(Boolean);
+
+        // Build $and conditions for each term
+        const searchConditions = terms.map((word) => ({
+          $or: [
+            { product_title: { $regex: word, $options: "i" } },
+            { description: { $regex: word, $options: "i" } },
+            { brand: { $regex: word, $options: "i" } },
+            { "sections.details.value": { $regex: word, $options: "i" } },
+          ],
+        }));
+
+        // Aggregation pipeline
         products = await Product.aggregate([
           {
             $match: {
-              $or: [
-                { product_title: { $regex: query, $options: "i" } },
-                { description: { $regex: query, $options: "i" } },
-                { brand: { $regex: query, $options: "i" } },
-                { "sections.details.value": { $regex: query, $options: "i" } },
-              ],
+              $and: searchConditions, // all words must appear somewhere
             },
           },
           { $project: { category: 0, sections: 0 } },
@@ -221,7 +230,8 @@ export const getProducts = async (req, res) => {
             },
           },
         ]);
-        console.log("search result:", products);
+
+        console.log("search result hey:", products);
         break;
 
       default:

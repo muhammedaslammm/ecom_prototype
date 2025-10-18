@@ -47,7 +47,6 @@ export const useSearch = () => {
   const submitQuery = (e) => {
     e.preventDefault();
     console.log(e);
-    setQuery("");
     setOpen(false);
     setSuggessions([]);
     setLoading(false);

@@ -132,7 +132,7 @@ const PaymentDetails = () => {
             </div>
             <button
               onClick={handlePayment}
-              className="bg-black mt-16 text-white text-[1.7rem] font-medium py-[.85rem] rounded-[.3rem] cursor-pointer hover:bg-[#a63aad]"
+              className="bg-black mt-16 text-white text-[1.7rem] font-medium py-[.85rem] rounded-[.3rem] cursor-pointer "
             >
               Confirm Payment
             </button>
