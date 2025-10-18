@@ -7,6 +7,7 @@ const PaymentDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { clearCart } = useContext(CartContext);
+  console.log("location.state", location.state);
 
   const { address, paymentMethod, items, total } = location.state;
 
@@ -32,12 +33,12 @@ const PaymentDetails = () => {
   };
 
   return (
-    <div className="w-[90%] mx-auto my-4 gap-10 text-neutral-800">
+    <div className="w-[95%] mx-auto my-4 gap-10 text-neutral-800">
       <button
         onClick={() => navigate(-1)}
-        className="text-[#bc46c2] underline text-[1.6rem] hover:text-[#a63aad] mb-4 cursor-pointer"
+        className="text-[1.6rem] bg-white mb-4 cursor-pointer button !font-normal !p-2"
       >
-        Back
+        Back to Checkout Page
       </button>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -46,18 +47,22 @@ const PaymentDetails = () => {
           <div className="items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {items.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="border border-neutral-300 p-6 rounded-[.5rem] bg-white flex gap-8"
               >
                 <div className="left min-w-0 font-medium space-y-4">
                   <p className="truncate text-[1.5rem] text-neutral-600">
-                    {item.title}
+                    {item.productId.parentId.product_title}
                   </p>
-                  <p className="text-[1.8rem]">Rs {item.price.toFixed(2)}</p>
+                  <p className="text-[1.8rem]">Rs {item.productId.price}</p>
                 </div>
                 <div className="right">
                   <div className="image w-[7rem]">
-                    <img src={item.image} alt={item.title} />
+                    <img
+                      src={item.productId.images[0]}
+                      alt="product image"
+                      className="w-[8rem] h-[8rem] object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -115,7 +120,7 @@ const PaymentDetails = () => {
           <div className="flex flex-col text-[1.7rem]">
             <div className="flex justify-between">
               <p className="capitalize">product total</p>
-              <p className="font-medium">{total.toFixed(2)}</p>
+              <p className="font-medium">{total}</p>
             </div>
             <div className="flex justify-between">
               <p className="capitalize">discount</p>
@@ -123,11 +128,11 @@ const PaymentDetails = () => {
             </div>
             <div className="flex justify-between py-4 mt-4 border-t border-neutral-400">
               <p className="capitalize">total</p>
-              <p className="font-medium">{total.toFixed(2)}</p>
+              <p className="font-medium">{total}</p>
             </div>
             <button
               onClick={handlePayment}
-              className="bg-[#bc46c2] mt-16 text-white text-[1.7rem] font-medium py-[.85rem] rounded-[.3rem] cursor-pointer hover:bg-[#a63aad]"
+              className="bg-black mt-16 text-white text-[1.7rem] font-medium py-[.85rem] rounded-[.3rem] cursor-pointer hover:bg-[#a63aad]"
             >
               Confirm Payment
             </button>

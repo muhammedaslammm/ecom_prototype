@@ -10,7 +10,7 @@ const OrderSummary = () => {
   const { address, paymentMethod, items = [], total } = location.state || {};
 
   return (
-    <div className="w-[90%] mx-auto my-4 space-y-6 text-neutral-800">
+    <div className="w-[95%] mx-auto my-4 space-y-6 text-neutral-800">
       {orderSuccessful ? (
         <div className="flex flex-col lg:flex-row justify-between items-start gap-4 bg-green-200 p-8 rounded-[.5rem]">
           <h2 className="capitalize text-[2.2rem] lg:text-[3rem] font-semibold">
@@ -40,9 +40,7 @@ const OrderSummary = () => {
           <div className="bg-[#b00015] text-white p-6 rounded-[.5rem] w-full lg:w-2/12">
             <p className="text-[1.5rem] flex flex-col text-end">
               Payment Total:
-              <span className="font-semibold text-[2rem]">
-                Rs {total.toFixed(2)}
-              </span>
+              <span className="font-semibold text-[2rem]">Rs {total}</span>
             </p>
           </div>
         </div>
@@ -54,21 +52,24 @@ const OrderSummary = () => {
           <div className="space-y-4">
             {items.map((item) => (
               <div
-                key={item.id}
-                className="py-5 px-2 border-b border-neutral-300 last:border-0 flex justify-between items-center flex-wrap gap-4"
+                key={item._id}
+                className="py-5 px-2 border-b border-neutral-300 last:border-0 flex justify-between items-center gap-4"
               >
-                <div className="left">
+                <div className="w-5/6">
                   <p className="font-medium text-[1.6rem]">
-                    {item.title} - {item.quantity}x
+                    {item.productId.parentId.product_title} - {item.quantity}x
                   </p>
                   <p className="text-[1.5rem]">
-                    Subtotal: {(item.offer_price * item.quantity).toFixed(2)}{" "}
-                    AED
+                    Subtotal: Rs {item.productId.price * item.quantity}
                   </p>
                 </div>
-                <div className="right">
-                  <div className="image w-[5.5rem]">
-                    <img src={item.image} alt={item.title} />
+                <div>
+                  <div className="image">
+                    <img
+                      src={item.productId.images[0]}
+                      alt="product image"
+                      className="w-[7rem] h-[7rem] object-cover"
+                    />
                   </div>
                 </div>
               </div>

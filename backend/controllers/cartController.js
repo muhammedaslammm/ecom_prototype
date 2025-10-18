@@ -4,7 +4,6 @@ import { Product } from "../models/productModel.js";
 export const getCart = async (req, res) => {
   let { _id } = req.user;
   try {
-    let pipeline = [{ $match: { userId: _id } }, {}];
     const cart = await Cart.findOne({ userId: _id }).populate({
       path: "items.productId",
       model: "product",
@@ -14,7 +13,7 @@ export const getCart = async (req, res) => {
       },
     });
     console.log("cart:", cart);
-    res.json({ cart }); //need to use pipeline to get the product parent detials + variant details
+    res.json({ cart: cart });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -41,6 +40,14 @@ export const addToCart = async (req, res) => {
         items: [item],
         cartTotal: totalAmount,
       });
+      new_cart = await new_cart.populate({
+        path: "items.productId",
+        model: "product",
+        populate: {
+          path: "parentId",
+          model: "product",
+        },
+      });
       return res.status(200).json({
         message: "Product Successfully Added to Cart",
         cart: new_cart,
@@ -51,6 +58,14 @@ export const addToCart = async (req, res) => {
     cart.cartTotal += totalAmount;
 
     await cart.save();
+    cart = await cart.populate({
+      path: "items.productId",
+      model: "product",
+      populate: {
+        path: "parentId",
+        model: "product",
+      },
+    });
 
     res
       .status(200)

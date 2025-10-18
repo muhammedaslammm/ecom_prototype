@@ -9,10 +9,6 @@ const CartProvider = ({ children }) => {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const { user } = useContext(UserContext);
 
-  const clearCart = () => {
-    setCartItems([]);
-  };
-
   useEffect(() => {
     const getCart = async () => {
       try {
@@ -60,6 +56,10 @@ const CartProvider = ({ children }) => {
   const updateQuantity = () => {};
 
   const getCartTotal = () => {};
+
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
   const value = {
     items: cart?.items || [],

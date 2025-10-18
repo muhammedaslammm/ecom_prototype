@@ -4,7 +4,8 @@ import images from "../assets/images";
 import { CartContext } from "@/provider/CartProvider";
 
 const Checkout = () => {
-  const { cartItems, getCartTotal, clearCart } = useContext(CartContext);
+  const { cart, getCartTotal, clearCart } = useContext(CartContext);
+  console.log("checkout cart:", cart);
   const [addressSaved, setAddressSaved] = useState(true);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
   const [address, setAddress] = useState({
@@ -19,7 +20,6 @@ const Checkout = () => {
   const [payment, setPayment] = useState("bank");
 
   const navigate = useNavigate();
-  const subtotal = getCartTotal();
 
   const validateForm = () => {
     let newErrors = {};
@@ -47,8 +47,8 @@ const Checkout = () => {
     const orderData = {
       address,
       paymentMethod: payment,
-      items: cartItems,
-      total: subtotal,
+      items: cart?.items,
+      total: cart?.cartTotal,
     };
 
     if (payment === "cod") {
@@ -64,9 +64,9 @@ const Checkout = () => {
     <div className="w-[95%] max-w-[1600px] mx-auto my-4 gap-10 text-neutral-800">
       <button
         onClick={() => navigate(-1)}
-        className=" underline text-[1.6rem] mb-4 cursor-pointer"
+        className="text-[1.6rem] mb-4 cursor-pointer button bg-white !font-normal !p-2"
       >
-        Back
+        {`Back to Cart Page`}
       </button>
       <div className="flex flex-col lg:flex-row gap-8">
         {/* LEFT */}
@@ -83,13 +83,7 @@ const Checkout = () => {
                   <br />
                   Phone: +971 50 123 4567
                 </p>
-                <button
-                  className=" underline text-[1.8rem] cursor-pointer"
-                  onClick={() => {
-                    setShowNewAddressForm(true);
-                    setAddressSaved(false);
-                  }}
-                >
+                <button className=" underline text-[1.8rem] cursor-pointer">
                   Use a different address
                 </button>
               </div>
@@ -230,12 +224,7 @@ const Checkout = () => {
                   Online payment
                 </label>
                 <div className="flex flex-wrap gap-6 px-4">
-                  {[
-                    images.visa,
-                    images.master_card,
-                    images.rupay,
-                    images.maestro,
-                  ].map((img, idx) => (
+                  {[images.rupay, images.maestro].map((img, idx) => (
                     <img
                       key={idx}
                       src={img}
@@ -268,20 +257,23 @@ const Checkout = () => {
         {/* RIGHT */}
         <div className="w-full lg:w-4/12 self-start border border-neutral-300 p-6 md:p-8 bg-white rounded-[.5rem] space-y-4">
           <h2 className="text-[1.8rem] font-semibold ">Order Summary</h2>
-          {cartItems.map((item) => (
-            <div
-              key={item.id}
-              className="text-[1.65rem] border-b border-gray-300 py-3 space-y-1"
-            >
-              <p className="font-medium">
-                {item.title} ({item.quantity}x)
-              </p>
-              <p className="">Rs {item.offer_price}</p>
-            </div>
-          ))}
+          {cart?.items &&
+            cart?.items.map((item) => (
+              <div
+                key={item.id}
+                className="text-[1.65rem] border-b border-gray-300 flex flex-col gap-4 py-3"
+              >
+                <p className="">
+                  {item?.productId?.parentId?.product_title} ({item.quantity}x)
+                </p>
+                <p className="font-medium self-end">
+                  Rs {item?.productId?.price}
+                </p>
+              </div>
+            ))}
           <div className="flex justify-between font-medium text-[1.8rem] mt-6">
             <span>Total</span>
-            <span className="font-semibold ">Rs {subtotal.toFixed(2)}</span>
+            <span className="font-semibold ">Rs {cart?.cartTotal}</span>
           </div>
         </div>
       </div>

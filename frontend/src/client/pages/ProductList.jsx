@@ -10,7 +10,7 @@ const ProductList = () => {
   const [categoryObject, setCategoryObject] = useState(null);
   const [products, setProducts] = useState([]);
   const [sidebar, setSidebar] = useState([]);
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL_2;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const getProducts = async () => {
