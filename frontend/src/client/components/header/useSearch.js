@@ -44,6 +44,20 @@ export const useSearch = () => {
     }, 300);
   }, [query]);
 
+  const containerRef = useRef(null);
+  useEffect(() => {
+    const hideBlock = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", hideBlock);
+    return () => document.removeEventListener("mousedown", hideBlock);
+  }, []);
+
   const submitQuery = (e) => {
     e.preventDefault();
     console.log(e);
@@ -53,5 +67,14 @@ export const useSearch = () => {
     navigate(`/search?query=${query.trim()}`);
   };
 
-  return { query, setQuery, loading, setOpen, open, suggessions, submitQuery };
+  return {
+    containerRef,
+    query,
+    setQuery,
+    loading,
+    setOpen,
+    open,
+    suggessions,
+    submitQuery,
+  };
 };

@@ -7,8 +7,16 @@ import { CartContext } from "@/provider/CartProvider";
 
 const HeaderTop = () => {
   const { user, logoutUser } = useContext(UserContext);
-  const { query, setQuery, open, setOpen, loading, suggessions, submitQuery } =
-    useSearch();
+  const {
+    containerRef,
+    query,
+    setQuery,
+    open,
+    setOpen,
+    loading,
+    suggessions,
+    submitQuery,
+  } = useSearch();
   const { items } = useContext(CartContext);
   return (
     <div className="border border-neutral-300">
@@ -21,7 +29,11 @@ const HeaderTop = () => {
             </div>
           </Link>
           <div className="flex items-center space-x-3">
-            <form className="relative" onSubmit={submitQuery}>
+            <form
+              className="relative"
+              onSubmit={submitQuery}
+              ref={containerRef}
+            >
               <input
                 type="search"
                 placeholder="Search for products..."
@@ -39,7 +51,7 @@ const HeaderTop = () => {
                       <Spinner className="w-[3rem] h-[3rem] animate-spin" />
                     </div>
                   )}
-                  {suggessions.length > 0 ? (
+                  {!loading && suggessions.length > 0 ? (
                     suggessions.map((suggestion) => (
                       <Link
                         className="flex items-center justify-between p-1 hover:bg-neutral-200 cursor-pointer"
