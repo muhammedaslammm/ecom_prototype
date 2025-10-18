@@ -81,7 +81,7 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <AdminApp />,
     children: [
-      { index: true, element: <Navigate to="dashboard" replace /> },
+      { index: true, element: <Navigate to="categories" replace /> },
       { path: "dashboard", element: <AdminDashboard /> },
       {
         path: "products",

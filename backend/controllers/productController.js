@@ -102,7 +102,7 @@ export const getProducts = async (req, res) => {
   try {
     switch (filter) {
       case "admin-products":
-        let limit = 7;
+        let limit = 10;
         let pipeline = [
           {
             $lookup: {

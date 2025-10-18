@@ -24,7 +24,7 @@ const useProducts = () => {
 
   // getting all products
   const [products, setProducts] = useState(null);
-  let [currentPage, setCurrentPage] = useState(1);
+  let [currentPage, setCurrentPage] = useState(5);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
