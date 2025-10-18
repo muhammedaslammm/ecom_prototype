@@ -41,6 +41,8 @@ const UserProvider = ({ children }) => {
         return { wrongCredentials: true };
       }
       if (!response.ok) throw new Error();
+      console.log("data:", data);
+      console.log("user:", data.user);
       setUser(data.user);
       return true;
     } catch (error) {
@@ -64,6 +66,8 @@ const UserProvider = ({ children }) => {
         return { existingUser: true };
       }
       if (!response.ok) throw new Error(data.message);
+      console.log("data:", data);
+      console.log("user:", data.user);
       setUser(data.user);
       return true;
     } catch (error) {

@@ -4,7 +4,6 @@ import { UserContext } from "@/provider/UserContext";
 import { CartContext } from "@/provider/CartProvider";
 export const useProduct = () => {
   let [product, setProduct] = useState(null);
-  let [productVariants, setProductVariants] = useState([]);
   let navigate = useNavigate();
   const { id } = useParams();
 
@@ -30,25 +29,6 @@ export const useProduct = () => {
     };
     getProductData();
   }, []);
-
-  useEffect(() => {
-    const fetchVariants = async () => {
-      try {
-        let response = await fetch(
-          `${BACKEND_URL}/api/products/${id}?filter=variant&parent=${product.parentId}`
-        );
-        let data = await response.json();
-        if (!response.ok) throw new Error(data.message);
-        else {
-          console.log("product-variants:", data.products);
-          setProductVariants(data.products);
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-    fetchVariants();
-  }, [product]);
 
   const addProducttoCart = async (productId) => {
     if (!user) navigate("/register/log-in");

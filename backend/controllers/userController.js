@@ -24,6 +24,7 @@ export const signup = async (req, res) => {
       email,
       password: hashedPasword,
     });
+    console.log("new user:", new_user);
 
     const token = getToken(new_user);
     res.cookie("token", token, {
@@ -35,6 +36,7 @@ export const signup = async (req, res) => {
       .status(200)
       .json({ message: "User Successfully Created", user: new_user });
   } catch (error) {
+    console.log("error:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
