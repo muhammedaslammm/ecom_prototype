@@ -31,14 +31,14 @@ const sidebarContent = [
     sidebar: true,
     slug: "user-management",
   },
-  // {
-  //   id: 5,
-  //   sub_title: "Coupons",
-  //   icon_class: "fa-solid fa-ticket-simple",
-  //   title: "Coupon Mangement",
-  //   sidebar: true,
-  //   slug: "coupon-management",
-  // },
+  {
+    id: 5,
+    sub_title: "Coupons",
+    icon_class: "fa-solid fa-ticket-simple",
+    title: "Coupon Mangement",
+    sidebar: true,
+    slug: "coupon-management",
+  },
   {
     id: 6,
     sub_title: "UI",
@@ -46,6 +46,20 @@ const sidebarContent = [
     title: "UI Management",
     sidebar: true,
     slug: "ui-management",
+  },
+  {
+    id: 7,
+    sub_title: "Category Management",
+    icon_class: "",
+    title: "Category Management",
+    slug: "manage-category",
+  },
+  {
+    id: 8,
+    sub_title: "Product Management",
+    icon_class: "",
+    title: "Product Management",
+    slug: "manage-product",
   },
 ];
 
