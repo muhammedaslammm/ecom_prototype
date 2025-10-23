@@ -18,6 +18,7 @@ export const HeaderBottom2 = () => {
                 <div className="hidden w-full h-[50rem] bg-white absolute left-0 top-[3.5rem]"></div>
               </Link>
             ))}
+            <Link to="/sample">Sample Products</Link>
           </div>
         ) : (
           <div className="flex items-center">
