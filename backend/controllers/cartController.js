@@ -75,3 +75,13 @@ export const addToCart = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const clearCart = async (req, res) => {
+  try {
+    let { _id } = req.user;
+    await Cart.deleteOne({ userId: _id });
+    res.status(200).json({ message: "Cart Successfully Cleared" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
