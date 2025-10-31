@@ -7,6 +7,7 @@ import productRouter from "./routers/productRouter.js";
 import sectionRouter from "./routers/sectionRouter.js";
 import searchRouter from "./routers/searchRouter.js";
 import cartRouter from "./routers/cartRouter.js";
+import productSectionRouter from "./routers/productSectionRouter.js";
 import Sample from "./sampleCreation.js";
 import path from "path";
 
@@ -17,19 +18,19 @@ const allowedURLs = [
   "http://localhost:3000",
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedURLs.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("request not allowed"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedURLs.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("request not allowed"));
+//       }
+//     },
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+//   })
+// );
 
 app.use(cookieParser());
 app.use(express.json());
@@ -45,6 +46,7 @@ app.use("/api", productRouter);
 app.use("/api", sectionRouter);
 app.use("/api", searchRouter);
 app.use("/api", cartRouter);
+app.use("/api", productSectionRouter);
 
 app.get("/api/sample-products", async (req, res) => {
   try {
