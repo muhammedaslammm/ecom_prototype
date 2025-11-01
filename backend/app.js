@@ -18,19 +18,19 @@ const allowedURLs = [
   "http://localhost:3000",
 ];
 
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (!origin || allowedURLs.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("request not allowed"));
-//       }
-//     },
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-//   })
-// );
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedURLs.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("request not allowed"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
